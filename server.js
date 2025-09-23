@@ -10,7 +10,15 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('.'));
+app.use(express.static('.', {
+    setHeaders: (res, path) => {
+        if (path.endsWith('.css')) {
+            res.setHeader('Content-Type', 'text/css');
+        } else if (path.endsWith('.js')) {
+            res.setHeader('Content-Type', 'application/javascript');
+        }
+    }
+}));
 
 // Data file path
 const dataFile = path.join(__dirname, 'portfolio.json');
@@ -211,7 +219,38 @@ function saveData(data) {
 // Initialize data
 let portfolioData = loadData();
 
-// Routes
+// Serve HTML files
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/admin.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+// Serve CSS with proper headers
+app.get('/styles.css', (req, res) => {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, 'styles.css'));
+});
+
+// Serve JS files with proper headers
+app.get('/script.js', (req, res) => {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, 'script.js'));
+});
+
+app.get('/data.js', (req, res) => {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, 'data.js'));
+});
+
+app.get('/web3-email.js', (req, res) => {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, 'web3-email.js'));
+});
+
+// API Routes
 app.get('/api/portfolio', (req, res) => {
     console.log('Portfolio API called');
     console.log('Services count in API response:', portfolioData.services ? portfolioData.services.length : 'No services array');
@@ -356,6 +395,11 @@ app.delete('/api/services/:id', (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error deleting service' });
     }
+});
+
+// Fallback route for all other requests
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Start server

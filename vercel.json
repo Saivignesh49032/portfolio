@@ -2,14 +2,6 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "admin.html",
-      "use": "@vercel/static"
-    },
-    {
       "src": "server.js",
       "use": "@vercel/node"
     }
@@ -21,7 +13,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "index.html"
+      "dest": "server.js"
     }
   ]
 }

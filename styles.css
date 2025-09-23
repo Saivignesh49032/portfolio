@@ -1690,13 +1690,14 @@ body {
 }
 
 .project-link.github {
-  background: linear-gradient(135deg, #24292e, #2d3748);
-  color: white;
-  border: 1px solid #24292e;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  color: #24292e;
+  border: 2px solid #24292e;
+  font-weight: 600;
 }
 
 .project-link.github:hover {
-  background: linear-gradient(135deg, #1a1e22, #2d3748);
+  background: linear-gradient(135deg, #24292e, #2d3748);
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(36, 41, 46, 0.4);

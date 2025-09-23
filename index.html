@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Sai Vignesh S P - AI/ML Engineer & Software Developer Portfolio">
+    <meta name="keywords" content="portfolio, AI, ML, software developer, web developer, machine learning">
+    <title>Sai Vignesh S P - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="#home">Sai Vignesh</a>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <a href="#" class="nav-link" id="admin-link">Admin</a>
+            </div>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="theme-toggle" title="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">Hi, I'm <span class="highlight">Sai Vignesh S P</span></h1>
+                    <h2 class="hero-subtitle">AI/ML Engineer & Software Developer</h2>
+                    <p class="hero-description">
+                        Passionate about transforming innovative ideas into real-world tech solutions. 
+                        Specializing in Artificial Intelligence, Machine Learning, and Full-Stack Development.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">View My Work</a>
+                        <a href="Sai_Vignesh_Resume (3).pdf" target="_blank" class="btn btn-secondary">
+                            <i class="fas fa-file-pdf"></i> View Resume
+                        </a>
+                        <a href="#contact" class="btn btn-outline">Get In Touch</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="image-container">
+                        <img src="profilepic.jpg" 
+                             alt="Sai Vignesh S P - AI/ML Engineer" 
+                             class="profile-image"
+                             onerror="this.src='https://via.placeholder.com/400x500/3b82f6/ffffff?text=Sai+Vignesh'">
+                        <div class="image-glow"></div>
+                        <div class="image-border"></div>
+                        <!-- Floating particles -->
+                        <div class="particle particle-1"></div>
+                        <div class="particle particle-2"></div>
+                        <div class="particle particle-3"></div>
+                        <div class="particle particle-4"></div>
+                        <div class="particle particle-5"></div>
+                        <div class="particle particle-6"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Scroll indicator -->
+            <div class="scroll-indicator">
+                <div class="scroll-arrow">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <span>Scroll to explore</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">About Me</h2>
+                <p class="section-subtitle">Get to know me better</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text animate-left">
+                    <h3>I'm a passionate developer</h3>
+                    <p id="about-intro">
+                        An innovative AI/ML and Software Engineer with a deep passion for transforming complex problems into intelligent solutions. 
+                        I specialize in building machine learning models, developing scalable applications, and creating user-centric experiences that make a real impact.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <h4>3+</h4>
+                            <p>Projects Completed</p>
+                        </div>
+                        <div class="stat">
+                            <h4>2+</h4>
+                            <p>Years Learning</p>
+                        </div>
+                        <div class="stat">
+                            <h4>5+</h4>
+                            <p>Technologies</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-skills animate-right">
+                    <h3>What I Do</h3>
+                    <div class="skill-categories">
+                        <div class="skill-category">
+                            <i class="fas fa-laptop-code"></i>
+                            <h4>Web Development</h4>
+                            <p>Building responsive and interactive websites</p>
+                        </div>
+                        <div class="skill-category">
+                            <i class="fas fa-brain"></i>
+                            <h4>AI/ML</h4>
+                            <p>Creating intelligent solutions and models</p>
+                        </div>
+                        <div class="skill-category">
+                            <i class="fas fa-mobile-alt"></i>
+                            <h4>Mobile Apps</h4>
+                            <p>Developing cross-platform applications</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">Skills & Technologies</h2>
+                <p class="section-subtitle">What I work with</p>
+            </div>
+            <div class="skills-grid animate-scale" id="skills-grid">
+                <!-- Skills will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">My Creative Workspace</h2>
+                <p class="section-subtitle">Where ideas come to life through code</p>
+            </div>
+            
+            <!-- Project Filter Tabs -->
+            <div class="project-filters animate-scale">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="featured">⭐ Featured</button>
+                <button class="filter-btn" data-filter="ml">🤖 AI/ML</button>
+                <button class="filter-btn" data-filter="web">🌐 Web Dev</button>
+                <button class="filter-btn" data-filter="data">📊 Data Science</button>
+            </div>
+            
+            <!-- Projects Showcase -->
+            <div class="projects-showcase">
+                <!-- Featured Project Spotlight -->
+                <div class="spotlight-section animate-scale">
+                    <h3 class="spotlight-title">✨ Project Spotlight</h3>
+                    <div class="spotlight-container" id="spotlight-project">
+                        <!-- Featured project will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Interactive Project Grid -->
+                <div class="interactive-grid animate-scale">
+                    <div class="grid-header">
+                        <h3 class="grid-title">💼 Project Collection</h3>
+                        <div class="view-toggle">
+                            <button class="view-btn active" data-view="masonry">
+                                <i class="fas fa-th"></i> Masonry
+                            </button>
+                            <button class="view-btn" data-view="timeline">
+                                <i class="fas fa-timeline"></i> Timeline
+                            </button>
+                            <button class="view-btn" data-view="cards">
+                                <i class="fas fa-layer-group"></i> Cards
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="projects-container" id="projects-container">
+                        <!-- Projects will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project Stats -->
+            <div class="project-stats animate-scale">
+                <div class="stat-item">
+                    <div class="stat-number" id="total-projects">0</div>
+                    <div class="stat-label">Total Projects</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="featured-count">0</div>
+                    <div class="stat-label">Featured</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="technologies-count">0</div>
+                    <div class="stat-label">Technologies</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="categories-count">0</div>
+                    <div class="stat-label">Categories</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">My Services</h2>
+                <p class="section-subtitle">Professional freelance development services to bring your ideas to life</p>
+                <button id="refresh-services-btn" class="btn btn-secondary" style="margin-top: 1rem; display: none;">
+                    <i class="fas fa-sync-alt"></i> Refresh Services
+                </button>
+            </div>
+            
+            <div class="services-container" id="services-grid">
+                <!-- Services will be dynamically loaded here -->
+                
+                <!-- Service 1: Machine Learning Solutions -->
+                <div class="service-hexagon animate-on-scroll featured" data-service="1">
+                    <div class="hexagon-inner">
+                        <div class="service-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Machine Learning Solutions</h3>
+                        <div class="featured-badge">⭐</div>
+                    </div>
+                    <div class="service-details">
+                        <h3>Machine Learning Solutions</h3>
+                        <p>Custom ML models and AI solutions tailored to your business needs. From data preprocessing to model deployment.</p>
+                        <div class="service-features">
+                            <span class="feature-tag">Custom ML Models</span>
+                            <span class="feature-tag">Data Preprocessing</span>
+                            <span class="feature-tag">Model Training</span>
+                            <span class="feature-tag">Deployment</span>
+                            <span class="feature-tag">Monitoring</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 2: Web Development -->
+                <div class="service-hexagon animate-on-scroll featured" data-service="2">
+                    <div class="hexagon-inner">
+                        <div class="service-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Web Development</h3>
+                        <div class="featured-badge">⭐</div>
+                    </div>
+                    <div class="service-details">
+                        <h3>Web Development</h3>
+                        <p>Full-stack web applications with modern technologies. Responsive, fast, and user-friendly interfaces.</p>
+                        <div class="service-features">
+                            <span class="feature-tag">Frontend (React, Vue)</span>
+                            <span class="feature-tag">Backend (Node.js, Python)</span>
+                            <span class="feature-tag">Database Design</span>
+                            <span class="feature-tag">API Development</span>
+                            <span class="feature-tag">Deployment</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 3: Data Science Consulting -->
+                <div class="service-hexagon animate-on-scroll" data-service="3">
+                    <div class="hexagon-inner">
+                        <div class="service-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Data Science</h3>
+                    </div>
+                    <div class="service-details">
+                        <h3>Data Science Consulting</h3>
+                        <p>Transform your data into actionable insights. Statistical analysis, visualization, and business intelligence.</p>
+                        <div class="service-features">
+                            <span class="feature-tag">Data Analysis</span>
+                            <span class="feature-tag">Statistical Modeling</span>
+                            <span class="feature-tag">BI Dashboards</span>
+                            <span class="feature-tag">Data Pipelines</span>
+                            <span class="feature-tag">Predictive Analytics</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 4: AI Chatbot Development -->
+                <div class="service-hexagon animate-on-scroll featured" data-service="4">
+                    <div class="hexagon-inner">
+                        <div class="service-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>AI Chatbots</h3>
+                        <div class="featured-badge">⭐</div>
+                    </div>
+                    <div class="service-details">
+                        <h3>AI Chatbot Development</h3>
+                        <p>Intelligent conversational AI solutions for customer service, support, and engagement. Powered by advanced NLP and machine learning.</p>
+                        <div class="service-features">
+                            <span class="feature-tag">NLP Processing</span>
+                            <span class="feature-tag">Intent Recognition</span>
+                            <span class="feature-tag">Multi-platform</span>
+                            <span class="feature-tag">Sentiment Analysis</span>
+                            <span class="feature-tag">Continuous Learning</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 5: Computer Vision Solutions -->
+                <div class="service-hexagon animate-on-scroll featured" data-service="5">
+                    <div class="hexagon-inner">
+                        <div class="service-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Computer Vision</h3>
+                        <div class="featured-badge">⭐</div>
+                    </div>
+                    <div class="service-details">
+                        <h3>Computer Vision Solutions</h3>
+                        <p>Advanced image and video processing using deep learning. Object detection, recognition, and analysis systems.</p>
+                        <div class="service-features">
+                            <span class="feature-tag">Object Detection</span>
+                            <span class="feature-tag">Facial Recognition</span>
+                            <span class="feature-tag">Image Segmentation</span>
+                            <span class="feature-tag">Real-time Processing</span>
+                            <span class="feature-tag">CNN Models</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="freelance-request animate-on-scroll">
+                <div class="request-content">
+                    <h3>Ready to Start Your Project?</h3>
+                    <p>Submit a freelance request and I'll get back to you within 24 hours with a detailed proposal</p>
+                </div>
+                
+                <div class="request-form-container">
+                    <form id="freelance-form" class="freelance-form" action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="aa700310-fe6c-4bb6-a5e5-b9696827c78a">
+                        <input type="hidden" name="subject" value="New Freelance Request - Portfolio">
+                        <input type="hidden" name="from_name" value="Portfolio Freelance Form">
+                        <input type="hidden" name="reply_to" value="">
+                        <input type="hidden" name="to" value="saivignesh1857@gmail.com">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="client-name">Full Name *</label>
+                                <input type="text" id="client-name" name="clientName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="client-email">Email Address *</label>
+                                <input type="email" id="client-email" name="clientEmail" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="project-type">Project Type *</label>
+                                <select id="project-type" name="projectType" required>
+                                    <option value="">Select Project Type</option>
+                                    <option value="web-development">Web Development</option>
+                                    <option value="ai-ml">AI/ML Solutions</option>
+                                    <option value="mobile-development">Mobile Development</option>
+                                    <option value="backend-development">Backend Development</option>
+                                    <option value="full-stack">Full Stack Development</option>
+                                    <option value="consulting">Technical Consulting</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="budget-range">Budget Range</label>
+                                <select id="budget-range" name="budgetRange">
+                                    <option value="">Select Budget Range</option>
+                                    <option value="under-1k">Under $1,000</option>
+                                    <option value="1k-5k">$1,000 - $5,000</option>
+                                    <option value="5k-10k">$5,000 - $10,000</option>
+                                    <option value="10k-25k">$10,000 - $25,000</option>
+                                    <option value="25k-plus">$25,000+</option>
+                                    <option value="discuss">Let's Discuss</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-description">Project Description *</label>
+                            <textarea id="project-description" name="projectDescription" rows="5" 
+                                    placeholder="Please describe your project requirements, goals, and any specific features you need..." required></textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="timeline">Preferred Timeline</label>
+                                <select id="timeline" name="timeline">
+                                    <option value="">Select Timeline</option>
+                                    <option value="asap">ASAP</option>
+                                    <option value="1-month">Within 1 Month</option>
+                                    <option value="2-3-months">2-3 Months</option>
+                                    <option value="3-6-months">3-6 Months</option>
+                                    <option value="6-months-plus">6+ Months</option>
+                                    <option value="flexible">Flexible</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-method">Preferred Contact Method</label>
+                                <select id="contact-method" name="contactMethod">
+                                    <option value="email">Email</option>
+                                    <option value="phone">Phone Call</option>
+                                    <option value="video-call">Video Call</option>
+                                    <option value="in-person">In Person (if local)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="additional-info">Additional Information</label>
+                            <textarea id="additional-info" name="additionalInfo" rows="3" 
+                                    placeholder="Any additional details, questions, or specific requirements..."></textarea>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i>
+                                Submit Request
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-undo"></i>
+                                Reset Form
+                            </button>
+                        </div>
+                        
+                        <div class="form-note">
+                            <i class="fas fa-info-circle"></i>
+                            <span>By submitting this form, you agree to our terms of service. I'll respond within 24 hours.</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">Get In Touch</h2>
+                <p class="section-subtitle">Let's work together</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info animate-left">
+                    <h3>Let's talk about your project</h3>
+                    <p>I'm always interested in new opportunities and exciting projects.</p>
+                    <div class="contact-items">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>saivignesh1857@gmail.com</span>
+                            <button class="copy-email-btn" id="copy-email-btn" title="Copy email">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 78995 22804</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Devalapura, Bangalore Rural, Karnataka</span>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://github.com/Saivignesh49032" target="_blank" class="social-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/sai-vignesh-s-p-2a0a571b6/" target="_blank" class="social-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="mailto:saivignesh1857@gmail.com" class="social-link">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="tel:+917899522804" class="social-link">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                        <button class="social-link whatsapp-contact-btn" id="whatsapp-contact-btn">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
+                </div>
+                <form class="contact-form animate-right" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="aa700310-fe6c-4bb6-a5e5-b9696827c78a">
+                    <input type="hidden" name="subject" value="New Contact Form Submission - Portfolio">
+                    <input type="hidden" name="from_name" value="Portfolio Contact Form">
+                    <input type="hidden" name="reply_to" value="">
+                    <input type="hidden" name="to" value="saivignesh1857@gmail.com">
+                    
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="form-subject" name="form-subject" placeholder="Subject" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- WhatsApp Chat Widget -->
+    <div class="whatsapp-widget" id="whatsapp-widget">
+        <div class="whatsapp-chat" id="whatsapp-chat">
+            <div class="whatsapp-header">
+                <div class="whatsapp-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="whatsapp-info">
+                    <h4>Sai Vignesh</h4>
+                    <p>Online now</p>
+                </div>
+                <button class="whatsapp-close" id="whatsapp-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="whatsapp-messages">
+                <div class="whatsapp-message bot-message">
+                    <p>Hi! 👋 I'm Sai Vignesh, a Full Stack Developer. How can I help you today?</p>
+                </div>
+            </div>
+            <div class="whatsapp-actions">
+                <button class="whatsapp-action-btn" data-message="I need a website">
+                    <i class="fas fa-globe"></i> I need a website
+                </button>
+                <button class="whatsapp-action-btn" data-message="I need an AI/ML solution">
+                    <i class="fas fa-brain"></i> AI/ML solution
+                </button>
+                <button class="whatsapp-action-btn" data-message="I want to discuss a project">
+                    <i class="fas fa-comments"></i> Discuss project
+                </button>
+                <button class="whatsapp-action-btn" data-message="I need technical consulting">
+                    <i class="fas fa-lightbulb"></i> Consulting
+                </button>
+            </div>
+            <div class="whatsapp-footer">
+                <button class="whatsapp-send-btn" id="whatsapp-send">
+                    <i class="fab fa-whatsapp"></i> Start Chat on WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                    <p>&copy; 2024 Sai Vignesh S P. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- PIN Authentication Modal -->
+    <div id="pin-modal" class="pin-modal hidden">
+        <div class="pin-modal-overlay"></div>
+        <div class="pin-modal-content">
+            <div class="pin-modal-header">
+                <h2>🔐 Admin Access</h2>
+                <p>Enter PIN to access admin panel</p>
+                <button class="pin-modal-close" id="pin-modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="pin-form" class="pin-form">
+                <div class="pin-input-group">
+                    <input type="password" id="pin-input" placeholder="Enter 6-digit PIN" maxlength="6" required>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-unlock"></i> Access Admin
+                    </button>
+                </div>
+                <div id="pin-error" class="pin-error hidden" style="display: none;">Invalid PIN. Please try again.</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="portfolio-data.js"></script>
+    <script src="script.js"></script>
+    <script src="web3-email.js"></script>
+</body>
+</html>

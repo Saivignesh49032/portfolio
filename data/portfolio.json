@@ -1,0 +1,305 @@
+{
+  "personalInfo": {
+    "name": "Sai Vignesh S P",
+    "title": "AI/ML Engineer & Software Developer",
+    "description": "Passionate about transforming innovative ideas into real-world tech solutions. Specializing in Artificial Intelligence, Machine Learning, and Full-Stack Development.",
+    "location": "Devalapura, Bangalore Rural, Karnataka",
+    "email": "saivignesh1857@gmail.com",
+    "phone": "+91 78995 22804",
+    "linkedin": "https://www.linkedin.com/in/sai-vignesh-s-p-2a0a571b6/",
+    "github": "https://github.com/Saivignesh49032"
+  },
+  "about": {
+    "intro": "An innovative AI/ML and Software Engineer with a deep passion for transforming complex problems into intelligent solutions. I specialize in building machine learning models, developing scalable applications, and creating user-centric experiences that make a real impact.",
+    "education": {
+      "degree": "B.E. in Artificial Intelligence and Machine Learning",
+      "institution": "SEA College of Engineering and Technology",
+      "year": "2026"
+    },
+    "stats": [
+      {
+        "number": "3+",
+        "label": "Projects"
+      },
+      {
+        "number": "2+",
+        "label": "Years Learning"
+      },
+      {
+        "number": "5+",
+        "label": "Technologies"
+      }
+    ]
+  },
+  "skills": [
+    {
+      "id": 1,
+      "name": "Python",
+      "description": "Data analysis, machine learning, and automation",
+      "percentage": 85,
+      "icon": "fab fa-python",
+      "category": "Programming"
+    },
+    {
+      "id": 2,
+      "name": "JavaScript",
+      "description": "Frontend and backend development with modern frameworks",
+      "percentage": 80,
+      "icon": "fab fa-js-square",
+      "category": "Programming"
+    },
+    {
+      "id": 3,
+      "name": "Machine Learning",
+      "description": "Building and deploying ML models for real-world applications",
+      "percentage": 75,
+      "icon": "fas fa-brain",
+      "category": "AI/ML"
+    },
+    {
+      "id": 4,
+      "name": "React",
+      "description": "Building dynamic and responsive user interfaces",
+      "percentage": 70,
+      "icon": "fab fa-react",
+      "category": "Frontend"
+    },
+    {
+      "id": 5,
+      "name": "Node.js",
+      "description": "Server-side JavaScript development and API creation",
+      "percentage": 65,
+      "icon": "fab fa-node-js",
+      "category": "Backend"
+    },
+    {
+      "id": 6,
+      "name": "Data Science",
+      "description": "Analyzing data and extracting meaningful insights",
+      "percentage": 70,
+      "icon": "fas fa-chart-line",
+      "category": "Data"
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "title": "Smart Study Timetable Generator",
+      "description": "An intelligent ML model that generates personalized study schedules using Random Forest Regressor, optimizing study time based on individual learning patterns and preferences. Features adaptive scheduling and performance tracking.",
+      "technologies": [
+        "Python",
+        "Scikit-learn",
+        "Pandas",
+        "NumPy",
+        "Matplotlib"
+      ],
+      "github": "https://github.com/Saivignesh49032/smart-study-timetable",
+      "demo": "https://smart-timetable-demo.com",
+      "featured": true,
+      "category": "Machine Learning"
+    },
+    {
+      "id": 2,
+      "title": "E-Commerce Analytics Dashboard",
+      "description": "A comprehensive dashboard for analyzing e-commerce data with real-time visualizations, customer behavior insights, and sales forecasting using advanced data science techniques.",
+      "technologies": [
+        "Python",
+        "Streamlit",
+        "Plotly",
+        "Pandas",
+        "Scikit-learn"
+      ],
+      "github": "https://github.com/Saivignesh49032/ecommerce-dashboard",
+      "demo": "https://ecommerce-dashboard-demo.com",
+      "featured": true,
+      "category": "Data Science"
+    },
+    {
+      "id": 3,
+      "title": "Portfolio Website",
+      "description": "A responsive and modern portfolio website built with HTML, CSS, and JavaScript, featuring dark mode, smooth animations, and a clean design that showcases my work effectively.",
+      "technologies": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Font Awesome"
+      ],
+      "github": "https://github.com/Saivignesh49032/portfolio",
+      "demo": "https://saivignesh-portfolio.com",
+      "featured": false,
+      "category": "Web Development"
+    }
+  ],
+  "services": [
+    {
+      "id": 1,
+      "title": "Machine Learning Solutions",
+      "description": "Custom ML models and AI solutions tailored to your business needs. From data preprocessing to model deployment.",
+      "icon": "fas fa-brain",
+      "category": "AI/ML",
+      "features": [
+        "Custom ML model development",
+        "Data preprocessing and analysis",
+        "Model training and optimization",
+        "Deployment and monitoring",
+        "Performance evaluation"
+      ],
+      "price": "$75-150/hour",
+      "featured": true
+    },
+    {
+      "id": 2,
+      "title": "Web Development",
+      "description": "Full-stack web applications with modern technologies. Responsive, fast, and user-friendly interfaces.",
+      "icon": "fas fa-code",
+      "category": "Development",
+      "features": [
+        "Frontend development (React, Vue, Angular)",
+        "Backend development (Node.js, Python, PHP)",
+        "Database design and optimization",
+        "API development and integration",
+        "Deployment and maintenance"
+      ],
+      "price": "$50-100/hour",
+      "featured": true
+    },
+    {
+      "id": 3,
+      "title": "Data Science Consulting",
+      "description": "Transform your data into actionable insights. Statistical analysis, visualization, and business intelligence.",
+      "icon": "fas fa-chart-line",
+      "category": "Data Science",
+      "features": [
+        "Data analysis and visualization",
+        "Statistical modeling",
+        "Business intelligence dashboards",
+        "Data pipeline development",
+        "Predictive analytics"
+      ],
+      "price": "$60-120/hour",
+      "featured": false
+    },
+    {
+      "id": 4,
+      "title": "AI Chatbot Development",
+      "description": "Intelligent conversational AI solutions for customer service, support, and engagement. Powered by advanced NLP and machine learning.",
+      "icon": "fas fa-robot",
+      "category": "AI/ML",
+      "features": [
+        "Natural Language Processing (NLP)",
+        "Intent recognition and response generation",
+        "Multi-platform integration (Web, Mobile, API)",
+        "Sentiment analysis and emotion detection",
+        "Continuous learning and improvement"
+      ],
+      "price": "$80-150/hour",
+      "featured": true
+    },
+    {
+      "id": 5,
+      "title": "Mobile App Development",
+      "description": "Native and cross-platform mobile applications for iOS and Android. From concept to App Store deployment.",
+      "icon": "fas fa-mobile-alt",
+      "category": "Development",
+      "features": [
+        "React Native cross-platform development",
+        "Native iOS (Swift) and Android (Kotlin)",
+        "UI/UX design and implementation",
+        "Backend integration and APIs",
+        "App Store and Play Store deployment"
+      ],
+      "price": "$60-120/hour",
+      "featured": false
+    },
+    {
+      "id": 6,
+      "title": "Cloud Solutions & DevOps",
+      "description": "Scalable cloud infrastructure and deployment solutions. AWS, Azure, and Google Cloud expertise.",
+      "icon": "fas fa-cloud",
+      "category": "Infrastructure",
+      "features": [
+        "Cloud architecture design and implementation",
+        "Containerization with Docker and Kubernetes",
+        "CI/CD pipeline setup and automation",
+        "Serverless applications and microservices",
+        "Monitoring, logging, and security"
+      ],
+      "price": "$70-130/hour",
+      "featured": false
+    },
+    {
+      "id": 7,
+      "title": "Computer Vision Solutions",
+      "description": "Advanced image and video processing using deep learning. Object detection, recognition, and analysis systems.",
+      "icon": "fas fa-eye",
+      "category": "AI/ML",
+      "features": [
+        "Object detection and classification",
+        "Facial recognition and analysis",
+        "Image segmentation and enhancement",
+        "Real-time video processing",
+        "Custom CNN model development"
+      ],
+      "price": "$90-160/hour",
+      "featured": true
+    },
+    {
+      "id": 8,
+      "title": "Technical Consulting",
+      "description": "Strategic technology consulting for startups and enterprises. Architecture reviews, technology selection, and implementation guidance.",
+      "icon": "fas fa-lightbulb",
+      "category": "Consulting",
+      "features": [
+        "Technology stack evaluation and selection",
+        "System architecture design and review",
+        "Performance optimization and scaling",
+        "Code review and best practices",
+        "Team training and mentoring"
+      ],
+      "price": "$100-200/hour",
+      "featured": false
+    }
+  ],
+  "competencies": [
+    {
+      "category": "Programming Languages",
+      "skills": [
+        "Python",
+        "JavaScript",
+        "Java",
+        "C++",
+        "SQL"
+      ]
+    },
+    {
+      "category": "AI/ML Technologies",
+      "skills": [
+        "Machine Learning",
+        "Deep Learning",
+        "Data Science",
+        "NLP",
+        "Computer Vision"
+      ]
+    },
+    {
+      "category": "Web Technologies",
+      "skills": [
+        "HTML/CSS",
+        "React",
+        "Node.js",
+        "Express",
+        "MongoDB"
+      ]
+    },
+    {
+      "category": "Tools & Frameworks",
+      "skills": [
+        "Git",
+        "Docker",
+        "AWS",
+        "TensorFlow",
+        "Pandas"
+      ]
+    }
+  ]
+}

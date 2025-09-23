@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #3b82f6;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .back-btn:hover {
+            color: #1d4ed8;
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .admin-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .nav-tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-tab:hover {
+            color: #3b82f6;
+        }
+
+        .nav-tab.active {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .item-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .item-card {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .item-card h3 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-card p {
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+
+        .admin-header-with-logout {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+
+        .admin-header-content {
+            flex: 1;
+        }
+
+        .admin-header {
+            text-align: left;
+            margin-bottom: 0;
+        }
+
+        .admin-header h1 {
+            margin-bottom: 0.5rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 1rem;
+            }
+
+            .nav-tabs {
+                flex-wrap: wrap;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="admin-container">
+        <div class="admin-header-with-logout">
+            <div class="admin-header-content">
+                <a href="index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Portfolio
+                </a>
+                <div class="admin-header">
+                    <h1>🎨 Portfolio Admin Panel</h1>
+                    <p>Manage your portfolio content easily</p>
+                </div>
+            </div>
+            <button id="logout-btn" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+        
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showTab('overview')">Overview</div>
+            <div class="nav-tab" onclick="showTab('skills')">Skills</div>
+            <div class="nav-tab" onclick="showTab('projects')">Projects</div>
+            <div class="nav-tab" onclick="showTab('services')">Services</div>
+            <div class="nav-tab" onclick="showTab('personal')">Personal Info</div>
+        </div>
+        
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <h2>Portfolio Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="skills-count">0</h3>
+                    <p>Skills</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="projects-count">0</h3>
+                    <p>Projects</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="services-count">0</h3>
+                    <p>Services</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="competencies-count">0</h3>
+                    <p>Competencies</p>
+                </div>
+            </div>
+            <div class="alert alert-success">
+                <strong>Welcome!</strong> Use the tabs above to manage your portfolio content. Changes are saved automatically.
+            </div>
+        </div>
+        
+        <!-- Skills Tab -->
+        <div id="skills" class="tab-content">
+            <h2>Manage Skills</h2>
+            <div class="form-group">
+                <button class="btn btn-primary" onclick="showSkillForm()">
+                    <i class="fas fa-plus"></i> Add New Skill
+                </button>
+            </div>
+            
+            <div id="skill-form" class="hidden">
+                <h3>Add/Edit Skill</h3>
+                <form id="skillForm">
+                    <div class="form-group">
+                        <label for="skill-name">Skill Name</label>
+                        <input type="text" id="skill-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="skill-description">Description</label>
+                        <textarea id="skill-description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="skill-percentage">Percentage (0-100)</label>
+                        <input type="number" id="skill-percentage" min="0" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="skill-icon">Icon Class (Font Awesome)</label>
+                        <input type="text" id="skill-icon" placeholder="e.g., fab fa-python">
+                    </div>
+                    <div class="form-group">
+                        <label for="skill-category">Category</label>
+                        <select id="skill-category">
+                            <option value="Programming">Programming</option>
+                            <option value="AI/ML">AI/ML</option>
+                            <option value="Frontend">Frontend</option>
+                            <option value="Backend">Backend</option>
+                            <option value="Data">Data</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Save Skill</button>
+                        <button type="button" class="btn btn-secondary" onclick="hideSkillForm()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="skills-list" class="item-list">
+                <!-- Skills will be loaded here -->
+            </div>
+        </div>
+        
+        <!-- Projects Tab -->
+        <div id="projects" class="tab-content">
+            <h2>Manage Projects</h2>
+            <div class="form-group">
+                <button class="btn btn-primary" onclick="showProjectForm()">
+                    <i class="fas fa-plus"></i> Add New Project
+                </button>
+            </div>
+            
+            <div id="project-form" class="hidden">
+                <h3>Add/Edit Project</h3>
+                <form id="projectForm">
+                    <div class="form-group">
+                        <label for="project-title">Project Title</label>
+                        <input type="text" id="project-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-description">Description</label>
+                        <textarea id="project-description" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-technologies">Technologies (comma-separated)</label>
+                        <input type="text" id="project-technologies" placeholder="e.g., Python, React, Node.js">
+                    </div>
+                    <div class="form-group">
+                        <label for="project-github">GitHub URL</label>
+                        <input type="url" id="project-github">
+                    </div>
+                    <div class="form-group">
+                        <label for="project-demo">Demo URL</label>
+                        <input type="url" id="project-demo">
+                    </div>
+                    <div class="form-group">
+                        <label for="project-category">Category</label>
+                        <select id="project-category">
+                            <option value="Machine Learning">Machine Learning</option>
+                            <option value="Data Science">Data Science</option>
+                            <option value="Web Development">Web Development</option>
+                            <option value="Mobile Development">Mobile Development</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="project-featured"> Featured Project
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Save Project</button>
+                        <button type="button" class="btn btn-secondary" onclick="hideProjectForm()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="projects-list" class="item-list">
+                <!-- Projects will be loaded here -->
+            </div>
+        </div>
+        
+        <!-- Services Tab -->
+        <div id="services" class="tab-content">
+            <h2>Manage Services</h2>
+            <div class="form-group">
+                <button class="btn btn-primary" onclick="showServiceForm()">
+                    <i class="fas fa-plus"></i> Add New Service
+                </button>
+                <button class="btn btn-secondary" onclick="refreshServicesData()" style="margin-left: 10px;">
+                    <i class="fas fa-sync-alt"></i> Refresh Data
+                </button>
+            </div>
+            
+            <div id="service-form" class="hidden">
+                <h3>Add/Edit Service</h3>
+                <form id="serviceForm">
+                    <div class="form-group">
+                        <label for="service-title">Service Title</label>
+                        <input type="text" id="service-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="service-description">Description</label>
+                        <textarea id="service-description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="service-icon">Icon Class (Font Awesome)</label>
+                        <input type="text" id="service-icon" placeholder="e.g., fas fa-code">
+                    </div>
+                    <div class="form-group">
+                        <label for="service-category">Category</label>
+                        <select id="service-category">
+                            <option value="Development">Development</option>
+                            <option value="AI/ML">AI/ML</option>
+                            <option value="Data Science">Data Science</option>
+                            <option value="Consulting">Consulting</option>
+                            <option value="Training">Training</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="service-features">Features (one per line)</label>
+                        <textarea id="service-features" rows="4" placeholder="Feature 1&#10;Feature 2&#10;Feature 3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="service-price">Price Range (optional)</label>
+                        <input type="text" id="service-price" placeholder="e.g., $50-100/hour">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="service-featured"> Featured Service
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Save Service</button>
+                        <button type="button" class="btn btn-secondary" onclick="hideServiceForm()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="services-list" class="item-list">
+                <!-- Services will be loaded here -->
+            </div>
+        </div>
+        
+        <!-- Personal Info Tab -->
+        <div id="personal" class="tab-content">
+            <h2>Personal Information</h2>
+            <form id="personalForm">
+                <div class="form-group">
+                    <label for="personal-name">Full Name</label>
+                    <input type="text" id="personal-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="personal-title">Title</label>
+                    <input type="text" id="personal-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="personal-description">Description</label>
+                    <textarea id="personal-description" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="personal-location">Location</label>
+                    <input type="text" id="personal-location" required>
+                </div>
+                <div class="form-group">
+                    <label for="personal-email">Email</label>
+                    <input type="email" id="personal-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="personal-phone">Phone</label>
+                    <input type="tel" id="personal-phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="personal-linkedin">LinkedIn URL</label>
+                    <input type="url" id="personal-linkedin">
+                </div>
+                <div class="form-group">
+                    <label for="personal-github">GitHub URL</label>
+                    <input type="url" id="personal-github">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Save Personal Info</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="portfolio-data.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
+

@@ -46,7 +46,7 @@ class Web3EmailService {
             });
 
             const result = await response.json();
-            
+
             if (result.success) {
                 console.log('Email sent successfully via Web3Forms');
                 return {
@@ -124,6 +124,6 @@ Sent from portfolio freelance request form
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = Web3EmailService;
-} else {
+        } else {
     window.Web3EmailService = Web3EmailService;
 }

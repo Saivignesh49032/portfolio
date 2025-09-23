@@ -13,14 +13,14 @@ window.portfolioData = {
     },
     
     skills: [
-        { name: "JavaScript", percentage: 90, category: "Frontend" },
-        { name: "React", percentage: 85, category: "Frontend" },
-        { name: "Node.js", percentage: 80, category: "Backend" },
-        { name: "Python", percentage: 75, category: "Backend" },
-        { name: "HTML/CSS", percentage: 95, category: "Frontend" },
-        { name: "MongoDB", percentage: 70, category: "Database" },
-        { name: "Express.js", percentage: 75, category: "Backend" },
-        { name: "Git", percentage: 80, category: "Tools" }
+        { name: "JavaScript", percentage: 90, category: "Frontend", description: "Modern ES6+ JavaScript with async/await, modules, and advanced features" },
+        { name: "React", percentage: 85, category: "Frontend", description: "React hooks, context API, state management, and component architecture" },
+        { name: "Node.js", percentage: 80, category: "Backend", description: "Server-side JavaScript with Express, REST APIs, and middleware" },
+        { name: "Python", percentage: 75, category: "Backend", description: "Python programming with Flask, Django, and data science libraries" },
+        { name: "HTML/CSS", percentage: 95, category: "Frontend", description: "Semantic HTML5, CSS3, Flexbox, Grid, and responsive design" },
+        { name: "MongoDB", percentage: 70, category: "Database", description: "NoSQL database design, queries, indexing, and aggregation" },
+        { name: "Express.js", percentage: 75, category: "Backend", description: "Web application framework for Node.js with routing and middleware" },
+        { name: "Git", percentage: 80, category: "Tools", description: "Version control, branching strategies, and collaborative development" }
     ],
     
     projects: [

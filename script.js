@@ -90,13 +90,13 @@ function initializePortfolio() {
         // Use static data as fallback
         const data = window.portfolioData;
         console.log('Using static data:', data);
-        
-        // Initialize all components
-        initializeThemeToggle();
-        initializeNavigation();
-        initializeScrollEffects();
-        initializeEmailService();
-        initializeContactForm();
+    
+    // Initialize all components
+    initializeThemeToggle();
+    initializeNavigation();
+    initializeScrollEffects();
+    initializeEmailService();
+    initializeContactForm();
         initializeFreelanceForm();
         initializeWhatsAppWidget();
         initializeScrollProgress();
@@ -104,19 +104,19 @@ function initializePortfolio() {
         initializeCopyEmail();
         initializeMobileNavigation();
         initializePinAuth();
-        renderPortfolioContent();
-        
+    renderPortfolioContent();
+    
         console.log('Portfolio initialized with static data!');
-        
-        // Add a subtle entrance animation to the main content
-        document.body.style.opacity = '0';
-        document.body.style.transform = 'translateY(20px)';
-        
-        setTimeout(() => {
-            document.body.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-            document.body.style.opacity = '1';
-            document.body.style.transform = 'translateY(0)';
-        }, 100);
+    
+    // Add a subtle entrance animation to the main content
+    document.body.style.opacity = '0';
+    document.body.style.transform = 'translateY(20px)';
+    
+    setTimeout(() => {
+        document.body.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        document.body.style.opacity = '1';
+        document.body.style.transform = 'translateY(0)';
+    }, 100);
     });
 }
 
@@ -521,12 +521,12 @@ function renderProjectsSection() {
     
     // Render all projects
     projects.forEach((project, index) => {
-        const projectCard = document.createElement('div');
+            const projectCard = document.createElement('div');
         projectCard.className = 'project-item';
         projectCard.style.animationDelay = `${index * 0.1}s`;
         projectCard.setAttribute('data-category', project.category.toLowerCase().replace(/\s+/g, '-'));
         projectCard.setAttribute('data-featured', project.featured);
-        projectCard.innerHTML = `
+            projectCard.innerHTML = `
             <div class="project-header">
                 <h3 class="project-title">
                     ${project.title}
@@ -534,17 +534,17 @@ function renderProjectsSection() {
                 </h3>
                 <p class="project-category">${project.category}</p>
             </div>
-            <div class="project-content">
+                <div class="project-content">
                 <p class="project-description">${project.description}</p>
-                <div class="project-tech">
-                    ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
-                </div>
+                    <div class="project-tech">
+                        ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                    </div>
                 <div class="project-links">
-                    ${project.github ? `<a href="${project.github}" target="_blank" class="project-link"><i class="fab fa-github"></i> GitHub</a>` : ''}
+                     ${project.github ? `<a href="${project.github}" target="_blank" class="project-link github"><i class="fab fa-github"></i> GitHub</a>` : ''}
                     ${project.demo ? `<a href="${project.demo}" target="_blank" class="project-link secondary"><i class="fas fa-external-link-alt"></i> Demo</a>` : ''}
                 </div>
-            </div>
-        `;
+                </div>
+            `;
         projectsContainer.appendChild(projectCard);
     });
     
@@ -767,7 +767,7 @@ function setupServiceInteractions() {
             document.querySelectorAll('.service-hexagon').forEach(h => h.classList.remove('active'));
             overlay.classList.remove('active');
         }
-    });
+        });
 }
 
 // ===== ANIMATIONS =====
@@ -833,7 +833,7 @@ function initializeContactForm() {
                     email: email,
                     subject: `Portfolio Contact: ${subject}`,
                     message: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${message}`,
-                    from_name: name,
+                from_name: name,
                     reply_to: email,
                     to: 'saivignesh1857@gmail.com'
                 })

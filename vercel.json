@@ -6,23 +6,14 @@
       "use": "@vercel/static"
     },
     {
-      "src": "server.js",
-      "use": "@vercel/node"
+      "src": "admin.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/server.js"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "index.html"
     }
-  ],
-  "functions": {
-    "server.js": {
-      "maxDuration": 30
-    }
-  }
+  ]
 }

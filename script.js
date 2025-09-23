@@ -69,7 +69,7 @@ function initializePortfolio() {
         initializeBackToTop();
         initializeCopyEmail();
         initializeMobileNavigation();
-        initializeRefreshButtons();
+        initializeAutoRefresh();
         initializePinAuth();
         renderPortfolioContent();
         
@@ -86,39 +86,21 @@ function initializePortfolio() {
         }, 100);
     }).catch((error) => {
         console.error('Error loading portfolio data:', error);
-        console.log('Falling back to static data...');
+        console.log('Backend not available, showing error message...');
         
-        // Use static data as fallback
-        const data = window.portfolioData;
-        console.log('Using static data:', data);
-    
-    // Initialize all components
-    initializeThemeToggle();
-    initializeNavigation();
-    initializeScrollEffects();
-    initializeEmailService();
-    initializeContactForm();
-        initializeFreelanceForm();
-        initializeWhatsAppWidget();
-        initializeScrollProgress();
-        initializeBackToTop();
-        initializeCopyEmail();
-        initializeMobileNavigation();
-        initializeRefreshButtons();
-        initializePinAuth();
-        renderPortfolioContent();
-    
-        console.log('Portfolio initialized with static data!');
-    
-    // Add a subtle entrance animation to the main content
-    document.body.style.opacity = '0';
-    document.body.style.transform = 'translateY(20px)';
-    
-    setTimeout(() => {
-        document.body.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        document.body.style.opacity = '1';
-        document.body.style.transform = 'translateY(0)';
-    }, 100);
+        // Show error message instead of falling back to static data
+        document.body.innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #1a1a2e; color: white; font-family: Arial, sans-serif;">
+                <div style="text-align: center; padding: 2rem;">
+                    <h1 style="color: #ff6b6b; margin-bottom: 1rem;">⚠️ Backend Connection Error</h1>
+                    <p style="margin-bottom: 1rem;">Unable to connect to the portfolio backend server.</p>
+                    <p style="margin-bottom: 2rem;">Please ensure the server is running and try again.</p>
+                    <button onclick="location.reload()" style="background: #4ecdc4; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px;">
+                        🔄 Retry
+                    </button>
+                </div>
+            </div>
+        `;
     });
 }
 
@@ -145,10 +127,19 @@ async function loadPortfolioData() {
         return data;
     } catch (error) {
         console.error('Error loading portfolio data from backend:', error);
-        // Fallback to static data
-        if (window.portfolioData) {
-            console.log('Using existing portfolio data');
-            return window.portfolioData;
+        // Always try to use backend data, don't fall back to static data
+        console.log('Retrying backend data fetch...');
+        // Retry once more
+        try {
+            const response = await fetch('/api/portfolio');
+            if (response.ok) {
+                const data = await response.json();
+                window.portfolioData = data;
+                console.log('Portfolio data loaded from backend on retry:', data);
+                return data;
+            }
+        } catch (retryError) {
+            console.error('Retry also failed:', retryError);
         }
         throw error;
     }
@@ -1477,71 +1468,34 @@ function initializeMobileNavigation() {
     }, 1000);
 }
 
-// ===== REFRESH BUTTONS =====
-function initializeRefreshButtons() {
-    console.log('Initializing refresh buttons...');
+// ===== AUTO REFRESH =====
+function initializeAutoRefresh() {
+    console.log('Initializing auto refresh...');
     
-    // Skills refresh button
-    const refreshSkillsBtn = document.getElementById('refresh-skills-btn');
-    if (refreshSkillsBtn) {
-        refreshSkillsBtn.addEventListener('click', async () => {
-            console.log('Refreshing skills...');
-            refreshSkillsBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
-            refreshSkillsBtn.disabled = true;
-            
-            try {
-                await refreshPortfolioData();
-                refreshSkillsBtn.innerHTML = '<i class="fas fa-check"></i> Refreshed!';
-                setTimeout(() => {
-                    refreshSkillsBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Skills';
-                    refreshSkillsBtn.disabled = false;
-                }, 2000);
-            } catch (error) {
-                console.error('Error refreshing skills:', error);
-                refreshSkillsBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error';
-                setTimeout(() => {
-                    refreshSkillsBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Skills';
-                    refreshSkillsBtn.disabled = false;
-                }, 2000);
-            }
-        });
+    // Check for admin panel changes
+    function checkForAdminChanges() {
+        if (localStorage.getItem('portfolioRefreshNeeded') === 'true') {
+            console.log('Admin panel changes detected, refreshing data...');
+            refreshPortfolioData();
+            localStorage.removeItem('portfolioRefreshNeeded');
+        }
     }
     
-    // Services refresh button
-    const refreshServicesBtn = document.getElementById('refresh-services-btn');
-    if (refreshServicesBtn) {
-        refreshServicesBtn.addEventListener('click', async () => {
-            console.log('Refreshing services...');
-            refreshServicesBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
-            refreshServicesBtn.disabled = true;
-            
-            try {
-                await refreshPortfolioData();
-                refreshServicesBtn.innerHTML = '<i class="fas fa-check"></i> Refreshed!';
-                setTimeout(() => {
-                    refreshServicesBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Services';
-                    refreshServicesBtn.disabled = false;
-                }, 2000);
-            } catch (error) {
-                console.error('Error refreshing services:', error);
-                refreshServicesBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error';
-                setTimeout(() => {
-                    refreshServicesBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Services';
-                    refreshServicesBtn.disabled = false;
-                }, 2000);
-            }
-        });
-    }
+    // Check immediately
+    checkForAdminChanges();
     
     // Auto-refresh when page becomes visible (when coming back from admin panel)
     document.addEventListener('visibilitychange', () => {
         if (!document.hidden) {
-            console.log('Page became visible, refreshing data...');
-            refreshPortfolioData();
+            console.log('Page became visible, checking for changes...');
+            checkForAdminChanges();
         }
     });
     
-    console.log('Refresh buttons initialized successfully');
+    // Check every 5 seconds for admin panel changes
+    setInterval(checkForAdminChanges, 5000);
+    
+    console.log('Auto refresh initialized successfully');
 }
 
 // Initialize PIN authentication when DOM is loaded

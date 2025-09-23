@@ -210,6 +210,9 @@ async function handleSkillSubmit(e) {
         hideSkillForm();
         updateOverview();
         showAlert('Skill saved successfully!', 'success');
+        
+        // Notify portfolio to refresh
+        localStorage.setItem('portfolioRefreshNeeded', 'true');
     } catch (error) {
         console.error('Error saving skill:', error);
         showAlert('Error saving skill!', 'error');
@@ -344,6 +347,9 @@ async function handleProjectSubmit(e) {
         hideProjectForm();
         updateOverview();
         showAlert('Project saved successfully!', 'success');
+        
+        // Notify portfolio to refresh
+        localStorage.setItem('portfolioRefreshNeeded', 'true');
     } catch (error) {
         console.error('Error saving project:', error);
         showAlert('Error saving project!', 'error');
@@ -493,6 +499,9 @@ async function handleServiceSubmit(e) {
         hideServiceForm();
         updateOverview();
         showAlert('Service saved successfully!', 'success');
+        
+        // Notify portfolio to refresh
+        localStorage.setItem('portfolioRefreshNeeded', 'true');
     } catch (error) {
         console.error('Error saving service:', error);
         showAlert('Error saving service!', 'error');
@@ -644,6 +653,9 @@ async function handlePersonalSubmit(e) {
         // Reload data
         await loadData();
         showAlert('Personal information saved successfully!', 'success');
+        
+        // Notify portfolio to refresh
+        localStorage.setItem('portfolioRefreshNeeded', 'true');
     } catch (error) {
         console.error('Error saving personal info:', error);
         showAlert('Error saving personal information!', 'error');

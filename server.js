@@ -276,6 +276,10 @@ app.get('/admin-styles.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'admin-styles.css'));
 });
 
+app.get('/test-api.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'test-api.html'));
+});
+
 // API Routes
 app.get('/api/portfolio', (req, res) => {
     console.log('Portfolio API called');

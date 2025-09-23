@@ -43,6 +43,7 @@ function logout() {
 // ===== DATA MANAGEMENT =====
 async function loadData() {
     try {
+        console.log('Loading data from /api/portfolio...');
         const response = await fetch('/api/portfolio');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -50,6 +51,10 @@ async function loadData() {
         const data = await response.json();
         window.portfolioData = data;
         console.log('Portfolio data loaded from backend:', data);
+        console.log('Skills count:', data.skills ? data.skills.length : 'No skills');
+        console.log('Projects count:', data.projects ? data.projects.length : 'No projects');
+        console.log('Services count:', data.services ? data.services.length : 'No services');
+        return data;
     } catch (error) {
         console.error('Error loading data from backend:', error);
         showAlert('Error loading data from server!', 'error');
@@ -69,41 +74,63 @@ async function saveData() {
 
 // ===== EVENT LISTENERS =====
 function setupEventListeners() {
+    console.log('Setting up event listeners...');
+    
     // PIN form
     const pinForm = document.getElementById('pin-form');
     if (pinForm) {
+        console.log('PIN form found, adding listener');
         pinForm.addEventListener('submit', handlePinSubmit);
+    } else {
+        console.error('PIN form not found!');
     }
     
     // Logout button
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
+        console.log('Logout button found, adding listener');
         logoutBtn.addEventListener('click', logout);
+    } else {
+        console.error('Logout button not found!');
     }
     
     // Skill form
     const skillForm = document.getElementById('skillForm');
     if (skillForm) {
+        console.log('Skill form found, adding listener');
         skillForm.addEventListener('submit', handleSkillSubmit);
+    } else {
+        console.error('Skill form not found!');
     }
     
     // Project form
     const projectForm = document.getElementById('projectForm');
     if (projectForm) {
+        console.log('Project form found, adding listener');
         projectForm.addEventListener('submit', handleProjectSubmit);
+    } else {
+        console.error('Project form not found!');
     }
     
     // Service form
     const serviceForm = document.getElementById('serviceForm');
     if (serviceForm) {
+        console.log('Service form found, adding listener');
         serviceForm.addEventListener('submit', handleServiceSubmit);
+    } else {
+        console.error('Service form not found!');
     }
     
     // Personal form
     const personalForm = document.getElementById('personalForm');
     if (personalForm) {
+        console.log('Personal form found, adding listener');
         personalForm.addEventListener('submit', handlePersonalSubmit);
+    } else {
+        console.error('Personal form not found!');
     }
+    
+    console.log('Event listeners setup complete');
 }
 
 // ===== TAB MANAGEMENT =====
@@ -166,6 +193,7 @@ function hideSkillForm() {
 
 async function handleSkillSubmit(e) {
     e.preventDefault();
+    console.log('Skill form submitted!');
     
     const skillData = {
         name: document.getElementById('skill-name').value,
@@ -174,6 +202,8 @@ async function handleSkillSubmit(e) {
         icon: document.getElementById('skill-icon').value || 'fas fa-code',
         category: document.getElementById('skill-category').value
     };
+    
+    console.log('Skill data:', skillData);
     
     try {
         let response;
@@ -220,13 +250,21 @@ async function handleSkillSubmit(e) {
 }
 
 function loadSkills() {
+    console.log('Loading skills...');
     const skillsList = document.getElementById('skills-list');
+    if (!skillsList) {
+        console.error('Skills list element not found!');
+        return;
+    }
     skillsList.innerHTML = '';
     
-    if (!window.portfolioData.skills || window.portfolioData.skills.length === 0) {
+    if (!window.portfolioData || !window.portfolioData.skills || window.portfolioData.skills.length === 0) {
+        console.log('No skills data available');
         skillsList.innerHTML = '<p>No skills available. Add some skills!</p>';
         return;
     }
+    
+    console.log('Found', window.portfolioData.skills.length, 'skills');
     
     window.portfolioData.skills.forEach(skill => {
         const skillCard = document.createElement('div');

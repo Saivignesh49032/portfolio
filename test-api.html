@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Portfolio API Test</h1>
+    
+    <button onclick="testPortfolioAPI()">Test Portfolio API</button>
+    <button onclick="testDataAPI()">Test Data API</button>
+    <button onclick="testSkillsAPI()">Test Skills API</button>
+    <button onclick="testProjectsAPI()">Test Projects API</button>
+    <button onclick="testServicesAPI()">Test Services API</button>
+    
+    <div id="results"></div>
+
+    <script>
+        async function testPortfolioAPI() {
+            try {
+                const response = await fetch('/api/portfolio');
+                const data = await response.json();
+                showResult('Portfolio API', 'success', `Skills: ${data.skills?.length || 0}, Projects: ${data.projects?.length || 0}, Services: ${data.services?.length || 0}`);
+            } catch (error) {
+                showResult('Portfolio API', 'error', error.message);
+            }
+        }
+
+        async function testDataAPI() {
+            try {
+                const response = await fetch('/api/test');
+                const data = await response.json();
+                showResult('Data API', 'success', `File exists: ${data.fileExists}, Skills: ${data.skillsCount}, Projects: ${data.projectsCount}, Services: ${data.servicesCount}`);
+            } catch (error) {
+                showResult('Data API', 'error', error.message);
+            }
+        }
+
+        async function testSkillsAPI() {
+            try {
+                const response = await fetch('/api/skills');
+                const data = await response.json();
+                showResult('Skills API', 'success', `Found ${data.length} skills`);
+            } catch (error) {
+                showResult('Skills API', 'error', error.message);
+            }
+        }
+
+        async function testProjectsAPI() {
+            try {
+                const response = await fetch('/api/projects');
+                const data = await response.json();
+                showResult('Projects API', 'success', `Found ${data.length} projects`);
+            } catch (error) {
+                showResult('Projects API', 'error', error.message);
+            }
+        }
+
+        async function testServicesAPI() {
+            try {
+                const response = await fetch('/api/services');
+                const data = await response.json();
+                showResult('Services API', 'success', `Found ${data.length} services`);
+            } catch (error) {
+                showResult('Services API', 'error', error.message);
+            }
+        }
+
+        function showResult(testName, type, message) {
+            const resultsDiv = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${type}`;
+            resultDiv.innerHTML = `<strong>${testName}:</strong> ${message}`;
+            resultsDiv.appendChild(resultDiv);
+        }
+
+        // Auto-run tests on load
+        window.onload = function() {
+            testPortfolioAPI();
+            testDataAPI();
+        };
+    </script>
+</body>
+</html>

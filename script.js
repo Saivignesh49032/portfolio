@@ -69,6 +69,7 @@ function initializePortfolio() {
         initializeBackToTop();
         initializeCopyEmail();
         initializeMobileNavigation();
+        initializeRefreshButtons();
         initializePinAuth();
         renderPortfolioContent();
         
@@ -103,8 +104,9 @@ function initializePortfolio() {
         initializeBackToTop();
         initializeCopyEmail();
         initializeMobileNavigation();
+        initializeRefreshButtons();
         initializePinAuth();
-    renderPortfolioContent();
+        renderPortfolioContent();
     
         console.log('Portfolio initialized with static data!');
     
@@ -139,6 +141,7 @@ async function loadPortfolioData() {
         window.portfolioData = data;
         console.log('Portfolio data loaded from backend:', data);
         console.log('Services count:', data.services ? data.services.length : 'No services array');
+        console.log('Skills count:', data.skills ? data.skills.length : 'No skills array');
         return data;
     } catch (error) {
         console.error('Error loading portfolio data from backend:', error);
@@ -148,6 +151,24 @@ async function loadPortfolioData() {
             return window.portfolioData;
         }
         throw error;
+    }
+}
+
+// ===== DATA REFRESH =====
+async function refreshPortfolioData() {
+    try {
+        console.log('Refreshing portfolio data...');
+        const data = await loadPortfolioData();
+        
+        // Re-render all sections with fresh data
+        renderSkillsSection();
+        renderProjectsSection();
+        renderServicesSection();
+        
+        console.log('Portfolio data refreshed successfully');
+        return data;
+    } catch (error) {
+        console.error('Error refreshing portfolio data:', error);
     }
 }
 
@@ -1454,6 +1475,73 @@ function initializeMobileNavigation() {
             });
         }
     }, 1000);
+}
+
+// ===== REFRESH BUTTONS =====
+function initializeRefreshButtons() {
+    console.log('Initializing refresh buttons...');
+    
+    // Skills refresh button
+    const refreshSkillsBtn = document.getElementById('refresh-skills-btn');
+    if (refreshSkillsBtn) {
+        refreshSkillsBtn.addEventListener('click', async () => {
+            console.log('Refreshing skills...');
+            refreshSkillsBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+            refreshSkillsBtn.disabled = true;
+            
+            try {
+                await refreshPortfolioData();
+                refreshSkillsBtn.innerHTML = '<i class="fas fa-check"></i> Refreshed!';
+                setTimeout(() => {
+                    refreshSkillsBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Skills';
+                    refreshSkillsBtn.disabled = false;
+                }, 2000);
+            } catch (error) {
+                console.error('Error refreshing skills:', error);
+                refreshSkillsBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error';
+                setTimeout(() => {
+                    refreshSkillsBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Skills';
+                    refreshSkillsBtn.disabled = false;
+                }, 2000);
+            }
+        });
+    }
+    
+    // Services refresh button
+    const refreshServicesBtn = document.getElementById('refresh-services-btn');
+    if (refreshServicesBtn) {
+        refreshServicesBtn.addEventListener('click', async () => {
+            console.log('Refreshing services...');
+            refreshServicesBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+            refreshServicesBtn.disabled = true;
+            
+            try {
+                await refreshPortfolioData();
+                refreshServicesBtn.innerHTML = '<i class="fas fa-check"></i> Refreshed!';
+                setTimeout(() => {
+                    refreshServicesBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Services';
+                    refreshServicesBtn.disabled = false;
+                }, 2000);
+            } catch (error) {
+                console.error('Error refreshing services:', error);
+                refreshServicesBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error';
+                setTimeout(() => {
+                    refreshServicesBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Services';
+                    refreshServicesBtn.disabled = false;
+                }, 2000);
+            }
+        });
+    }
+    
+    // Auto-refresh when page becomes visible (when coming back from admin panel)
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+            console.log('Page became visible, refreshing data...');
+            refreshPortfolioData();
+        }
+    });
+    
+    console.log('Refresh buttons initialized successfully');
 }
 
 // Initialize PIN authentication when DOM is loaded

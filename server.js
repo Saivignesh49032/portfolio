@@ -6,486 +6,356 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DATA_FILE = path.join(__dirname, 'data', 'portfolio.json');
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('.')); // Serve static files
+app.use(express.static('.'));
 
-// Ensure data directory exists
-const dataDir = path.dirname(DATA_FILE);
-if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-}
+// Data file path
+const dataFile = path.join(__dirname, 'portfolio.json');
 
-// Initialize data file if it doesn't exist
-if (!fs.existsSync(DATA_FILE)) {
-    const defaultData = {
-        personalInfo: {
-            name: "Sai Vignesh S P",
-            title: "AI/ML Engineer & Software Developer",
-            description: "Passionate about transforming innovative ideas into real-world tech solutions. Specializing in Artificial Intelligence, Machine Learning, and Full-Stack Development.",
-            location: "Devalapura, Bangalore Rural, Karnataka",
-            email: "saivignesh1857@gmail.com",
-            phone: "+91 78995 22804",
-            linkedin: "https://www.linkedin.com/in/sai-vignesh-s-p-2a0a571b6/",
-            github: "https://github.com/Saivignesh49032"
-        },
-        about: {
-            intro: "An innovative AI/ML and Software Engineer with a deep passion for transforming complex problems into intelligent solutions. I specialize in building machine learning models, developing scalable applications, and creating user-centric experiences that make a real impact.",
-            education: {
-                degree: "B.E. in Artificial Intelligence and Machine Learning",
-                institution: "SEA College of Engineering and Technology",
-                year: "2026"
-            },
-            stats: [
-                { number: "3+", label: "Projects" },
-                { number: "2+", label: "Years Learning" },
-                { number: "5+", label: "Technologies" }
-            ]
-        },
-        skills: [
-            {
-                id: 1,
-                name: "Python",
-                description: "Data analysis, machine learning, and automation",
-                percentage: 85,
-                icon: "fab fa-python",
-                category: "Programming"
-            },
-            {
-                id: 2,
-                name: "JavaScript",
-                description: "Frontend and backend development with modern frameworks",
-                percentage: 80,
-                icon: "fab fa-js-square",
-                category: "Programming"
-            },
-            {
-                id: 3,
-                name: "Machine Learning",
-                description: "Building and deploying ML models for real-world applications",
-                percentage: 75,
-                icon: "fas fa-brain",
-                category: "AI/ML"
-            },
-            {
-                id: 4,
-                name: "React",
-                description: "Building dynamic and responsive user interfaces",
-                percentage: 70,
-                icon: "fab fa-react",
-                category: "Frontend"
-            },
-            {
-                id: 5,
-                name: "Node.js",
-                description: "Server-side JavaScript development and API creation",
-                percentage: 65,
-                icon: "fab fa-node-js",
-                category: "Backend"
-            },
-            {
-                id: 6,
-                name: "Data Science",
-                description: "Analyzing data and extracting meaningful insights",
-                percentage: 70,
-                icon: "fas fa-chart-line",
-                category: "Data"
-            }
-        ],
-        projects: [
-            {
-                id: 1,
-                title: "Smart Study Timetable Generator",
-                description: "An intelligent ML model that generates personalized study schedules using Random Forest Regressor, optimizing study time based on individual learning patterns and preferences. Features adaptive scheduling and performance tracking.",
-                technologies: ["Python", "Scikit-learn", "Pandas", "NumPy", "Matplotlib"],
-                github: "https://github.com/Saivignesh49032/smart-study-timetable",
-                demo: "https://smart-timetable-demo.com",
-                featured: true,
-                category: "Machine Learning"
-            },
-            {
-                id: 2,
-                title: "E-Commerce Analytics Dashboard",
-                description: "A comprehensive dashboard for analyzing e-commerce data with real-time visualizations, customer behavior insights, and sales forecasting using advanced data science techniques.",
-                technologies: ["Python", "Streamlit", "Plotly", "Pandas", "Scikit-learn"],
-                github: "https://github.com/Saivignesh49032/ecommerce-dashboard",
-                demo: "https://ecommerce-dashboard-demo.com",
-                featured: true,
-                category: "Data Science"
-            },
-            {
-                id: 3,
-                title: "Portfolio Website",
-                description: "A responsive and modern portfolio website built with HTML, CSS, and JavaScript, featuring dark mode, smooth animations, and a clean design that showcases my work effectively.",
-                technologies: ["HTML", "CSS", "JavaScript", "Font Awesome"],
-                github: "https://github.com/Saivignesh49032/portfolio",
-                demo: "https://saivignesh-portfolio.com",
-                featured: false,
-                category: "Web Development"
-            }
-        ],
-        services: [
-            {
-                id: 1,
-                title: "Machine Learning Solutions",
-                description: "Custom ML models and AI solutions tailored to your business needs. From data preprocessing to model deployment.",
-                icon: "fas fa-brain",
-                category: "AI/ML",
-                features: [
-                    "Custom ML model development",
-                    "Data preprocessing and analysis",
-                    "Model training and optimization",
-                    "Deployment and monitoring",
-                    "Performance evaluation"
-                ],
-                price: "$75-150/hour",
-                featured: true
-            },
-            {
-                id: 2,
-                title: "Web Development",
-                description: "Full-stack web applications with modern technologies. Responsive, fast, and user-friendly interfaces.",
-                icon: "fas fa-code",
-                category: "Development",
-                features: [
-                    "Frontend development (React, Vue, Angular)",
-                    "Backend development (Node.js, Python, PHP)",
-                    "Database design and optimization",
-                    "API development and integration",
-                    "Deployment and maintenance"
-                ],
-                price: "$50-100/hour",
-                featured: true
-            },
-            {
-                id: 3,
-                title: "Data Science Consulting",
-                description: "Transform your data into actionable insights. Statistical analysis, visualization, and business intelligence.",
-                icon: "fas fa-chart-line",
-                category: "Data Science",
-                features: [
-                    "Data analysis and visualization",
-                    "Statistical modeling",
-                    "Business intelligence dashboards",
-                    "Data pipeline development",
-                    "Predictive analytics"
-                ],
-                price: "$60-120/hour",
-                featured: false
-            },
-            {
-                id: 4,
-                title: "AI Training & Workshops",
-                description: "Comprehensive training programs on AI, ML, and data science. From beginner to advanced levels.",
-                icon: "fas fa-graduation-cap",
-                category: "Training",
-                features: [
-                    "Customized training programs",
-                    "Hands-on workshops",
-                    "Project-based learning",
-                    "Certification preparation",
-                    "Ongoing support and mentoring"
-                ],
-                price: "$100-200/session",
-                featured: false
-            }
-        ],
-        competencies: [
-            {
-                category: "Programming Languages",
-                skills: ["Python", "JavaScript", "Java", "C++", "SQL"]
-            },
-            {
-                category: "AI/ML Technologies",
-                skills: ["Machine Learning", "Deep Learning", "Data Science", "NLP", "Computer Vision"]
-            },
-            {
-                category: "Web Technologies",
-                skills: ["HTML/CSS", "React", "Node.js", "Express", "MongoDB"]
-            },
-            {
-                category: "Tools & Frameworks",
-                skills: ["Git", "Docker", "AWS", "TensorFlow", "Pandas"]
-            }
-        ]
-    };
+// Default portfolio data
+const defaultData = {
+    personalInfo: {
+        name: "Sai Vignesh S P",
+        title: "Full Stack Developer & UI/UX Designer",
+        bio: "Passionate developer creating beautiful, functional web experiences with modern technologies.",
+        email: "saivignesh1857@gmail.com",
+        phone: "+91 7899522804",
+        location: "Chennai, India",
+        resume: "resume.pdf"
+    },
     
-    fs.writeFileSync(DATA_FILE, JSON.stringify(defaultData, null, 2));
-    console.log('Default data file created');
-}
+    skills: [
+        { name: "JavaScript", percentage: 90, category: "Frontend" },
+        { name: "React", percentage: 85, category: "Frontend" },
+        { name: "Node.js", percentage: 80, category: "Backend" },
+        { name: "Python", percentage: 75, category: "Backend" },
+        { name: "HTML/CSS", percentage: 95, category: "Frontend" },
+        { name: "MongoDB", percentage: 70, category: "Database" },
+        { name: "Express.js", percentage: 75, category: "Backend" },
+        { name: "Git", percentage: 80, category: "Tools" }
+    ],
+    
+    projects: [
+        {
+            id: 1,
+            title: "E-Commerce Platform",
+            description: "A full-stack e-commerce solution with React frontend and Node.js backend, featuring user authentication, payment integration, and admin dashboard.",
+            image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&h=300&fit=crop",
+            technologies: ["React", "Node.js", "MongoDB", "Stripe"],
+            github: "https://github.com/yourusername/ecommerce",
+            live: "https://your-ecommerce-demo.com",
+            featured: true,
+            category: "Full Stack"
+        },
+        {
+            id: 2,
+            title: "Task Management App",
+            description: "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
+            image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=500&h=300&fit=crop",
+            technologies: ["Vue.js", "Firebase", "CSS3"],
+            github: "https://github.com/yourusername/taskapp",
+            live: "https://your-taskapp-demo.com",
+            featured: true,
+            category: "Frontend"
+        },
+        {
+            id: 3,
+            title: "Weather Dashboard",
+            description: "A responsive weather dashboard with location-based forecasts, interactive maps, and detailed weather analytics.",
+            image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=500&h=300&fit=crop",
+            technologies: ["JavaScript", "API Integration", "Chart.js"],
+            github: "https://github.com/yourusername/weather",
+            live: "https://your-weather-demo.com",
+            featured: false,
+            category: "Frontend"
+        },
+        {
+            id: 4,
+            title: "Blog CMS",
+            description: "A content management system for blogs with markdown support, SEO optimization, and comment system.",
+            image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=500&h=300&fit=crop",
+            technologies: ["Next.js", "Prisma", "PostgreSQL"],
+            github: "https://github.com/yourusername/blog-cms",
+            live: "https://your-blog-demo.com",
+            featured: false,
+            category: "Full Stack"
+        }
+    ],
+    
+    services: [
+        {
+            id: 1,
+            title: "Web Development",
+            icon: "fas fa-code",
+            description: "Custom web applications built with modern technologies and best practices.",
+            features: ["Responsive Design", "Performance Optimization", "SEO Friendly", "Cross-browser Compatibility"],
+            price: "Starting at $500"
+        },
+        {
+            id: 2,
+            title: "UI/UX Design",
+            icon: "fas fa-paint-brush",
+            description: "Beautiful and intuitive user interfaces that enhance user experience.",
+            features: ["User Research", "Wireframing", "Prototyping", "Design Systems"],
+            price: "Starting at $300"
+        },
+        {
+            id: 3,
+            title: "Mobile App Development",
+            icon: "fas fa-mobile-alt",
+            description: "Native and cross-platform mobile applications for iOS and Android.",
+            features: ["React Native", "Flutter", "Native Development", "App Store Optimization"],
+            price: "Starting at $800"
+        },
+        {
+            id: 4,
+            title: "E-commerce Solutions",
+            icon: "fas fa-shopping-cart",
+            description: "Complete e-commerce platforms with payment integration and admin panels.",
+            features: ["Payment Gateway Integration", "Inventory Management", "Order Tracking", "Analytics Dashboard"],
+            price: "Starting at $1000"
+        },
+        {
+            id: 5,
+            title: "API Development",
+            icon: "fas fa-server",
+            description: "RESTful APIs and microservices for scalable backend solutions.",
+            features: ["RESTful Design", "Authentication", "Rate Limiting", "Documentation"],
+            price: "Starting at $400"
+        },
+        {
+            id: 6,
+            title: "Database Design",
+            icon: "fas fa-database",
+            description: "Efficient database design and optimization for better performance.",
+            features: ["Schema Design", "Query Optimization", "Data Migration", "Backup Solutions"],
+            price: "Starting at $350"
+        },
+        {
+            id: 7,
+            title: "Cloud Solutions",
+            icon: "fas fa-cloud",
+            description: "Cloud deployment and infrastructure management for scalable applications.",
+            features: ["AWS/Azure/GCP", "Docker Containers", "CI/CD Pipeline", "Monitoring"],
+            price: "Starting at $600"
+        },
+        {
+            id: 8,
+            title: "Technical Consulting",
+            icon: "fas fa-lightbulb",
+            description: "Expert advice on technology choices and architecture decisions.",
+            features: ["Technology Assessment", "Code Review", "Performance Analysis", "Best Practices"],
+            price: "Starting at $200/hour"
+        }
+    ],
+    
+    experience: [
+        {
+            company: "Tech Solutions Inc.",
+            position: "Senior Full Stack Developer",
+            duration: "2022 - Present",
+            description: "Leading development of web applications and mentoring junior developers.",
+            technologies: ["React", "Node.js", "AWS", "MongoDB"]
+        },
+        {
+            company: "Digital Agency",
+            position: "Frontend Developer",
+            duration: "2020 - 2022",
+            description: "Developed responsive websites and user interfaces for various clients.",
+            technologies: ["Vue.js", "JavaScript", "CSS3", "Figma"]
+        }
+    ],
+    
+    education: [
+        {
+            degree: "Bachelor of Technology",
+            field: "Computer Science",
+            institution: "Anna University",
+            year: "2016 - 2020",
+            gpa: "8.5/10"
+        }
+    ]
+};
 
-// Helper function to read data
-function readData() {
+// Load data from file or create with default data
+function loadData() {
     try {
-        const data = fs.readFileSync(DATA_FILE, 'utf8');
-        return JSON.parse(data);
+        if (fs.existsSync(dataFile)) {
+            const data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+            console.log('Data loaded from file');
+            return data;
+        } else {
+            console.log('No data file found, creating with default data');
+            saveData(defaultData);
+            return defaultData;
+        }
     } catch (error) {
-        console.error('Error reading data:', error);
-        return null;
+        console.error('Error loading data:', error);
+        return defaultData;
     }
 }
 
-// Helper function to write data
-function writeData(data) {
+// Save data to file
+function saveData(data) {
     try {
-        fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-        return true;
+        fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+        console.log('Data saved to file');
     } catch (error) {
-        console.error('Error writing data:', error);
-        return false;
+        console.error('Error saving data:', error);
     }
 }
+
+// Initialize data
+let portfolioData = loadData();
 
 // Routes
-
-// Get all portfolio data
 app.get('/api/portfolio', (req, res) => {
     console.log('Portfolio API called');
-    const data = readData();
-    if (data) {
-        console.log('Services count in API response:', data.services ? data.services.length : 'No services');
-        res.json(data);
-    } else {
-        console.log('Failed to read data');
-        res.status(500).json({ error: 'Failed to read portfolio data' });
+    console.log('Services count in API response:', portfolioData.services ? portfolioData.services.length : 'No services array');
+    res.json(portfolioData);
+});
+
+app.put('/api/portfolio', (req, res) => {
+    try {
+        portfolioData = req.body;
+        saveData(portfolioData);
+        res.json({ success: true, message: 'Portfolio data updated successfully' });
+    } catch (error) {
+        console.error('Error updating portfolio data:', error);
+        res.status(500).json({ success: false, message: 'Error updating portfolio data' });
     }
 });
 
-// Get skills
+// Skills CRUD
 app.get('/api/skills', (req, res) => {
-    const data = readData();
-    if (data && data.skills) {
-        res.json(data.skills);
-    } else {
-        res.status(500).json({ error: 'Failed to read skills data' });
-    }
+    res.json(portfolioData.skills || []);
 });
 
-// Add skill
 app.post('/api/skills', (req, res) => {
-    const data = readData();
-    if (!data) {
-        return res.status(500).json({ error: 'Failed to read data' });
-    }
-    
-    const newSkill = {
-        id: Date.now(),
-        ...req.body
-    };
-    
-    data.skills.push(newSkill);
-    
-    if (writeData(data)) {
-        res.json(newSkill);
-    } else {
-        res.status(500).json({ error: 'Failed to save skill' });
+    try {
+        const newSkill = { ...req.body, id: Date.now() };
+        portfolioData.skills.push(newSkill);
+        saveData(portfolioData);
+        res.json({ success: true, skill: newSkill });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error adding skill' });
     }
 });
 
-// Update skill
 app.put('/api/skills/:id', (req, res) => {
-    const data = readData();
-    if (!data) {
-        return res.status(500).json({ error: 'Failed to read data' });
-    }
-    
-    const skillId = parseInt(req.params.id);
-    const skillIndex = data.skills.findIndex(skill => skill.id === skillId);
-    
-    if (skillIndex === -1) {
-        return res.status(404).json({ error: 'Skill not found' });
-    }
-    
-    data.skills[skillIndex] = { ...data.skills[skillIndex], ...req.body };
-    
-    if (writeData(data)) {
-        res.json(data.skills[skillIndex]);
-    } else {
-        res.status(500).json({ error: 'Failed to update skill' });
+    try {
+        const skillId = parseInt(req.params.id);
+        const skillIndex = portfolioData.skills.findIndex(skill => skill.id === skillId);
+        if (skillIndex !== -1) {
+            portfolioData.skills[skillIndex] = { ...req.body, id: skillId };
+            saveData(portfolioData);
+            res.json({ success: true, skill: portfolioData.skills[skillIndex] });
+        } else {
+            res.status(404).json({ success: false, message: 'Skill not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error updating skill' });
     }
 });
 
-// Delete skill
 app.delete('/api/skills/:id', (req, res) => {
-    const data = readData();
-    if (!data) {
-        return res.status(500).json({ error: 'Failed to read data' });
-    }
-    
-    const skillId = parseInt(req.params.id);
-    data.skills = data.skills.filter(skill => skill.id !== skillId);
-    
-    if (writeData(data)) {
-        res.json({ message: 'Skill deleted successfully' });
-    } else {
-        res.status(500).json({ error: 'Failed to delete skill' });
+    try {
+        const skillId = parseInt(req.params.id);
+        portfolioData.skills = portfolioData.skills.filter(skill => skill.id !== skillId);
+        saveData(portfolioData);
+        res.json({ success: true, message: 'Skill deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error deleting skill' });
     }
 });
 
-// Get projects
+// Projects CRUD
 app.get('/api/projects', (req, res) => {
-    const data = readData();
-    if (data && data.projects) {
-        res.json(data.projects);
-    } else {
-        res.status(500).json({ error: 'Failed to read projects data' });
-    }
+    res.json(portfolioData.projects || []);
 });
 
-// Add project
 app.post('/api/projects', (req, res) => {
-    const data = readData();
-    if (!data) {
-        return res.status(500).json({ error: 'Failed to read data' });
-    }
-    
-    const newProject = {
-        id: Date.now(),
-        ...req.body
-    };
-    
-    data.projects.push(newProject);
-    
-    if (writeData(data)) {
-        res.json(newProject);
-    } else {
-        res.status(500).json({ error: 'Failed to save project' });
+    try {
+        const newProject = { ...req.body, id: Date.now() };
+        portfolioData.projects.push(newProject);
+        saveData(portfolioData);
+        res.json({ success: true, project: newProject });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error adding project' });
     }
 });
 
-// Update project
 app.put('/api/projects/:id', (req, res) => {
-    const data = readData();
-    if (!data) {
-        return res.status(500).json({ error: 'Failed to read data' });
-    }
-    
-    const projectId = parseInt(req.params.id);
-    const projectIndex = data.projects.findIndex(project => project.id === projectId);
-    
-    if (projectIndex === -1) {
-        return res.status(404).json({ error: 'Project not found' });
-    }
-    
-    data.projects[projectIndex] = { ...data.projects[projectIndex], ...req.body };
-    
-    if (writeData(data)) {
-        res.json(data.projects[projectIndex]);
-    } else {
-        res.status(500).json({ error: 'Failed to update project' });
+    try {
+        const projectId = parseInt(req.params.id);
+        const projectIndex = portfolioData.projects.findIndex(project => project.id === projectId);
+        if (projectIndex !== -1) {
+            portfolioData.projects[projectIndex] = { ...req.body, id: projectId };
+            saveData(portfolioData);
+            res.json({ success: true, project: portfolioData.projects[projectIndex] });
+        } else {
+            res.status(404).json({ success: false, message: 'Project not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error updating project' });
     }
 });
 
-// Delete project
 app.delete('/api/projects/:id', (req, res) => {
-    const data = readData();
-    if (!data) {
-        return res.status(500).json({ error: 'Failed to read data' });
-    }
-    
-    const projectId = parseInt(req.params.id);
-    data.projects = data.projects.filter(project => project.id !== projectId);
-    
-    if (writeData(data)) {
-        res.json({ message: 'Project deleted successfully' });
-    } else {
-        res.status(500).json({ error: 'Failed to delete project' });
+    try {
+        const projectId = parseInt(req.params.id);
+        portfolioData.projects = portfolioData.projects.filter(project => project.id !== projectId);
+        saveData(portfolioData);
+        res.json({ success: true, message: 'Project deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error deleting project' });
     }
 });
 
-// Get services
+// Services CRUD
 app.get('/api/services', (req, res) => {
-    const data = readData();
-    if (data && data.services) {
-        res.json(data.services);
-    } else {
-        res.status(500).json({ error: 'Failed to read services data' });
-    }
+    res.json(portfolioData.services || []);
 });
 
-// Add service
 app.post('/api/services', (req, res) => {
-    const data = readData();
-    if (!data) {
-        return res.status(500).json({ error: 'Failed to read data' });
-    }
-    
-    const newService = {
-        id: Date.now(),
-        ...req.body
-    };
-    
-    data.services.push(newService);
-    
-    if (writeData(data)) {
-        res.json(newService);
-    } else {
-        res.status(500).json({ error: 'Failed to save service' });
+    try {
+        const newService = { ...req.body, id: Date.now() };
+        portfolioData.services.push(newService);
+        saveData(portfolioData);
+        res.json({ success: true, service: newService });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error adding service' });
     }
 });
 
-// Update service
 app.put('/api/services/:id', (req, res) => {
-    const data = readData();
-    if (!data) {
-        return res.status(500).json({ error: 'Failed to read data' });
-    }
-    
-    const serviceId = parseInt(req.params.id);
-    const serviceIndex = data.services.findIndex(service => service.id === serviceId);
-    
-    if (serviceIndex === -1) {
-        return res.status(404).json({ error: 'Service not found' });
-    }
-    
-    data.services[serviceIndex] = { ...data.services[serviceIndex], ...req.body };
-    
-    if (writeData(data)) {
-        res.json(data.services[serviceIndex]);
-    } else {
-        res.status(500).json({ error: 'Failed to update service' });
+    try {
+        const serviceId = parseInt(req.params.id);
+        const serviceIndex = portfolioData.services.findIndex(service => service.id === serviceId);
+        if (serviceIndex !== -1) {
+            portfolioData.services[serviceIndex] = { ...req.body, id: serviceId };
+            saveData(portfolioData);
+            res.json({ success: true, service: portfolioData.services[serviceIndex] });
+        } else {
+            res.status(404).json({ success: false, message: 'Service not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error updating service' });
     }
 });
 
-// Delete service
 app.delete('/api/services/:id', (req, res) => {
-    const data = readData();
-    if (!data) {
-        return res.status(500).json({ error: 'Failed to read data' });
+    try {
+        const serviceId = parseInt(req.params.id);
+        portfolioData.services = portfolioData.services.filter(service => service.id !== serviceId);
+        saveData(portfolioData);
+        res.json({ success: true, message: 'Service deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error deleting service' });
     }
-    
-    const serviceId = parseInt(req.params.id);
-    data.services = data.services.filter(service => service.id !== serviceId);
-    
-    if (writeData(data)) {
-        res.json({ message: 'Service deleted successfully' });
-    } else {
-        res.status(500).json({ error: 'Failed to delete service' });
-    }
-});
-
-// Update personal info
-app.put('/api/personal', (req, res) => {
-    const data = readData();
-    if (!data) {
-        return res.status(500).json({ error: 'Failed to read data' });
-    }
-    
-    data.personalInfo = { ...data.personalInfo, ...req.body };
-    
-    if (writeData(data)) {
-        res.json(data.personalInfo);
-    } else {
-        res.status(500).json({ error: 'Failed to update personal info' });
-    }
-});
-
-// Health check
-app.get('/api/health', (req, res) => {
-    res.json({ status: 'OK', message: 'Portfolio API is running' });
 });
 
 // Start server
@@ -494,5 +364,3 @@ app.listen(PORT, () => {
     console.log(`📊 API endpoints available at http://localhost:${PORT}/api/`);
     console.log(`🌐 Portfolio accessible at http://localhost:${PORT}/`);
 });
-
-module.exports = app;

@@ -52,36 +52,70 @@ function addTouchInteractions() {
 function initializePortfolio() {
     console.log('Portfolio initializing...');
     
-    // Use static data from data.js
-    const data = window.portfolioData;
-    console.log('Static data loaded:', data);
-    console.log('Services in static data:', data.services);
-    
-    // Initialize all components
-    initializeThemeToggle();
-    initializeNavigation();
-    initializeScrollEffects();
-    initializeEmailService();
-    initializeContactForm();
-    initializeFreelanceForm();
-    initializeWhatsAppWidget();
-    initializeScrollProgress();
-    initializeBackToTop();
-    initializeCopyEmail();
-    initializeMobileNavigation();
-    renderPortfolioContent();
-    
-    console.log('Portfolio initialized successfully!');
-    
-    // Add a subtle entrance animation to the main content
-    document.body.style.opacity = '0';
-    document.body.style.transform = 'translateY(20px)';
-    
-    setTimeout(() => {
-        document.body.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        document.body.style.opacity = '1';
-        document.body.style.transform = 'translateY(0)';
-    }, 100);
+    // Try to load data from backend first, fallback to static data
+    loadPortfolioData().then((data) => {
+        console.log('Data loaded successfully:', data);
+        console.log('Services in loaded data:', data.services);
+        
+        // Initialize all components
+        initializeThemeToggle();
+        initializeNavigation();
+        initializeScrollEffects();
+        initializeEmailService();
+        initializeContactForm();
+        initializeFreelanceForm();
+        initializeWhatsAppWidget();
+        initializeScrollProgress();
+        initializeBackToTop();
+        initializeCopyEmail();
+        initializeMobileNavigation();
+        renderPortfolioContent();
+        
+        console.log('Portfolio initialized successfully!');
+        
+        // Add a subtle entrance animation to the main content
+        document.body.style.opacity = '0';
+        document.body.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            document.body.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            document.body.style.opacity = '1';
+            document.body.style.transform = 'translateY(0)';
+        }, 100);
+    }).catch((error) => {
+        console.error('Error loading portfolio data:', error);
+        console.log('Falling back to static data...');
+        
+        // Use static data as fallback
+        const data = window.portfolioData;
+        console.log('Using static data:', data);
+        
+        // Initialize all components
+        initializeThemeToggle();
+        initializeNavigation();
+        initializeScrollEffects();
+        initializeEmailService();
+        initializeContactForm();
+        initializeFreelanceForm();
+        initializeWhatsAppWidget();
+        initializeScrollProgress();
+        initializeBackToTop();
+        initializeCopyEmail();
+        initializeMobileNavigation();
+        renderPortfolioContent();
+        
+        console.log('Portfolio initialized with static data!');
+        
+        // Add a subtle entrance animation to the main content
+        document.body.style.opacity = '0';
+        document.body.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            document.body.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            document.body.style.opacity = '1';
+            document.body.style.transform = 'translateY(0)';
+        }, 100);
+    });
 }
 
 // ===== DATA REFRESH MECHANISM =====
@@ -92,7 +126,28 @@ function initializePortfolio() {
 // Removed - using static data
 
 // ===== DATA LOADING =====
-// Removed - using static data from data.js
+async function loadPortfolioData() {
+    try {
+        console.log('Fetching portfolio data from backend...');
+        const response = await fetch('/api/portfolio');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        window.portfolioData = data;
+        console.log('Portfolio data loaded from backend:', data);
+        console.log('Services count:', data.services ? data.services.length : 'No services array');
+        return data;
+    } catch (error) {
+        console.error('Error loading portfolio data from backend:', error);
+        // Fallback to static data
+        if (window.portfolioData) {
+            console.log('Using existing portfolio data');
+            return window.portfolioData;
+        }
+        throw error;
+    }
+}
 
 // ===== THEME TOGGLE =====
 function initializeThemeToggle() {

@@ -13,14 +13,14 @@ window.portfolioData = {
     },
     
     skills: [
-        { name: "JavaScript", level: 90, category: "Frontend" },
-        { name: "React", level: 85, category: "Frontend" },
-        { name: "Node.js", level: 80, category: "Backend" },
-        { name: "Python", level: 75, category: "Backend" },
-        { name: "HTML/CSS", level: 95, category: "Frontend" },
-        { name: "MongoDB", level: 70, category: "Database" },
-        { name: "Express.js", level: 75, category: "Backend" },
-        { name: "Git", level: 80, category: "Tools" }
+        { name: "JavaScript", percentage: 90, category: "Frontend" },
+        { name: "React", percentage: 85, category: "Frontend" },
+        { name: "Node.js", percentage: 80, category: "Backend" },
+        { name: "Python", percentage: 75, category: "Backend" },
+        { name: "HTML/CSS", percentage: 95, category: "Frontend" },
+        { name: "MongoDB", percentage: 70, category: "Database" },
+        { name: "Express.js", percentage: 75, category: "Backend" },
+        { name: "Git", percentage: 80, category: "Tools" }
     ],
     
     projects: [

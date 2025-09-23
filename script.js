@@ -52,134 +52,47 @@ function addTouchInteractions() {
 function initializePortfolio() {
     console.log('Portfolio initializing...');
     
-    // Load data from backend first
-    loadPortfolioData().then((data) => {
-        console.log('Data loaded successfully:', data);
-        console.log('Services in loaded data:', data.services);
-        
-        // Initialize all components
-        initializeThemeToggle();
-        initializeNavigation();
-        initializeScrollEffects();
-        initializeEmailService();
-        initializeContactForm();
-        initializeFreelanceForm();
-        initializeWhatsAppWidget();
-        initializeScrollProgress();
-        initializeBackToTop();
-        initializeCopyEmail();
-        initializeMobileNavigation();
-        renderPortfolioContent();
-        
-        console.log('Portfolio initialized successfully!');
-        
-        // Add a subtle entrance animation to the main content
-        document.body.style.opacity = '0';
-        document.body.style.transform = 'translateY(20px)';
-        
-        setTimeout(() => {
-            document.body.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-            document.body.style.opacity = '1';
-            document.body.style.transform = 'translateY(0)';
-        }, 100);
-        
-        // Set up data refresh mechanism
-        setupDataRefresh();
-        
-        // Set up refresh button
-        setupRefreshButton();
-    }).catch(error => {
-        console.error('Failed to load portfolio data:', error);
-        console.log('Falling back to default data...');
-        // Fallback to default data
-        renderPortfolioContent();
-    });
+    // Use static data from data.js
+    const data = window.portfolioData;
+    console.log('Static data loaded:', data);
+    console.log('Services in static data:', data.services);
+    
+    // Initialize all components
+    initializeThemeToggle();
+    initializeNavigation();
+    initializeScrollEffects();
+    initializeEmailService();
+    initializeContactForm();
+    initializeFreelanceForm();
+    initializeWhatsAppWidget();
+    initializeScrollProgress();
+    initializeBackToTop();
+    initializeCopyEmail();
+    initializeMobileNavigation();
+    renderPortfolioContent();
+    
+    console.log('Portfolio initialized successfully!');
+    
+    // Add a subtle entrance animation to the main content
+    document.body.style.opacity = '0';
+    document.body.style.transform = 'translateY(20px)';
+    
+    setTimeout(() => {
+        document.body.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        document.body.style.opacity = '1';
+        document.body.style.transform = 'translateY(0)';
+    }, 100);
 }
 
 // ===== DATA REFRESH MECHANISM =====
-function setupDataRefresh() {
-    // Refresh data when page becomes visible (user comes back from admin panel)
-    document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) {
-            console.log('Page became visible, refreshing data...');
-            refreshPortfolioData();
-        }
-    });
-    
-    // Refresh data every 30 seconds to catch changes
-    setInterval(() => {
-        refreshPortfolioData();
-    }, 30000);
-}
+// No longer needed - using static data
 
-async function refreshPortfolioData() {
-    try {
-        const response = await fetch('/api/portfolio');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        
-        // Only update if data has changed
-        if (JSON.stringify(data) !== JSON.stringify(window.portfolioData)) {
-            console.log('Data changed, updating portfolio...');
-            window.portfolioData = data;
-            renderPortfolioContent();
-        }
-    } catch (error) {
-        console.error('Error refreshing portfolio data:', error);
-    }
-}
+// Removed - using static data
 
-function setupRefreshButton() {
-    const refreshBtn = document.getElementById('refresh-services-btn');
-    if (refreshBtn) {
-        refreshBtn.addEventListener('click', async () => {
-            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
-            refreshBtn.disabled = true;
-            
-            try {
-                await refreshPortfolioData();
-                refreshBtn.innerHTML = '<i class="fas fa-check"></i> Refreshed!';
-                setTimeout(() => {
-                    refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Services';
-                    refreshBtn.disabled = false;
-                }, 2000);
-            } catch (error) {
-                refreshBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error';
-                setTimeout(() => {
-                    refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Services';
-                    refreshBtn.disabled = false;
-                }, 2000);
-            }
-        });
-    }
-    
-}
+// Removed - using static data
 
 // ===== DATA LOADING =====
-async function loadPortfolioData() {
-    try {
-        console.log('Fetching portfolio data from backend...');
-        const response = await fetch('/api/portfolio');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        window.portfolioData = data;
-        console.log('Portfolio data loaded from backend:', data);
-        console.log('Services count:', data.services ? data.services.length : 'No services array');
-        return data;
-    } catch (error) {
-        console.error('Error loading portfolio data from backend:', error);
-        // Fallback to localStorage or default data
-        if (window.portfolioData) {
-            console.log('Using existing portfolio data');
-            return window.portfolioData;
-        }
-        throw error;
-    }
-}
+// Removed - using static data from data.js
 
 // ===== THEME TOGGLE =====
 function initializeThemeToggle() {

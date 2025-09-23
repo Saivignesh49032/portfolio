@@ -250,6 +250,22 @@ app.get('/web3-email.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'web3-email.js'));
 });
 
+// Serve image files
+app.get('/profilepic.jpg', (req, res) => {
+    res.setHeader('Content-Type', 'image/jpeg');
+    res.sendFile(path.join(__dirname, 'profilepic.jpg'));
+});
+
+app.get('/admin.js', (req, res) => {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, 'admin.js'));
+});
+
+app.get('/admin-styles.css', (req, res) => {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, 'admin-styles.css'));
+});
+
 // API Routes
 app.get('/api/portfolio', (req, res) => {
     console.log('Portfolio API called');

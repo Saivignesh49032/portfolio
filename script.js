@@ -69,6 +69,7 @@ function initializePortfolio() {
         initializeBackToTop();
         initializeCopyEmail();
         initializeMobileNavigation();
+        initializePinAuth();
         renderPortfolioContent();
         
         console.log('Portfolio initialized successfully!');
@@ -102,6 +103,7 @@ function initializePortfolio() {
         initializeBackToTop();
         initializeCopyEmail();
         initializeMobileNavigation();
+        initializePinAuth();
         renderPortfolioContent();
         
         console.log('Portfolio initialized with static data!');

@@ -21,7 +21,7 @@ app.use(express.static('.', {
 }));
 
 // Data file path
-const dataFile = path.join(__dirname, 'portfolio.json');
+const dataFile = path.join(__dirname, 'data', 'portfolio.json');
 
 // Default portfolio data
 const defaultData = {
@@ -216,6 +216,16 @@ function saveData(data) {
     }
 }
 
+// Reload data from file
+function reloadData() {
+    try {
+        portfolioData = loadData();
+        console.log('Data reloaded from file');
+    } catch (error) {
+        console.error('Error reloading data:', error);
+    }
+}
+
 // Initialize data
 let portfolioData = loadData();
 
@@ -269,8 +279,24 @@ app.get('/admin-styles.css', (req, res) => {
 // API Routes
 app.get('/api/portfolio', (req, res) => {
     console.log('Portfolio API called');
+    // Reload data to ensure fresh data
+    reloadData();
     console.log('Services count in API response:', portfolioData.services ? portfolioData.services.length : 'No services array');
+    console.log('Skills count in API response:', portfolioData.skills ? portfolioData.skills.length : 'No skills array');
     res.json(portfolioData);
+});
+
+// Test endpoint to check data loading
+app.get('/api/test', (req, res) => {
+    console.log('Test API called');
+    reloadData();
+    res.json({
+        skillsCount: portfolioData.skills ? portfolioData.skills.length : 0,
+        projectsCount: portfolioData.projects ? portfolioData.projects.length : 0,
+        servicesCount: portfolioData.services ? portfolioData.services.length : 0,
+        dataFile: dataFile,
+        fileExists: fs.existsSync(dataFile)
+    });
 });
 
 app.put('/api/portfolio', (req, res) => {

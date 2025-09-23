@@ -1492,8 +1492,8 @@ function initializeAutoRefresh() {
         }
     });
     
-    // Check every 5 seconds for admin panel changes
-    setInterval(checkForAdminChanges, 5000);
+    // Check every 30 seconds for admin panel changes (reduced frequency)
+    setInterval(checkForAdminChanges, 30000);
     
     console.log('Auto refresh initialized successfully');
 }

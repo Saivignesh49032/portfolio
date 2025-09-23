@@ -1472,11 +1472,21 @@ function initializeMobileNavigation() {
 function initializeAutoRefresh() {
     console.log('Initializing auto refresh...');
     
+    let isRefreshing = false; // Prevent multiple simultaneous refreshes
+    
     // Check for admin panel changes
     function checkForAdminChanges() {
+        if (isRefreshing) {
+            console.log('Already refreshing, skipping...');
+            return;
+        }
+        
         if (localStorage.getItem('portfolioRefreshNeeded') === 'true') {
             console.log('Admin panel changes detected, refreshing data...');
-            refreshPortfolioData();
+            isRefreshing = true;
+            refreshPortfolioData().finally(() => {
+                isRefreshing = false;
+            });
             localStorage.removeItem('portfolioRefreshNeeded');
         }
     }
@@ -1484,7 +1494,7 @@ function initializeAutoRefresh() {
     // Check immediately
     checkForAdminChanges();
     
-    // Auto-refresh when page becomes visible (when coming back from admin panel)
+    // Only refresh when page becomes visible (when coming back from admin panel)
     document.addEventListener('visibilitychange', () => {
         if (!document.hidden) {
             console.log('Page became visible, checking for changes...');
@@ -1492,10 +1502,8 @@ function initializeAutoRefresh() {
         }
     });
     
-    // Check every 30 seconds for admin panel changes (reduced frequency)
-    setInterval(checkForAdminChanges, 30000);
-    
-    console.log('Auto refresh initialized successfully');
+    // Remove the interval - no more automatic polling
+    console.log('Auto refresh initialized successfully (visibility-based only)');
 }
 
 // Initialize PIN authentication when DOM is loaded

@@ -283,8 +283,7 @@ app.get('/test-api.html', (req, res) => {
 // API Routes
 app.get('/api/portfolio', (req, res) => {
     console.log('Portfolio API called');
-    // Reload data to ensure fresh data
-    reloadData();
+    // Don't reload data on every request - only when needed
     console.log('Services count in API response:', portfolioData.services ? portfolioData.services.length : 'No services array');
     console.log('Skills count in API response:', portfolioData.skills ? portfolioData.skills.length : 'No skills array');
     res.json(portfolioData);
@@ -324,6 +323,7 @@ app.post('/api/skills', (req, res) => {
         const newSkill = { ...req.body, id: Date.now() };
         portfolioData.skills.push(newSkill);
         saveData(portfolioData);
+        reloadData(); // Reload data after modification
         res.json({ success: true, skill: newSkill });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error adding skill' });
@@ -337,6 +337,7 @@ app.put('/api/skills/:id', (req, res) => {
         if (skillIndex !== -1) {
             portfolioData.skills[skillIndex] = { ...req.body, id: skillId };
             saveData(portfolioData);
+            reloadData(); // Reload data after modification
             res.json({ success: true, skill: portfolioData.skills[skillIndex] });
         } else {
             res.status(404).json({ success: false, message: 'Skill not found' });
@@ -351,6 +352,7 @@ app.delete('/api/skills/:id', (req, res) => {
         const skillId = parseInt(req.params.id);
         portfolioData.skills = portfolioData.skills.filter(skill => skill.id !== skillId);
         saveData(portfolioData);
+        reloadData(); // Reload data after modification
         res.json({ success: true, message: 'Skill deleted successfully' });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error deleting skill' });
@@ -367,6 +369,7 @@ app.post('/api/projects', (req, res) => {
         const newProject = { ...req.body, id: Date.now() };
         portfolioData.projects.push(newProject);
         saveData(portfolioData);
+        reloadData(); // Reload data after modification
         res.json({ success: true, project: newProject });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error adding project' });
@@ -380,6 +383,7 @@ app.put('/api/projects/:id', (req, res) => {
         if (projectIndex !== -1) {
             portfolioData.projects[projectIndex] = { ...req.body, id: projectId };
             saveData(portfolioData);
+            reloadData(); // Reload data after modification
             res.json({ success: true, project: portfolioData.projects[projectIndex] });
         } else {
             res.status(404).json({ success: false, message: 'Project not found' });
@@ -394,6 +398,7 @@ app.delete('/api/projects/:id', (req, res) => {
         const projectId = parseInt(req.params.id);
         portfolioData.projects = portfolioData.projects.filter(project => project.id !== projectId);
         saveData(portfolioData);
+        reloadData(); // Reload data after modification
         res.json({ success: true, message: 'Project deleted successfully' });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error deleting project' });
@@ -410,6 +415,7 @@ app.post('/api/services', (req, res) => {
         const newService = { ...req.body, id: Date.now() };
         portfolioData.services.push(newService);
         saveData(portfolioData);
+        reloadData(); // Reload data after modification
         res.json({ success: true, service: newService });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error adding service' });
@@ -423,6 +429,7 @@ app.put('/api/services/:id', (req, res) => {
         if (serviceIndex !== -1) {
             portfolioData.services[serviceIndex] = { ...req.body, id: serviceId };
             saveData(portfolioData);
+            reloadData(); // Reload data after modification
             res.json({ success: true, service: portfolioData.services[serviceIndex] });
         } else {
             res.status(404).json({ success: false, message: 'Service not found' });
@@ -437,6 +444,7 @@ app.delete('/api/services/:id', (req, res) => {
         const serviceId = parseInt(req.params.id);
         portfolioData.services = portfolioData.services.filter(service => service.id !== serviceId);
         saveData(portfolioData);
+        reloadData(); // Reload data after modification
         res.json({ success: true, message: 'Service deleted successfully' });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error deleting service' });

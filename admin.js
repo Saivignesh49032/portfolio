@@ -134,7 +134,9 @@ function setupEventListeners() {
 }
 
 // ===== TAB MANAGEMENT =====
-function showTab(tabName) {
+function showTab(tabName, clickedElement) {
+    console.log('Showing tab:', tabName);
+    
     // Hide all tabs
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
@@ -145,16 +147,23 @@ function showTab(tabName) {
     
     // Show selected tab
     document.getElementById(tabName).classList.add('active');
-    event.target.classList.add('active');
+    if (clickedElement) {
+        clickedElement.classList.add('active');
+    }
     
     // Load tab content
+    console.log('Loading content for tab:', tabName);
     if (tabName === 'skills') {
+        console.log('Loading skills...');
         loadSkills();
     } else if (tabName === 'projects') {
+        console.log('Loading projects...');
         loadProjects();
     } else if (tabName === 'services') {
+        console.log('Loading services...');
         // Ensure data is loaded before showing services
         if (!window.portfolioData || !window.portfolioData.services) {
+            console.log('Data not loaded, loading first...');
             loadData().then(() => {
                 loadServices();
             });
@@ -162,6 +171,7 @@ function showTab(tabName) {
             loadServices();
         }
     } else if (tabName === 'personal') {
+        console.log('Loading personal info...');
         loadPersonalInfo();
     }
 }
@@ -732,4 +742,43 @@ console.log(`
 
 Happy managing! 🚀
 `);
+
+// ===== DEBUG FUNCTIONS =====
+async function testAPI() {
+    const debugOutput = document.getElementById('debug-output');
+    debugOutput.innerHTML = 'Testing API connection...';
+    
+    try {
+        const response = await fetch('/api/test');
+        const data = await response.json();
+        debugOutput.innerHTML = `
+            <strong>API Test Results:</strong><br>
+            File exists: ${data.fileExists}<br>
+            Skills: ${data.skillsCount}<br>
+            Projects: ${data.projectsCount}<br>
+            Services: ${data.servicesCount}<br>
+            Data file: ${data.dataFile}
+        `;
+    } catch (error) {
+        debugOutput.innerHTML = `<strong>API Test Error:</strong> ${error.message}`;
+    }
+}
+
+async function testData() {
+    const debugOutput = document.getElementById('debug-output');
+    debugOutput.innerHTML = 'Testing data loading...';
+    
+    try {
+        await loadData();
+        debugOutput.innerHTML = `
+            <strong>Data Test Results:</strong><br>
+            Portfolio data loaded: ${window.portfolioData ? 'Yes' : 'No'}<br>
+            Skills count: ${window.portfolioData?.skills?.length || 0}<br>
+            Projects count: ${window.portfolioData?.projects?.length || 0}<br>
+            Services count: ${window.portfolioData?.services?.length || 0}
+        `;
+    } catch (error) {
+        debugOutput.innerHTML = `<strong>Data Test Error:</strong> ${error.message}`;
+    }
+}
 

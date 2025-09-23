@@ -304,11 +304,11 @@
         </div>
         
         <div class="nav-tabs">
-            <div class="nav-tab active" onclick="showTab('overview')">Overview</div>
-            <div class="nav-tab" onclick="showTab('skills')">Skills</div>
-            <div class="nav-tab" onclick="showTab('projects')">Projects</div>
-            <div class="nav-tab" onclick="showTab('services')">Services</div>
-            <div class="nav-tab" onclick="showTab('personal')">Personal Info</div>
+            <div class="nav-tab active" onclick="showTab('overview', this)">Overview</div>
+            <div class="nav-tab" onclick="showTab('skills', this)">Skills</div>
+            <div class="nav-tab" onclick="showTab('projects', this)">Projects</div>
+            <div class="nav-tab" onclick="showTab('services', this)">Services</div>
+            <div class="nav-tab" onclick="showTab('personal', this)">Personal Info</div>
         </div>
         
         <!-- Overview Tab -->
@@ -384,6 +384,14 @@
             
             <div id="skills-list" class="item-list">
                 <!-- Skills will be loaded here -->
+            </div>
+            
+            <!-- Debug section -->
+            <div style="margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 5px;">
+                <h4>Debug Info</h4>
+                <button onclick="testAPI()" class="btn btn-primary">Test API Connection</button>
+                <button onclick="testData()" class="btn btn-secondary">Test Data Loading</button>
+                <div id="debug-output" style="margin-top: 10px; font-family: monospace; font-size: 12px;"></div>
             </div>
         </div>
         

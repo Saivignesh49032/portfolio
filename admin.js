@@ -251,8 +251,7 @@ async function handleSkillSubmit(e) {
         updateOverview();
         showAlert('Skill saved successfully!', 'success');
         
-        // Notify portfolio to refresh
-        localStorage.setItem('portfolioRefreshNeeded', 'true');
+        // Auto-refresh disabled - changes will be visible on next page load
     } catch (error) {
         console.error('Error saving skill:', error);
         showAlert('Error saving skill!', 'error');
@@ -396,8 +395,7 @@ async function handleProjectSubmit(e) {
         updateOverview();
         showAlert('Project saved successfully!', 'success');
         
-        // Notify portfolio to refresh
-        localStorage.setItem('portfolioRefreshNeeded', 'true');
+        // Auto-refresh disabled - changes will be visible on next page load
     } catch (error) {
         console.error('Error saving project:', error);
         showAlert('Error saving project!', 'error');
@@ -548,8 +546,7 @@ async function handleServiceSubmit(e) {
         updateOverview();
         showAlert('Service saved successfully!', 'success');
         
-        // Notify portfolio to refresh
-        localStorage.setItem('portfolioRefreshNeeded', 'true');
+        // Auto-refresh disabled - changes will be visible on next page load
     } catch (error) {
         console.error('Error saving service:', error);
         showAlert('Error saving service!', 'error');
@@ -702,8 +699,7 @@ async function handlePersonalSubmit(e) {
         await loadData();
         showAlert('Personal information saved successfully!', 'success');
         
-        // Notify portfolio to refresh
-        localStorage.setItem('portfolioRefreshNeeded', 'true');
+        // Auto-refresh disabled - changes will be visible on next page load
     } catch (error) {
         console.error('Error saving personal info:', error);
         showAlert('Error saving personal information!', 'error');
@@ -779,6 +775,28 @@ async function testData() {
         `;
     } catch (error) {
         debugOutput.innerHTML = `<strong>Data Test Error:</strong> ${error.message}`;
+    }
+}
+
+async function manualRefresh() {
+    const debugOutput = document.getElementById('debug-output');
+    debugOutput.innerHTML = 'Manually refreshing portfolio data...';
+    
+    try {
+        await loadData();
+        loadSkills();
+        loadProjects();
+        loadServices();
+        updateOverview();
+        debugOutput.innerHTML = `
+            <strong>Manual Refresh Complete:</strong><br>
+            Portfolio data refreshed successfully<br>
+            Skills count: ${window.portfolioData?.skills?.length || 0}<br>
+            Projects count: ${window.portfolioData?.projects?.length || 0}<br>
+            Services count: ${window.portfolioData?.services?.length || 0}
+        `;
+    } catch (error) {
+        debugOutput.innerHTML = `<strong>Manual Refresh Error:</strong> ${error.message}`;
     }
 }
 

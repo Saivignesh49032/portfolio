@@ -282,7 +282,8 @@ app.get('/test-api.html', (req, res) => {
 
 // API Routes
 app.get('/api/portfolio', (req, res) => {
-    console.log('Portfolio API called');
+    console.log('Portfolio API called at:', new Date().toISOString());
+    console.log('Call stack:', new Error().stack);
     // Don't reload data on every request - only when needed
     console.log('Services count in API response:', portfolioData.services ? portfolioData.services.length : 'No services array');
     console.log('Skills count in API response:', portfolioData.skills ? portfolioData.skills.length : 'No skills array');

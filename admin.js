@@ -54,6 +54,13 @@ async function loadData() {
         console.log('Skills count:', data.skills ? data.skills.length : 'No skills');
         console.log('Projects count:', data.projects ? data.projects.length : 'No projects');
         console.log('Services count:', data.services ? data.services.length : 'No services');
+        
+        // Force refresh all sections to show current data
+        loadSkills();
+        loadProjects();
+        loadServices();
+        loadPersonalInfo();
+        
         return data;
     } catch (error) {
         console.error('Error loading data from backend:', error);

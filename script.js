@@ -100,6 +100,23 @@ function initializePortfolio() {
         
         console.log('Portfolio initialized with static data!');
     });
+    
+    // Set up periodic refresh to check for admin changes
+    setInterval(async () => {
+        try {
+            const response = await fetch('/api/portfolio');
+            if (response.ok) {
+                const newData = await response.json();
+                if (JSON.stringify(newData) !== JSON.stringify(window.portfolioData)) {
+                    console.log('Data changed, refreshing portfolio...');
+                    window.portfolioData = newData;
+                    renderPortfolioContent();
+                }
+            }
+        } catch (error) {
+            console.log('Error checking for updates:', error.message);
+        }
+    }, 5000); // Check every 5 seconds
 }
 
 // ===== DATA REFRESH MECHANISM =====

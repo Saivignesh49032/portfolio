@@ -82,11 +82,11 @@
     },
     {
       "icon": "fas fa-test",
-      "description": "Test Description",
-      "name": "Test Skill",
-      "percentage": 85,
-      "category": "Frontend",
-      "id": 1758676137134
+      "description": "This is a test skill to verify the system works",
+      "name": "Test New Skill",
+      "percentage": 90,
+      "category": "Testing",
+      "id": 1758680239232
     }
   ],
   "projects": [

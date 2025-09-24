@@ -280,6 +280,11 @@ app.get('/test-api.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'test-api.html'));
 });
 
+// Debug admin page
+app.get('/debug-admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'debug-admin.html'));
+});
+
 // API Routes
 app.get('/api/portfolio', (req, res) => {
     console.log('Portfolio API called at:', new Date().toISOString());

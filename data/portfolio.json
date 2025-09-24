@@ -79,6 +79,14 @@
       "percentage": 70,
       "icon": "fas fa-chart-line",
       "category": "Data"
+    },
+    {
+      "icon": "fas fa-test",
+      "description": "Test Description",
+      "name": "Test Skill",
+      "percentage": 85,
+      "category": "Frontend",
+      "id": 1758676137134
     }
   ],
   "projects": [

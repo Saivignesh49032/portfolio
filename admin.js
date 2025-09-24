@@ -191,9 +191,16 @@ function updateOverview() {
 
 // ===== SKILLS MANAGEMENT =====
 function showSkillForm() {
-    document.getElementById('skill-form').classList.remove('hidden');
-    currentEditingId = null;
-    document.getElementById('skillForm').reset();
+    console.log('Showing skill form...');
+    const form = document.getElementById('skill-form');
+    if (form) {
+        form.classList.remove('hidden');
+        currentEditingId = null;
+        document.getElementById('skillForm').reset();
+        console.log('Skill form shown successfully');
+    } else {
+        console.error('Skill form element not found!');
+    }
 }
 
 function hideSkillForm() {

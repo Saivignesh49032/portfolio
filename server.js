@@ -151,6 +151,18 @@ function saveData() {
     }
 }
 
+function reloadData() {
+    try {
+        if (fs.existsSync(dataFile)) {
+            const data = fs.readFileSync(dataFile, 'utf8');
+            portfolioData = JSON.parse(data);
+            console.log('Data reloaded from file');
+        }
+    } catch (error) {
+        console.error('Error reloading data:', error);
+    }
+}
+
 // Load data on startup
 loadData();
 
@@ -200,6 +212,7 @@ app.get('/profilepic.jpg', (req, res) => {
 
 // API Routes
 app.get('/api/portfolio', (req, res) => {
+    reloadData(); // Ensure fresh data
     res.json(portfolioData);
 });
 
@@ -216,6 +229,7 @@ app.post('/api/skills', (req, res) => {
         };
         portfolioData.skills.push(newSkill);
         saveData();
+        reloadData();
         res.json({ success: true, skill: newSkill });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error adding skill' });
@@ -229,6 +243,7 @@ app.put('/api/skills/:id', (req, res) => {
         if (skillIndex !== -1) {
             portfolioData.skills[skillIndex] = { ...req.body, id: skillId };
             saveData();
+            reloadData();
             res.json({ success: true, skill: portfolioData.skills[skillIndex] });
         } else {
             res.status(404).json({ success: false, message: 'Skill not found' });
@@ -243,6 +258,7 @@ app.delete('/api/skills/:id', (req, res) => {
         const skillId = parseInt(req.params.id);
         portfolioData.skills = portfolioData.skills.filter(skill => skill.id !== skillId);
         saveData();
+        reloadData();
         res.json({ success: true, message: 'Skill deleted successfully' });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error deleting skill' });
@@ -262,6 +278,7 @@ app.post('/api/projects', (req, res) => {
         };
         portfolioData.projects.push(newProject);
         saveData();
+        reloadData();
         res.json({ success: true, project: newProject });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error adding project' });
@@ -275,6 +292,7 @@ app.put('/api/projects/:id', (req, res) => {
         if (projectIndex !== -1) {
             portfolioData.projects[projectIndex] = { ...req.body, id: projectId };
             saveData();
+            reloadData();
             res.json({ success: true, project: portfolioData.projects[projectIndex] });
         } else {
             res.status(404).json({ success: false, message: 'Project not found' });
@@ -289,6 +307,7 @@ app.delete('/api/projects/:id', (req, res) => {
         const projectId = parseInt(req.params.id);
         portfolioData.projects = portfolioData.projects.filter(project => project.id !== projectId);
         saveData();
+        reloadData();
         res.json({ success: true, message: 'Project deleted successfully' });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error deleting project' });
@@ -308,6 +327,7 @@ app.post('/api/services', (req, res) => {
         };
         portfolioData.services.push(newService);
         saveData();
+        reloadData();
         res.json({ success: true, service: newService });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error adding service' });
@@ -321,6 +341,7 @@ app.put('/api/services/:id', (req, res) => {
         if (serviceIndex !== -1) {
             portfolioData.services[serviceIndex] = { ...req.body, id: serviceId };
             saveData();
+            reloadData();
             res.json({ success: true, service: portfolioData.services[serviceIndex] });
         } else {
             res.status(404).json({ success: false, message: 'Service not found' });
@@ -335,6 +356,7 @@ app.delete('/api/services/:id', (req, res) => {
         const serviceId = parseInt(req.params.id);
         portfolioData.services = portfolioData.services.filter(service => service.id !== serviceId);
         saveData();
+        reloadData();
         res.json({ success: true, message: 'Service deleted successfully' });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error deleting service' });
@@ -350,6 +372,7 @@ app.put('/api/personal', (req, res) => {
     try {
         portfolioData.personalInfo = { ...portfolioData.personalInfo, ...req.body };
         saveData();
+        reloadData();
         res.json({ success: true, personalInfo: portfolioData.personalInfo });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error updating personal info' });

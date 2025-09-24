@@ -244,19 +244,19 @@ async function handleSkillSubmit(e) {
             });
         }
         
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        const result = await response.json();
+        console.log('API response:', result);
+        
+        if (result.success) {
+            showAlert('Skill saved successfully!', 'success');
+            hideSkillForm();
+            // Reload data and refresh UI
+            await loadData();
+            loadSkills();
+            updateOverview();
+        } else {
+            showAlert('Error saving skill: ' + result.message, 'error');
         }
-        
-        const updatedSkill = await response.json();
-        console.log('Skill saved:', updatedSkill);
-        
-        // Reload data and refresh UI
-        await loadData();
-        loadSkills();
-        hideSkillForm();
-        updateOverview();
-        showAlert('Skill saved successfully!', 'success');
         
         // Auto-refresh disabled - changes will be visible on next page load
     } catch (error) {
@@ -323,17 +323,16 @@ async function deleteSkill(id) {
                 method: 'DELETE'
             });
             
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            const result = await response.json();
+            
+            if (result.success) {
+                showAlert('Skill deleted successfully!', 'success');
+                await loadData();
+                loadSkills();
+                updateOverview();
+            } else {
+                showAlert('Error deleting skill: ' + result.message, 'error');
             }
-            
-            console.log('Skill deleted successfully');
-            
-            // Reload data and refresh UI
-            await loadData();
-            loadSkills();
-            updateOverview();
-            showAlert('Skill deleted successfully!', 'success');
         } catch (error) {
             console.error('Error deleting skill:', error);
             showAlert('Error deleting skill!', 'error');
@@ -388,19 +387,17 @@ async function handleProjectSubmit(e) {
             });
         }
         
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        const result = await response.json();
+        
+        if (result.success) {
+            showAlert('Project saved successfully!', 'success');
+            hideProjectForm();
+            await loadData();
+            loadProjects();
+            updateOverview();
+        } else {
+            showAlert('Error saving project: ' + result.message, 'error');
         }
-        
-        const updatedProject = await response.json();
-        console.log('Project saved:', updatedProject);
-        
-        // Reload data and refresh UI
-        await loadData();
-        loadProjects();
-        hideProjectForm();
-        updateOverview();
-        showAlert('Project saved successfully!', 'success');
         
         // Auto-refresh disabled - changes will be visible on next page load
     } catch (error) {
@@ -462,17 +459,16 @@ async function deleteProject(id) {
                 method: 'DELETE'
             });
             
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            const result = await response.json();
+            
+            if (result.success) {
+                showAlert('Project deleted successfully!', 'success');
+                await loadData();
+                loadProjects();
+                updateOverview();
+            } else {
+                showAlert('Error deleting project: ' + result.message, 'error');
             }
-            
-            console.log('Project deleted successfully');
-            
-            // Reload data and refresh UI
-            await loadData();
-            loadProjects();
-            updateOverview();
-            showAlert('Project deleted successfully!', 'success');
         } catch (error) {
             console.error('Error deleting project:', error);
             showAlert('Error deleting project!', 'error');
@@ -539,19 +535,17 @@ async function handleServiceSubmit(e) {
             });
         }
         
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        const result = await response.json();
+        
+        if (result.success) {
+            showAlert('Service saved successfully!', 'success');
+            hideServiceForm();
+            await loadData();
+            loadServices();
+            updateOverview();
+        } else {
+            showAlert('Error saving service: ' + result.message, 'error');
         }
-        
-        const updatedService = await response.json();
-        console.log('Service saved:', updatedService);
-        
-        // Reload data and refresh UI
-        await loadData();
-        loadServices();
-        hideServiceForm();
-        updateOverview();
-        showAlert('Service saved successfully!', 'success');
         
         // Auto-refresh disabled - changes will be visible on next page load
     } catch (error) {
@@ -639,17 +633,16 @@ async function deleteService(id) {
                 method: 'DELETE'
             });
             
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            const result = await response.json();
+            
+            if (result.success) {
+                showAlert('Service deleted successfully!', 'success');
+                await loadData();
+                loadServices();
+                updateOverview();
+            } else {
+                showAlert('Error deleting service: ' + result.message, 'error');
             }
-            
-            console.log('Service deleted successfully');
-            
-            // Reload data and refresh UI
-            await loadData();
-            loadServices();
-            updateOverview();
-            showAlert('Service deleted successfully!', 'success');
         } catch (error) {
             console.error('Error deleting service:', error);
             showAlert('Error deleting service!', 'error');
@@ -695,16 +688,16 @@ async function handlePersonalSubmit(e) {
             body: JSON.stringify(personalData)
         });
         
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        const result = await response.json();
+        
+        if (result.success) {
+            showAlert('Personal info saved successfully!', 'success');
+            await loadData();
+            loadPersonalInfo();
+            updateOverview();
+        } else {
+            showAlert('Error saving personal info: ' + result.message, 'error');
         }
-        
-        const updatedPersonal = await response.json();
-        console.log('Personal info saved:', updatedPersonal);
-        
-        // Reload data
-        await loadData();
-        showAlert('Personal information saved successfully!', 'success');
         
         // Auto-refresh disabled - changes will be visible on next page load
     } catch (error) {
@@ -746,64 +739,4 @@ console.log(`
 Happy managing! 🚀
 `);
 
-// ===== DEBUG FUNCTIONS =====
-async function testAPI() {
-    const debugOutput = document.getElementById('debug-output');
-    debugOutput.innerHTML = 'Testing API connection...';
-    
-    try {
-        const response = await fetch('/api/test');
-        const data = await response.json();
-        debugOutput.innerHTML = `
-            <strong>API Test Results:</strong><br>
-            File exists: ${data.fileExists}<br>
-            Skills: ${data.skillsCount}<br>
-            Projects: ${data.projectsCount}<br>
-            Services: ${data.servicesCount}<br>
-            Data file: ${data.dataFile}
-        `;
-    } catch (error) {
-        debugOutput.innerHTML = `<strong>API Test Error:</strong> ${error.message}`;
-    }
-}
-
-async function testData() {
-    const debugOutput = document.getElementById('debug-output');
-    debugOutput.innerHTML = 'Testing data loading...';
-    
-    try {
-        await loadData();
-        debugOutput.innerHTML = `
-            <strong>Data Test Results:</strong><br>
-            Portfolio data loaded: ${window.portfolioData ? 'Yes' : 'No'}<br>
-            Skills count: ${window.portfolioData?.skills?.length || 0}<br>
-            Projects count: ${window.portfolioData?.projects?.length || 0}<br>
-            Services count: ${window.portfolioData?.services?.length || 0}
-        `;
-    } catch (error) {
-        debugOutput.innerHTML = `<strong>Data Test Error:</strong> ${error.message}`;
-    }
-}
-
-async function manualRefresh() {
-    const debugOutput = document.getElementById('debug-output');
-    debugOutput.innerHTML = 'Manually refreshing portfolio data...';
-    
-    try {
-        await loadData();
-        loadSkills();
-        loadProjects();
-        loadServices();
-        updateOverview();
-        debugOutput.innerHTML = `
-            <strong>Manual Refresh Complete:</strong><br>
-            Portfolio data refreshed successfully<br>
-            Skills count: ${window.portfolioData?.skills?.length || 0}<br>
-            Projects count: ${window.portfolioData?.projects?.length || 0}<br>
-            Services count: ${window.portfolioData?.services?.length || 0}
-        `;
-    } catch (error) {
-        debugOutput.innerHTML = `<strong>Manual Refresh Error:</strong> ${error.message}`;
-    }
-}
 

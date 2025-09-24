@@ -541,6 +541,18 @@ body {
   position: relative;
 }
 
+.hero-title .highlight {
+  background: linear-gradient(135deg, #00ffff, #ff00ff, #ffff00, #00ffff);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: 
+    heroTitleGlow 3s ease-in-out infinite,
+    heroTitleShift 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
+}
+
 @keyframes heroTitleGlow {
   0%, 100% {
     filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
@@ -4850,8 +4862,8 @@ body.menu-open {
 /* ===== HERO ANIMATIONS ===== */
 .hero-title {
   animation: slideInFromTop 1s ease-out 0.2s both;
-  overflow: hidden;
-  white-space: nowrap;
+  overflow: visible;
+  white-space: normal;
 }
 
 .hero-title.typewriter {

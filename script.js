@@ -52,28 +52,24 @@ function addTouchInteractions() {
 function initializePortfolio() {
     console.log('Portfolio initializing...');
     
-    // Try to load data from backend first, fallback to static data
+    // Initialize all components first
+    initializeThemeToggle();
+    initializeNavigation();
+    initializeScrollEffects();
+    initializeEmailService();
+    initializeContactForm();
+    initializeFreelanceForm();
+    initializeWhatsAppWidget();
+    initializeScrollProgress();
+    initializeBackToTop();
+    initializeCopyEmail();
+    initializeMobileNavigation();
+    initializePinAuth();
+    
+    // Try to load data from backend
     loadPortfolioData().then((data) => {
-        console.log('Data loaded successfully:', data);
-        console.log('Services in loaded data:', data.services);
-        
-        // Initialize all components
-        initializeThemeToggle();
-        initializeNavigation();
-        initializeScrollEffects();
-        initializeEmailService();
-        initializeContactForm();
-        initializeFreelanceForm();
-        initializeWhatsAppWidget();
-        initializeScrollProgress();
-        initializeBackToTop();
-        initializeCopyEmail();
-        initializeMobileNavigation();
-        initializeAutoRefresh();
-        initializePinAuth();
+        console.log('Data loaded successfully from backend:', data);
         renderPortfolioContent();
-        
-        console.log('Portfolio initialized successfully!');
         
         // Add a subtle entrance animation to the main content
         document.body.style.opacity = '0';
@@ -84,23 +80,25 @@ function initializePortfolio() {
             document.body.style.opacity = '1';
             document.body.style.transform = 'translateY(0)';
         }, 100);
-    }).catch((error) => {
-        console.error('Error loading portfolio data:', error);
-        console.log('Backend not available, showing error message...');
         
-        // Show error message instead of falling back to static data
-        document.body.innerHTML = `
-            <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #1a1a2e; color: white; font-family: Arial, sans-serif;">
-                <div style="text-align: center; padding: 2rem;">
-                    <h1 style="color: #ff6b6b; margin-bottom: 1rem;">⚠️ Backend Connection Error</h1>
-                    <p style="margin-bottom: 1rem;">Unable to connect to the portfolio backend server.</p>
-                    <p style="margin-bottom: 2rem;">Please ensure the server is running and try again.</p>
-                    <button onclick="location.reload()" style="background: #4ecdc4; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px;">
-                        🔄 Retry
-                    </button>
-                </div>
-            </div>
-        `;
+        console.log('Portfolio initialized successfully!');
+    }).catch((error) => {
+        console.log('Backend not available, using static data:', error.message);
+        
+        // Use static data from data.js
+        if (window.portfolioData) {
+            console.log('Using static portfolio data:', window.portfolioData);
+            renderPortfolioContent();
+        } else {
+            console.log('No static data available, using hardcoded fallback');
+            // Ensure hero section shows name even without data
+            const heroTitle = document.querySelector('.hero-title');
+            if (heroTitle) {
+                heroTitle.innerHTML = `Hi, I'm <span class="highlight">Sai Vignesh S P</span>`;
+            }
+        }
+        
+        console.log('Portfolio initialized with static data!');
     });
 }
 
@@ -350,8 +348,11 @@ function initializeScrollEffects() {
 function renderPortfolioContent() {
     console.log('Rendering portfolio content...');
     
-    // Initialize typewriter effect
-    initializeTypewriterEffect();
+    // Update hero section with dynamic data
+    updateHeroSection();
+    
+    // Initialize typewriter effect (disabled for now)
+    // initializeTypewriterEffect();
     
     // Render skills section
     renderSkillsSection();
@@ -365,10 +366,56 @@ function renderPortfolioContent() {
     console.log('Portfolio content rendered successfully!');
 }
 
+// ===== HERO SECTION UPDATE =====
+function updateHeroSection() {
+    console.log('Updating hero section...');
+    console.log('Portfolio data:', window.portfolioData);
+    
+    const personalInfo = window.portfolioData?.personalInfo;
+    console.log('Personal info:', personalInfo);
+    
+    if (!personalInfo) {
+        console.log('No personal info found, using fallback');
+        // Use fallback data
+        const heroTitle = document.querySelector('.hero-title');
+        if (heroTitle) {
+            heroTitle.innerHTML = `Hi, I'm <span class="highlight">Sai Vignesh S P</span>`;
+        }
+        return;
+    }
+    
+    // Update hero title
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+        console.log('Updating hero title with:', personalInfo.name);
+        heroTitle.innerHTML = `Hi, I'm <span class="highlight">${personalInfo.name}</span>`;
+    } else {
+        console.log('Hero title element not found!');
+    }
+    
+    // Update hero subtitle
+    const heroSubtitle = document.querySelector('.hero-subtitle');
+    if (heroSubtitle) {
+        heroSubtitle.textContent = personalInfo.title || 'AI/ML Engineer & Software Developer';
+    }
+    
+    // Update hero description
+    const heroDescription = document.querySelector('.hero-description');
+    if (heroDescription) {
+        heroDescription.textContent = personalInfo.bio || 'Passionate about transforming innovative ideas into real-world tech solutions. Specializing in Artificial Intelligence, Machine Learning, and Full-Stack Development.';
+    }
+}
+
 // ===== TYPEWRITER EFFECT =====
 function initializeTypewriterEffect() {
     const heroTitle = document.querySelector('.hero-title');
     if (!heroTitle) return;
+    
+    // Get the name from the data
+    const name = window.portfolioData?.personalInfo?.name || 'Sai Vignesh S P';
+    
+    // First, ensure the name is visible immediately
+    heroTitle.innerHTML = `Hi, I'm <span class="highlight">${name}</span>`;
     
     // Store the original HTML content
     const originalHTML = heroTitle.innerHTML;
@@ -376,7 +423,7 @@ function initializeTypewriterEffect() {
     // Create a simple typewriter effect that preserves HTML
     const textParts = [
         "Hi, I'm ",
-        '<span class="highlight">Sai Vignesh S P</span>'
+        `<span class="highlight">${name}</span>`
     ];
     
     // Clear content and add typewriter class

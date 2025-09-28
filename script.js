@@ -825,11 +825,16 @@ function setupServiceInteractions() {
         modal.innerHTML = `
             <div class="service-modal-content">
                 <button class="service-modal-close">&times;</button>
-                <div class="modal-body"></div>
+                <div class="modal-body">
+                    <h3>Test Modal</h3>
+                    <p>This is a test modal to see if it works.</p>
+                </div>
             </div>
         `;
         document.body.appendChild(modal);
         console.log('Service modal created and added to DOM');
+        console.log('Modal element:', modal);
+        console.log('Modal parent:', modal.parentElement);
     } else {
         console.log('Service modal already exists');
     }
@@ -841,6 +846,9 @@ function setupServiceInteractions() {
         hexagon.addEventListener('click', (e) => {
             e.stopPropagation();
             console.log('Service hexagon clicked!');
+            
+            // Simple test - just show alert first
+            alert('Service clicked! Modal should appear now.');
             
             // Get service data from the hexagon
             const serviceTitle = hexagon.querySelector('h3').textContent;
@@ -862,6 +870,7 @@ function setupServiceInteractions() {
             
             // Show modal
             console.log('Showing modal...');
+            modal.style.display = 'flex';
             modal.classList.add('active');
             console.log('Modal classes:', modal.className);
             console.log('Modal element:', modal);

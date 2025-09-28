@@ -813,37 +813,70 @@ function renderServicesSection() {
 // ===== SERVICE INTERACTIONS =====
 function setupServiceInteractions() {
     const hexagons = document.querySelectorAll('.service-hexagon');
-    const overlay = document.createElement('div');
-    overlay.className = 'service-overlay';
-    document.body.appendChild(overlay);
+    
+    // Create modal if it doesn't exist
+    let modal = document.querySelector('.service-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.className = 'service-modal';
+        modal.innerHTML = `
+            <div class="service-modal-content">
+                <button class="service-modal-close">&times;</button>
+                <div class="modal-body"></div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+    
+    const modalContent = modal.querySelector('.modal-body');
+    const closeBtn = modal.querySelector('.service-modal-close');
     
     hexagons.forEach(hexagon => {
         hexagon.addEventListener('click', (e) => {
             e.stopPropagation();
             
-            // Close any open service
-            document.querySelectorAll('.service-hexagon').forEach(h => h.classList.remove('active'));
-            overlay.classList.remove('active');
+            // Get service data from the hexagon
+            const serviceTitle = hexagon.querySelector('h3').textContent;
+            const serviceDescription = hexagon.getAttribute('data-description') || 'Service description not available.';
+            const serviceFeatures = hexagon.getAttribute('data-features') ? 
+                hexagon.getAttribute('data-features').split(',') : 
+                ['Feature 1', 'Feature 2', 'Feature 3'];
             
-            // Open clicked service
-            hexagon.classList.add('active');
-            overlay.classList.add('active');
+            // Populate modal content
+            modalContent.innerHTML = `
+                <h3>${serviceTitle}</h3>
+                <p>${serviceDescription}</p>
+                <div class="service-features">
+                    ${serviceFeatures.map(feature => `<span class="feature-tag">${feature.trim()}</span>`).join('')}
+                </div>
+            `;
+            
+            // Show modal
+            modal.classList.add('active');
         });
     });
     
-    // Close on overlay click
-    overlay.addEventListener('click', () => {
-        document.querySelectorAll('.service-hexagon').forEach(h => h.classList.remove('active'));
-        overlay.classList.remove('active');
+    // Close modal functions
+    function closeModal() {
+        modal.classList.remove('active');
+    }
+    
+    // Close on close button click
+    closeBtn.addEventListener('click', closeModal);
+    
+    // Close on modal background click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
     });
     
     // Close on escape key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            document.querySelectorAll('.service-hexagon').forEach(h => h.classList.remove('active'));
-            overlay.classList.remove('active');
+            closeModal();
         }
-        });
+    });
 }
 
 // ===== ANIMATIONS =====

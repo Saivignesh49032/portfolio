@@ -868,34 +868,90 @@ function setupServiceInteractions() {
             
             console.log('Service data:', { serviceTitle, serviceDescription, serviceFeatures });
             
-            // Populate modal content
-            modalContent.innerHTML = `
-                <h3>${serviceTitle}</h3>
-                <p>${serviceDescription}</p>
-                <div class="service-features">
-                    ${serviceFeatures.map(feature => `<span class="feature-tag">${feature.trim()}</span>`).join('')}
+            // Create a completely new modal every time - bulletproof approach
+            const existingModal = document.querySelector('.service-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            const newModal = document.createElement('div');
+            newModal.className = 'service-modal';
+            newModal.style.cssText = `
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                background: rgba(0, 0, 0, 0.8) !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                z-index: 999999 !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+            `;
+            
+            newModal.innerHTML = `
+                <div style="
+                    background: white !important;
+                    border: 3px solid red !important;
+                    border-radius: 10px !important;
+                    padding: 30px !important;
+                    max-width: 500px !important;
+                    max-height: 80vh !important;
+                    overflow-y: auto !important;
+                    position: relative !important;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+                ">
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        position: absolute !important;
+                        top: 10px !important;
+                        right: 10px !important;
+                        background: red !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 50% !important;
+                        width: 30px !important;
+                        height: 30px !important;
+                        cursor: pointer !important;
+                        font-size: 18px !important;
+                        font-weight: bold !important;
+                    ">&times;</button>
+                    <h3 style="color: #333 !important; margin-bottom: 15px !important; font-size: 24px !important;">${serviceTitle}</h3>
+                    <p style="color: #666 !important; margin-bottom: 20px !important; line-height: 1.6 !important;">${serviceDescription}</p>
+                    <div style="display: flex !important; flex-wrap: wrap !important; gap: 8px !important;">
+                        ${serviceFeatures.map(feature => `
+                            <span style="
+                                background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
+                                color: white !important;
+                                padding: 5px 12px !important;
+                                border-radius: 20px !important;
+                                font-size: 12px !important;
+                                font-weight: 500 !important;
+                            ">${feature.trim()}</span>
+                        `).join('')}
+                    </div>
                 </div>
             `;
             
-            // Show modal - force it to be visible
-            console.log('Showing modal...');
-            modal.style.display = 'flex';
-            modal.style.opacity = '1';
-            modal.style.visibility = 'visible';
-            modal.style.zIndex = '100000';
-            modal.classList.add('active');
+            document.body.appendChild(newModal);
+            console.log('New modal created and added to DOM');
             
-            // Make sure modal content is visible
-            const modalContentEl = modal.querySelector('.service-modal-content');
-            if (modalContentEl) {
-                modalContentEl.style.display = 'block';
-                modalContentEl.style.background = '#ffffff';
-                modalContentEl.style.border = '3px solid red';
-                modalContentEl.style.padding = '20px';
-            }
+            // Close on background click
+            newModal.addEventListener('click', (e) => {
+                if (e.target === newModal) {
+                    newModal.remove();
+                }
+            });
             
-            console.log('Modal classes:', modal.className);
-            console.log('Modal display style:', window.getComputedStyle(modal).display);
+            // Close on escape key
+            const escapeHandler = (e) => {
+                if (e.key === 'Escape') {
+                    newModal.remove();
+                    document.removeEventListener('keydown', escapeHandler);
+                }
+            };
+            document.addEventListener('keydown', escapeHandler);
         });
     });
     

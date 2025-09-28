@@ -2,10 +2,10 @@
   "name": "portfolio-website",
   "version": "1.0.0",
   "description": "Personal portfolio website with admin panel",
-  "main": "index.html",
+  "main": "server-simple.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+    "start": "node server-simple.js",
+    "dev": "nodemon server-simple.js",
     "build": "echo 'No build step required for static files'",
     "vercel-build": "echo 'Vercel build completed'"
   },

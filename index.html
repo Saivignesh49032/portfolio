@@ -236,63 +236,97 @@
                 <p class="section-subtitle">Professional freelance development services to bring your ideas to life</p>
             </div>
             
-            <div class="services-grid">
-                <!-- Service 1: Machine Learning Solutions -->
-                <div class="service-card featured" onclick="showServiceModal('Machine Learning Solutions', 'Custom ML models and AI solutions tailored to your business needs. From data preprocessing to model deployment, I help you build intelligent systems that drive real business value.', ['Custom ML Models', 'Data Preprocessing', 'Model Training', 'Deployment', 'Monitoring', 'Model Optimization'])">
-                    <div class="service-icon">
-                        <i class="fas fa-brain"></i>
+            <!-- Unique Services Layout -->
+            <div class="services-showcase">
+                <!-- Main Featured Service - Large Card -->
+                <div class="hero-service" onclick="showServiceModal('Machine Learning Solutions', 'Custom ML models and AI solutions tailored to your business needs. From data preprocessing to model deployment, I help you build intelligent systems that drive real business value.', ['Custom ML Models', 'Data Preprocessing', 'Model Training', 'Deployment', 'Monitoring', 'Model Optimization'])">
+                    <div class="hero-service-bg">
+                        <div class="floating-elements">
+                            <div class="floating-element element-1"></div>
+                            <div class="floating-element element-2"></div>
+                            <div class="floating-element element-3"></div>
+                        </div>
                     </div>
-                    <h3>Machine Learning Solutions</h3>
-                    <p>Custom ML models and AI solutions tailored to your business needs.</p>
-                    <div class="featured-badge">⭐ Featured</div>
+                    <div class="hero-service-content">
+                        <div class="service-icon-large">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="hero-service-text">
+                            <h3>Machine Learning Solutions</h3>
+                            <p>Custom ML models and AI solutions tailored to your business needs. Build intelligent systems that drive real business value.</p>
+                            <div class="service-tags">
+                                <span class="tag">AI/ML</span>
+                                <span class="tag">Deep Learning</span>
+                                <span class="tag">Data Science</span>
+                            </div>
+                        </div>
+                        <div class="featured-badge-large">⭐ Featured</div>
+                    </div>
                 </div>
 
-                <!-- Service 2: Web Development -->
-                <div class="service-card featured" onclick="showServiceModal('Web Development', 'Full-stack web applications with modern technologies. Responsive, fast, and user-friendly interfaces that provide exceptional user experiences.', ['Frontend Development', 'Backend Development', 'Database Design', 'API Integration', 'Performance Optimization', 'Cloud Deployment'])">
-                    <div class="service-icon">
-                        <i class="fas fa-code"></i>
+                <!-- Services Grid - Unique Layout -->
+                <div class="services-mosaic">
+                    <!-- Row 1 -->
+                    <div class="service-row">
+                        <div class="service-item web-dev" onclick="showServiceModal('Web Development', 'Full-stack web applications with modern technologies. Responsive, fast, and user-friendly interfaces that provide exceptional user experiences.', ['Frontend Development', 'Backend Development', 'Database Design', 'API Integration', 'Performance Optimization', 'Cloud Deployment'])">
+                            <div class="service-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h4>Web Development</h4>
+                            <p>Full-stack applications</p>
+                        </div>
+                        
+                        <div class="service-item data-science" onclick="showServiceModal('Data Science Consulting', 'Transform your data into actionable insights. Statistical analysis, visualization, and business intelligence solutions that drive informed decision-making.', ['Data Analysis', 'Statistical Modeling', 'Data Visualization', 'Business Intelligence', 'Predictive Analytics', 'Data Pipeline Design'])">
+                            <div class="service-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4>Data Science</h4>
+                            <p>Data insights & analytics</p>
+                        </div>
                     </div>
-                    <h3>Web Development</h3>
-                    <p>Full-stack web applications with modern technologies.</p>
-                    <div class="featured-badge">⭐ Featured</div>
+
+                    <!-- Row 2 -->
+                    <div class="service-row">
+                        <div class="service-item ai-chatbots" onclick="showServiceModal('AI Chatbot Development', 'Intelligent conversational AI solutions for customer service, support, and engagement. Powered by advanced NLP and machine learning technologies.', ['NLP Processing', 'Intent Recognition', 'Response Generation', 'Multi-language Support', 'Integration', 'Conversation Design'])">
+                            <div class="service-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h4>AI Chatbots</h4>
+                            <p>Conversational AI</p>
+                        </div>
+                        
+                        <div class="service-item computer-vision" onclick="showServiceModal('Computer Vision Solutions', 'Advanced image and video processing using deep learning. Object detection, recognition, and analysis systems for real-world applications.', ['Object Detection', 'Image Classification', 'Face Recognition', 'Video Analysis', 'Real-time Processing', 'Custom Model Training'])">
+                            <div class="service-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h4>Computer Vision</h4>
+                            <p>Image & video processing</p>
+                        </div>
+                        
+                        <div class="service-item mobile-apps" onclick="showServiceModal('Mobile App Development', 'Native and cross-platform mobile applications for iOS and Android. User-centric design with seamless performance and intuitive interfaces.', ['React Native', 'Flutter', 'iOS Development', 'Android Development', 'UI/UX Design', 'App Store Deployment'])">
+                            <div class="service-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h4>Mobile Apps</h4>
+                            <p>iOS & Android apps</p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Service 3: Data Science -->
-                <div class="service-card" onclick="showServiceModal('Data Science Consulting', 'Transform your data into actionable insights. Statistical analysis, visualization, and business intelligence solutions that drive informed decision-making.', ['Data Analysis', 'Statistical Modeling', 'Data Visualization', 'Business Intelligence', 'Predictive Analytics', 'Data Pipeline Design'])">
-                    <div class="service-icon">
-                        <i class="fas fa-chart-line"></i>
+                <!-- Floating Action Cards -->
+                <div class="floating-cards">
+                    <div class="floating-card card-1">
+                        <i class="fas fa-rocket"></i>
+                        <span>Fast Delivery</span>
                     </div>
-                    <h3>Data Science</h3>
-                    <p>Transform your data into actionable insights.</p>
-                </div>
-
-                <!-- Service 4: AI Chatbots -->
-                <div class="service-card featured" onclick="showServiceModal('AI Chatbot Development', 'Intelligent conversational AI solutions for customer service, support, and engagement. Powered by advanced NLP and machine learning technologies.', ['NLP Processing', 'Intent Recognition', 'Response Generation', 'Multi-language Support', 'Integration', 'Conversation Design'])">
-                    <div class="service-icon">
-                        <i class="fas fa-robot"></i>
+                    <div class="floating-card card-2">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Secure & Reliable</span>
                     </div>
-                    <h3>AI Chatbots</h3>
-                    <p>Intelligent conversational AI solutions for customer service.</p>
-                    <div class="featured-badge">⭐ Featured</div>
-                </div>
-
-                <!-- Service 5: Computer Vision -->
-                <div class="service-card featured" onclick="showServiceModal('Computer Vision Solutions', 'Advanced image and video processing using deep learning. Object detection, recognition, and analysis systems for real-world applications.', ['Object Detection', 'Image Classification', 'Face Recognition', 'Video Analysis', 'Real-time Processing', 'Custom Model Training'])">
-                    <div class="service-icon">
-                        <i class="fas fa-eye"></i>
+                    <div class="floating-card card-3">
+                        <i class="fas fa-headset"></i>
+                        <span>24/7 Support</span>
                     </div>
-                    <h3>Computer Vision</h3>
-                    <p>Advanced image and video processing using deep learning.</p>
-                    <div class="featured-badge">⭐ Featured</div>
-                </div>
-
-                <!-- Service 6: Mobile App Development -->
-                <div class="service-card" onclick="showServiceModal('Mobile App Development', 'Native and cross-platform mobile applications for iOS and Android. User-centric design with seamless performance and intuitive interfaces.', ['React Native', 'Flutter', 'iOS Development', 'Android Development', 'UI/UX Design', 'App Store Deployment'])">
-                    <div class="service-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Mobile Apps</h3>
-                    <p>Native and cross-platform mobile applications.</p>
                 </div>
             </div>
             

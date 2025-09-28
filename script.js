@@ -15,6 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize portfolio directly
     initializePortfolio();
+    
+    // Test service interactions immediately
+    console.log('Testing service interactions...');
+    setTimeout(() => {
+        setupServiceInteractions();
+    }, 1000);
 });
 
 // ===== TOUCH INTERACTIONS =====
@@ -745,6 +751,7 @@ function renderServicesSection() {
     
     // Check if services are already hardcoded in HTML
     const existingServices = servicesGrid.querySelectorAll('.service-hexagon');
+    console.log('Checking for existing services...', existingServices.length);
     if (existingServices.length > 0) {
         console.log('Services already exist in HTML, setting up interactions');
         setupServiceInteractions();
@@ -812,9 +819,14 @@ function renderServicesSection() {
 
 // ===== SERVICE INTERACTIONS =====
 function setupServiceInteractions() {
-    console.log('Setting up service interactions...');
+    console.log('=== SETTING UP SERVICE INTERACTIONS ===');
     const hexagons = document.querySelectorAll('.service-hexagon');
     console.log('Found hexagons:', hexagons.length);
+    
+    if (hexagons.length === 0) {
+        console.error('NO HEXAGONS FOUND! Check HTML structure.');
+        return;
+    }
     
     // Create modal if it doesn't exist
     let modal = document.querySelector('.service-modal');

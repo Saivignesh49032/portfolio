@@ -33,6 +33,9 @@ app.use(express.static('.', {
     }
 }));
 
+// Serve static files from public folder
+app.use(express.static('public'));
+
 // API Routes
 
 // Get all data
@@ -225,6 +228,10 @@ app.get('/admin-new.js', (req, res) => {
 
 app.get('/data.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'data.js'));
+});
+
+app.get('/profilepic.jpg', (req, res) => {
+    res.sendFile(path.join(__dirname, 'profilepic.jpg'));
 });
 
 // Error handling middleware

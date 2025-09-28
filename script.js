@@ -66,6 +66,7 @@ function initializePortfolio() {
     initializeCopyEmail();
     initializeMobileNavigation();
     initializePinAuth();
+    initializeTimelineAnimations();
     
     // Try to load data from backend
     loadPortfolioData().then((data) => {
@@ -812,107 +813,25 @@ function renderServicesSection() {
     });
 }
 
-// ===== SERVICE MODAL =====
-function showServiceModal(title, description, features) {
-    // Remove any existing modal
-    const existingModal = document.querySelector('.service-modal');
-    if (existingModal) {
-        existingModal.remove();
-    }
+// ===== TIMELINE ANIMATIONS =====
+function initializeTimelineAnimations() {
+    const timelineItems = document.querySelectorAll('.timeline-item');
     
-    // Create modal
-    const modal = document.createElement('div');
-    modal.className = 'service-modal';
-    modal.style.cssText = `
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        background: rgba(0, 0, 0, 0.8) !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        z-index: 999999 !important;
-    `;
-    
-    modal.innerHTML = `
-        <div style="
-            background: white !important;
-            border-radius: 12px !important;
-            padding: 2rem !important;
-            max-width: 500px !important;
-            max-height: 80vh !important;
-            overflow-y: auto !important;
-            position: relative !important;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;
-            margin: 1rem !important;
-        ">
-            <button onclick="this.parentElement.parentElement.remove()" style="
-                position: absolute !important;
-                top: 1rem !important;
-                right: 1rem !important;
-                background: #ef4444 !important;
-                color: white !important;
-                border: none !important;
-                border-radius: 50% !important;
-                width: 32px !important;
-                height: 32px !important;
-                cursor: pointer !important;
-                font-size: 18px !important;
-                font-weight: bold !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-            ">&times;</button>
-            <h3 style="
-                color: #1f2937 !important; 
-                margin-bottom: 1rem !important; 
-                font-size: 1.5rem !important;
-                font-weight: 600 !important;
-                margin-right: 2rem !important;
-            ">${title}</h3>
-            <p style="
-                color: #6b7280 !important; 
-                margin-bottom: 1.5rem !important; 
-                line-height: 1.6 !important;
-            ">${description}</p>
-            <div style="
-                display: flex !important; 
-                flex-wrap: wrap !important; 
-                gap: 0.5rem !important;
-            ">
-                ${features.map(feature => `
-                    <span style="
-                        background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
-                        color: white !important;
-                        padding: 0.5rem 1rem !important;
-                        border-radius: 20px !important;
-                        font-size: 0.875rem !important;
-                        font-weight: 500 !important;
-                    ">${feature}</span>
-                `).join('')}
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    
-    // Close on background click
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.remove();
-        }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateX(0)';
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
     });
     
-    // Close on escape key
-    const escapeHandler = (e) => {
-        if (e.key === 'Escape') {
-            modal.remove();
-            document.removeEventListener('keydown', escapeHandler);
-        }
-    };
-    document.addEventListener('keydown', escapeHandler);
+    timelineItems.forEach(item => {
+        observer.observe(item);
+    });
 }
 
 // ===== ANIMATIONS =====

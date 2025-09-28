@@ -236,96 +236,229 @@
                 <p class="section-subtitle">Professional freelance development services to bring your ideas to life</p>
             </div>
             
-            <!-- Unique Services Layout -->
-            <div class="services-showcase">
-                <!-- Main Featured Service - Large Card -->
-                <div class="hero-service" onclick="showServiceModal('Machine Learning Solutions', 'Custom ML models and AI solutions tailored to your business needs. From data preprocessing to model deployment, I help you build intelligent systems that drive real business value.', ['Custom ML Models', 'Data Preprocessing', 'Model Training', 'Deployment', 'Monitoring', 'Model Optimization'])">
-                    <div class="hero-service-bg">
-                        <div class="floating-elements">
-                            <div class="floating-element element-1"></div>
-                            <div class="floating-element element-2"></div>
-                            <div class="floating-element element-3"></div>
-                        </div>
-                    </div>
-                    <div class="hero-service-content">
-                        <div class="service-icon-large">
+            <!-- Interactive Services Timeline -->
+            <div class="services-timeline">
+                <!-- Service 1: Machine Learning -->
+                <div class="timeline-item" data-service="ml">
+                    <div class="timeline-marker">
+                        <div class="marker-icon">
                             <i class="fas fa-brain"></i>
                         </div>
-                        <div class="hero-service-text">
+                        <div class="marker-pulse"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="service-header">
                             <h3>Machine Learning Solutions</h3>
-                            <p>Custom ML models and AI solutions tailored to your business needs. Build intelligent systems that drive real business value.</p>
-                            <div class="service-tags">
-                                <span class="tag">AI/ML</span>
-                                <span class="tag">Deep Learning</span>
-                                <span class="tag">Data Science</span>
-                            </div>
+                            <div class="service-badge featured">⭐ Featured</div>
                         </div>
-                        <div class="featured-badge-large">⭐ Featured</div>
-                    </div>
-                </div>
-
-                <!-- Services Grid - Unique Layout -->
-                <div class="services-mosaic">
-                    <!-- Row 1 -->
-                    <div class="service-row">
-                        <div class="service-item web-dev" onclick="showServiceModal('Web Development', 'Full-stack web applications with modern technologies. Responsive, fast, and user-friendly interfaces that provide exceptional user experiences.', ['Frontend Development', 'Backend Development', 'Database Design', 'API Integration', 'Performance Optimization', 'Cloud Deployment'])">
-                            <div class="service-icon">
-                                <i class="fas fa-code"></i>
+                        <p class="service-description">Custom ML models and AI solutions tailored to your business needs. From data preprocessing to model deployment, I help you build intelligent systems that drive real business value.</p>
+                        <div class="service-details">
+                            <div class="features-grid">
+                                <div class="feature-item">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Custom ML Models</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-database"></i>
+                                    <span>Data Preprocessing</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    <span>Model Training</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-rocket"></i>
+                                    <span>Deployment</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Monitoring</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-tools"></i>
+                                    <span>Model Optimization</span>
+                                </div>
                             </div>
-                            <h4>Web Development</h4>
-                            <p>Full-stack applications</p>
-                        </div>
-                        
-                        <div class="service-item data-science" onclick="showServiceModal('Data Science Consulting', 'Transform your data into actionable insights. Statistical analysis, visualization, and business intelligence solutions that drive informed decision-making.', ['Data Analysis', 'Statistical Modeling', 'Data Visualization', 'Business Intelligence', 'Predictive Analytics', 'Data Pipeline Design'])">
-                            <div class="service-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <h4>Data Science</h4>
-                            <p>Data insights & analytics</p>
-                        </div>
-                    </div>
-
-                    <!-- Row 2 -->
-                    <div class="service-row">
-                        <div class="service-item ai-chatbots" onclick="showServiceModal('AI Chatbot Development', 'Intelligent conversational AI solutions for customer service, support, and engagement. Powered by advanced NLP and machine learning technologies.', ['NLP Processing', 'Intent Recognition', 'Response Generation', 'Multi-language Support', 'Integration', 'Conversation Design'])">
-                            <div class="service-icon">
-                                <i class="fas fa-robot"></i>
-                            </div>
-                            <h4>AI Chatbots</h4>
-                            <p>Conversational AI</p>
-                        </div>
-                        
-                        <div class="service-item computer-vision" onclick="showServiceModal('Computer Vision Solutions', 'Advanced image and video processing using deep learning. Object detection, recognition, and analysis systems for real-world applications.', ['Object Detection', 'Image Classification', 'Face Recognition', 'Video Analysis', 'Real-time Processing', 'Custom Model Training'])">
-                            <div class="service-icon">
-                                <i class="fas fa-eye"></i>
-                            </div>
-                            <h4>Computer Vision</h4>
-                            <p>Image & video processing</p>
-                        </div>
-                        
-                        <div class="service-item mobile-apps" onclick="showServiceModal('Mobile App Development', 'Native and cross-platform mobile applications for iOS and Android. User-centric design with seamless performance and intuitive interfaces.', ['React Native', 'Flutter', 'iOS Development', 'Android Development', 'UI/UX Design', 'App Store Deployment'])">
-                            <div class="service-icon">
-                                <i class="fas fa-mobile-alt"></i>
-                            </div>
-                            <h4>Mobile Apps</h4>
-                            <p>iOS & Android apps</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Floating Action Cards -->
-                <div class="floating-cards">
-                    <div class="floating-card card-1">
-                        <i class="fas fa-rocket"></i>
-                        <span>Fast Delivery</span>
+                <!-- Service 2: Web Development -->
+                <div class="timeline-item" data-service="web">
+                    <div class="timeline-marker">
+                        <div class="marker-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="marker-pulse"></div>
                     </div>
-                    <div class="floating-card card-2">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Secure & Reliable</span>
+                    <div class="timeline-content">
+                        <div class="service-header">
+                            <h3>Web Development</h3>
+                            <div class="service-badge featured">⭐ Featured</div>
+                        </div>
+                        <p class="service-description">Full-stack web applications with modern technologies. Responsive, fast, and user-friendly interfaces that provide exceptional user experiences.</p>
+                        <div class="service-details">
+                            <div class="features-grid">
+                                <div class="feature-item">
+                                    <i class="fas fa-paint-brush"></i>
+                                    <span>Frontend Development</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-server"></i>
+                                    <span>Backend Development</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-database"></i>
+                                    <span>Database Design</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-plug"></i>
+                                    <span>API Integration</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>Performance Optimization</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-cloud"></i>
+                                    <span>Cloud Deployment</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="floating-card card-3">
-                        <i class="fas fa-headset"></i>
-                        <span>24/7 Support</span>
+                </div>
+
+                <!-- Service 3: Data Science -->
+                <div class="timeline-item" data-service="data">
+                    <div class="timeline-marker">
+                        <div class="marker-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="marker-pulse"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="service-header">
+                            <h3>Data Science Consulting</h3>
+                        </div>
+                        <p class="service-description">Transform your data into actionable insights. Statistical analysis, visualization, and business intelligence solutions that drive informed decision-making.</p>
+                        <div class="service-details">
+                            <div class="features-grid">
+                                <div class="feature-item">
+                                    <i class="fas fa-search"></i>
+                                    <span>Data Analysis</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-calculator"></i>
+                                    <span>Statistical Modeling</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>Data Visualization</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <span>Business Intelligence</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-crystal-ball"></i>
+                                    <span>Predictive Analytics</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-project-diagram"></i>
+                                    <span>Data Pipeline Design</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 4: AI Chatbots -->
+                <div class="timeline-item" data-service="ai">
+                    <div class="timeline-marker">
+                        <div class="marker-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="marker-pulse"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="service-header">
+                            <h3>AI Chatbot Development</h3>
+                            <div class="service-badge featured">⭐ Featured</div>
+                        </div>
+                        <p class="service-description">Intelligent conversational AI solutions for customer service, support, and engagement. Powered by advanced NLP and machine learning technologies.</p>
+                        <div class="service-details">
+                            <div class="features-grid">
+                                <div class="feature-item">
+                                    <i class="fas fa-language"></i>
+                                    <span>NLP Processing</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-brain"></i>
+                                    <span>Intent Recognition</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-comments"></i>
+                                    <span>Response Generation</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-globe"></i>
+                                    <span>Multi-language Support</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-link"></i>
+                                    <span>Integration</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-comments"></i>
+                                    <span>Conversation Design</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 5: Computer Vision -->
+                <div class="timeline-item" data-service="vision">
+                    <div class="timeline-marker">
+                        <div class="marker-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="marker-pulse"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="service-header">
+                            <h3>Computer Vision Solutions</h3>
+                            <div class="service-badge featured">⭐ Featured</div>
+                        </div>
+                        <p class="service-description">Advanced image and video processing using deep learning. Object detection, recognition, and analysis systems for real-world applications.</p>
+                        <div class="service-details">
+                            <div class="features-grid">
+                                <div class="feature-item">
+                                    <i class="fas fa-search"></i>
+                                    <span>Object Detection</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-tags"></i>
+                                    <span>Image Classification</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Face Recognition</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-video"></i>
+                                    <span>Video Analysis</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Real-time Processing</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    <span>Custom Model Training</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

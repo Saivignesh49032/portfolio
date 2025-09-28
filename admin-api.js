@@ -2,10 +2,13 @@
 class AdminAPI {
     constructor() {
         this.baseURL = window.location.origin;
+        console.log('AdminAPI baseURL:', this.baseURL);
     }
 
     async request(endpoint, options = {}) {
         const url = `${this.baseURL}/api${endpoint}`;
+        console.log(`Making API request to: ${url}`);
+        
         const config = {
             headers: {
                 'Content-Type': 'application/json',
@@ -15,8 +18,13 @@ class AdminAPI {
         };
 
         try {
+            console.log('Request config:', config);
             const response = await fetch(url, config);
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
+            
             const data = await response.json();
+            console.log('Response data:', data);
             
             if (!response.ok) {
                 throw new Error(data.error || `HTTP error! status: ${response.status}`);
@@ -25,6 +33,7 @@ class AdminAPI {
             return data;
         } catch (error) {
             console.error(`API Error (${endpoint}):`, error);
+            console.error('Error details:', error.message);
             throw error;
         }
     }
@@ -103,5 +112,4 @@ class AdminAPI {
     }
 }
 
-// Make API available globally
-window.adminAPI = new AdminAPI();
+// AdminAPI class is ready for initialization

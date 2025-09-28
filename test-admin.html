@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin API Test</title>
+</head>
+<body>
+    <h1>Admin API Test</h1>
+    <div id="results"></div>
+    
+    <script src="admin-api.js"></script>
+    <script>
+        async function testAPI() {
+            const results = document.getElementById('results');
+            
+            try {
+                console.log('Testing AdminAPI...');
+                console.log('AdminAPI class available:', typeof AdminAPI);
+                
+                // Initialize AdminAPI
+                const adminAPI = new AdminAPI();
+                console.log('AdminAPI initialized:', adminAPI);
+                
+                // Test health check
+                console.log('Testing health check...');
+                const health = await adminAPI.healthCheck();
+                console.log('Health check result:', health);
+                results.innerHTML += '<p>✅ Health check: ' + JSON.stringify(health) + '</p>';
+                
+                // Test skills
+                console.log('Testing skills...');
+                const skills = await adminAPI.getSkills();
+                console.log('Skills result:', skills);
+                results.innerHTML += '<p>✅ Skills: ' + skills.length + ' items loaded</p>';
+                
+                // Test projects
+                console.log('Testing projects...');
+                const projects = await adminAPI.getProjects();
+                console.log('Projects result:', projects);
+                results.innerHTML += '<p>✅ Projects: ' + projects.length + ' items loaded</p>';
+                
+                // Test personal info
+                console.log('Testing personal info...');
+                const personal = await adminAPI.getPersonalInfo();
+                console.log('Personal info result:', personal);
+                results.innerHTML += '<p>✅ Personal Info: ' + JSON.stringify(personal).substring(0, 100) + '...</p>';
+                
+                results.innerHTML += '<p><strong>🎉 All tests passed!</strong></p>';
+                
+            } catch (error) {
+                console.error('Test failed:', error);
+                results.innerHTML += '<p>❌ Error: ' + error.message + '</p>';
+            }
+        }
+        
+        // Run test when page loads
+        testAPI();
+    </script>
+</body>
+</html>

@@ -558,8 +558,16 @@
     <script src="admin-new.js"></script>
     <script>
         // Initialize AdminAPI
-        window.adminAPI = new AdminAPI();
-        console.log('AdminAPI initialized');
+        console.log('Initializing AdminAPI...');
+        console.log('AdminAPI class available:', typeof AdminAPI);
+        
+        try {
+            window.adminAPI = new AdminAPI();
+            console.log('AdminAPI initialized successfully');
+            console.log('AdminAPI instance:', window.adminAPI);
+        } catch (error) {
+            console.error('Failed to initialize AdminAPI:', error);
+        }
     </script>
 </body>
 </html>

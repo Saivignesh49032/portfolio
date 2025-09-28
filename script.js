@@ -864,6 +864,9 @@ function setupServiceInteractions() {
             console.log('Showing modal...');
             modal.classList.add('active');
             console.log('Modal classes:', modal.className);
+            console.log('Modal element:', modal);
+            console.log('Modal display style:', window.getComputedStyle(modal).display);
+            console.log('Modal visibility:', window.getComputedStyle(modal).visibility);
         });
     });
     

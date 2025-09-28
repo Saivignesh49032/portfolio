@@ -33,16 +33,24 @@ function checkAuthentication() {
 
 async function showAdminPanel() {
     try {
+        console.log('Testing API connection...');
+        console.log('AdminAPI available:', !!window.adminAPI);
+        
+        if (!window.adminAPI) {
+            throw new Error('AdminAPI not initialized');
+        }
+        
         // Test API connection
-        await window.adminAPI.healthCheck();
-        console.log('API connection successful');
+        const healthResponse = await window.adminAPI.healthCheck();
+        console.log('API connection successful:', healthResponse);
         
         // Load data and update overview
         await loadData();
         updateOverview();
     } catch (error) {
         console.error('Failed to connect to API:', error);
-        showError('Failed to connect to server. Please check if the server is running.');
+        console.error('Error details:', error.message);
+        showError(`Failed to connect to server: ${error.message}. Please check if the server is running.`);
     }
 }
 
@@ -55,13 +63,24 @@ function logout() {
 async function loadData() {
     try {
         console.log('Loading data from API...');
+        console.log('AdminAPI available:', !!window.adminAPI);
+        
+        if (!window.adminAPI) {
+            throw new Error('AdminAPI not initialized');
+        }
         
         // Load all data in parallel
-        const [skillsData, projectsData, personalData] = await Promise.all([
-            window.adminAPI.getSkills(),
-            window.adminAPI.getProjects(),
-            window.adminAPI.getPersonalInfo()
-        ]);
+        console.log('Fetching skills...');
+        const skillsData = await window.adminAPI.getSkills();
+        console.log('Skills loaded:', skillsData);
+        
+        console.log('Fetching projects...');
+        const projectsData = await window.adminAPI.getProjects();
+        console.log('Projects loaded:', projectsData);
+        
+        console.log('Fetching personal info...');
+        const personalData = await window.adminAPI.getPersonalInfo();
+        console.log('Personal info loaded:', personalData);
         
         skills = skillsData;
         projects = projectsData;

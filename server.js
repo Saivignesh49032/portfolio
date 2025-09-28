@@ -36,7 +36,7 @@ const defaultData = {
         email: "saivignesh1857@gmail.com",
         phone: "+91 7899522804",
         location: "Chennai, India",
-        resume: "resume.pdf"
+        resume: "https://github.com/Saivignesh49032/portfolio/raw/main/Sai_Vignesh_Resume%20%283%29.pdf"
     },
     
     skills: [

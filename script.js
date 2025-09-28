@@ -1849,3 +1849,276 @@ function initializeAutoRefresh() {
 document.addEventListener('DOMContentLoaded', function() {
     initializePinAuth();
 });
+
+// ===== INTERACTIVE FEATURES =====
+
+// Custom Cursor
+function initializeCustomCursor() {
+    const cursor = document.getElementById('custom-cursor');
+    const cursorDot = cursor?.querySelector('.cursor-dot');
+    const cursorOutline = cursor?.querySelector('.cursor-outline');
+    
+    if (!cursor || !cursorDot || !cursorOutline) return;
+    
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+    
+    function animateCursor() {
+        cursorX += (mouseX - cursorX) * 0.1;
+        cursorY += (mouseY - cursorY) * 0.1;
+        
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top = cursorY + 'px';
+        
+        requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    
+    // Cursor interactions
+    const interactiveElements = document.querySelectorAll('a, button, .interactive-card, .interactive-btn, .interactive-text');
+    
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            cursorDot.style.transform = 'translate(-50%, -50%) scale(0.5)';
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+    });
+}
+
+// Mouse Trail
+function initializeMouseTrail() {
+    const trail = document.getElementById('mouse-trail');
+    if (!trail) return;
+    
+    let mouseX = 0, mouseY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        const dot = document.createElement('div');
+        dot.className = 'trail-dot';
+        dot.style.left = mouseX + 'px';
+        dot.style.top = mouseY + 'px';
+        
+        trail.appendChild(dot);
+        
+        // Remove old dots
+        const dots = trail.querySelectorAll('.trail-dot');
+        if (dots.length > 20) {
+            dots[0].remove();
+        }
+    });
+}
+
+// Magnetic Effect
+function initializeMagneticEffect() {
+    const magneticElements = document.querySelectorAll('.interactive-btn, .interactive-card');
+    
+    magneticElements.forEach(el => {
+        el.addEventListener('mousemove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            el.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            el.style.transform = '';
+        });
+    });
+}
+
+// 3D Tilt Effect
+function initializeTiltEffect() {
+    const tiltElements = document.querySelectorAll('.interactive-card');
+    
+    tiltElements.forEach(el => {
+        el.addEventListener('mousemove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+            
+            el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            el.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+        });
+    });
+}
+
+// Text Effects
+function initializeTextEffects() {
+    const textElements = document.querySelectorAll('.interactive-text');
+    
+    textElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            el.style.textShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            el.style.textShadow = '';
+        });
+    });
+}
+
+// Ripple Effect
+function initializeRippleEffect() {
+    const rippleElements = document.querySelectorAll('.btn-ripple');
+    
+    rippleElements.forEach(el => {
+        el.addEventListener('click', (e) => {
+            const ripple = document.createElement('span');
+            const rect = el.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            el.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+}
+
+// Floating Shapes Animation
+function initializeFloatingShapes() {
+    const shapes = document.querySelectorAll('.shape');
+    
+    shapes.forEach((shape, index) => {
+        // Random movement
+        setInterval(() => {
+            const randomX = Math.random() * 100;
+            const randomY = Math.random() * 100;
+            shape.style.left = randomX + '%';
+            shape.style.top = randomY + '%';
+        }, 3000 + index * 1000);
+    });
+}
+
+// Scroll Animations
+function initializeScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    const animatedElements = document.querySelectorAll('.interactive-card, .interactive-text');
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+}
+
+// Grid Interactions
+function initializeGridInteractions() {
+    const gridItems = document.querySelectorAll('.project-card, .skill-card');
+    
+    gridItems.forEach((item, index) => {
+        item.addEventListener('mouseenter', () => {
+            // Stagger animation
+            setTimeout(() => {
+                item.style.transform = 'scale(1.05) translateY(-5px)';
+                item.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.1)';
+            }, index * 50);
+        });
+        
+        item.addEventListener('mouseleave', () => {
+            item.style.transform = '';
+            item.style.boxShadow = '';
+        });
+    });
+}
+
+// Timeline Interactions
+function initializeTimelineInteractions() {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    timelineItems.forEach((item, index) => {
+        item.addEventListener('mouseenter', () => {
+            item.style.transform = 'translateX(20px)';
+            item.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+        });
+        
+        item.addEventListener('mouseleave', () => {
+            item.style.transform = '';
+            item.style.boxShadow = '';
+        });
+    });
+}
+
+// Parallax Effect
+function initializeParallaxEffect() {
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const shapes = document.querySelectorAll('.shape');
+        
+        shapes.forEach((shape, index) => {
+            const speed = 0.5 + (index * 0.1);
+            shape.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+    });
+}
+
+// Initialize All Interactive Features
+function initializeAllInteractiveFeatures() {
+    console.log('Initializing interactive features...');
+    
+    // Only initialize on desktop
+    if (window.innerWidth > 768) {
+        initializeCustomCursor();
+        initializeMouseTrail();
+        initializeMagneticEffect();
+        initializeTiltEffect();
+        initializeTextEffects();
+        initializeRippleEffect();
+        initializeFloatingShapes();
+        initializeScrollAnimations();
+        initializeGridInteractions();
+        initializeTimelineInteractions();
+        initializeParallaxEffect();
+    }
+    
+    console.log('Interactive features initialized');
+}
+
+// Initialize interactive features when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initializeAllInteractiveFeatures();
+});

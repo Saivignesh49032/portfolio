@@ -2132,6 +2132,7 @@ body {
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
+  backdrop-filter: none;
 }
 
 .service-modal.active {

@@ -817,6 +817,7 @@ function setupServiceInteractions() {
     // Create modal if it doesn't exist
     let modal = document.querySelector('.service-modal');
     if (!modal) {
+        console.log('Creating service modal...');
         modal = document.createElement('div');
         modal.className = 'service-modal';
         modal.innerHTML = `
@@ -826,6 +827,9 @@ function setupServiceInteractions() {
             </div>
         `;
         document.body.appendChild(modal);
+        console.log('Service modal created and added to DOM');
+    } else {
+        console.log('Service modal already exists');
     }
     
     const modalContent = modal.querySelector('.modal-body');
@@ -834,6 +838,7 @@ function setupServiceInteractions() {
     hexagons.forEach(hexagon => {
         hexagon.addEventListener('click', (e) => {
             e.stopPropagation();
+            console.log('Service hexagon clicked!');
             
             // Get service data from the hexagon
             const serviceTitle = hexagon.querySelector('h3').textContent;
@@ -841,6 +846,8 @@ function setupServiceInteractions() {
             const serviceFeatures = hexagon.getAttribute('data-features') ? 
                 hexagon.getAttribute('data-features').split(',') : 
                 ['Feature 1', 'Feature 2', 'Feature 3'];
+            
+            console.log('Service data:', { serviceTitle, serviceDescription, serviceFeatures });
             
             // Populate modal content
             modalContent.innerHTML = `
@@ -852,7 +859,9 @@ function setupServiceInteractions() {
             `;
             
             // Show modal
+            console.log('Showing modal...');
             modal.classList.add('active');
+            console.log('Modal classes:', modal.className);
         });
     });
     

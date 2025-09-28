@@ -16,11 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize portfolio directly
     initializePortfolio();
     
-    // Test service interactions immediately
-    console.log('Testing service interactions...');
-    setTimeout(() => {
-        setupServiceInteractions();
-    }, 1000);
 });
 
 // ===== TOUCH INTERACTIONS =====
@@ -817,172 +812,107 @@ function renderServicesSection() {
     });
 }
 
-// ===== SERVICE INTERACTIONS =====
-function setupServiceInteractions() {
-    console.log('=== SETTING UP SERVICE INTERACTIONS ===');
-    const hexagons = document.querySelectorAll('.service-hexagon');
-    console.log('Found hexagons:', hexagons.length);
-    
-    if (hexagons.length === 0) {
-        console.error('NO HEXAGONS FOUND! Check HTML structure.');
-        return;
+// ===== SERVICE MODAL =====
+function showServiceModal(title, description, features) {
+    // Remove any existing modal
+    const existingModal = document.querySelector('.service-modal');
+    if (existingModal) {
+        existingModal.remove();
     }
     
-    // Create modal if it doesn't exist
-    let modal = document.querySelector('.service-modal');
-    if (!modal) {
-        console.log('Creating service modal...');
-        modal = document.createElement('div');
-        modal.className = 'service-modal';
-        modal.innerHTML = `
-            <div class="service-modal-content">
-                <button class="service-modal-close">&times;</button>
-                <div class="modal-body">
-                    <h3>Test Modal</h3>
-                    <p>This is a test modal to see if it works.</p>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(modal);
-        console.log('Service modal created and added to DOM');
-        console.log('Modal element:', modal);
-        console.log('Modal parent:', modal.parentElement);
-    } else {
-        console.log('Service modal already exists');
-    }
+    // Create modal
+    const modal = document.createElement('div');
+    modal.className = 'service-modal';
+    modal.style.cssText = `
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: rgba(0, 0, 0, 0.8) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        z-index: 999999 !important;
+    `;
     
-    const modalContent = modal.querySelector('.modal-body');
-    const closeBtn = modal.querySelector('.service-modal-close');
-    
-    hexagons.forEach(hexagon => {
-        hexagon.addEventListener('click', (e) => {
-            e.stopPropagation();
-            console.log('Service hexagon clicked!');
-            
-            // Get service data from the hexagon
-            const serviceTitle = hexagon.querySelector('h3').textContent;
-            const serviceDescription = hexagon.getAttribute('data-description') || 'Service description not available.';
-            const serviceFeatures = hexagon.getAttribute('data-features') ? 
-                hexagon.getAttribute('data-features').split(',') : 
-                ['Feature 1', 'Feature 2', 'Feature 3'];
-            
-            console.log('Service data:', { serviceTitle, serviceDescription, serviceFeatures });
-            
-            // Create a completely new modal every time - bulletproof approach
-            const existingModal = document.querySelector('.service-modal');
-            if (existingModal) {
-                existingModal.remove();
-            }
-            
-            const newModal = document.createElement('div');
-            newModal.className = 'service-modal';
-            newModal.style.cssText = `
-                position: fixed !important;
-                top: 0 !important;
-                left: 0 !important;
-                width: 100% !important;
-                height: 100% !important;
-                background: rgba(0, 0, 0, 0.8) !important;
+    modal.innerHTML = `
+        <div style="
+            background: white !important;
+            border-radius: 12px !important;
+            padding: 2rem !important;
+            max-width: 500px !important;
+            max-height: 80vh !important;
+            overflow-y: auto !important;
+            position: relative !important;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;
+            margin: 1rem !important;
+        ">
+            <button onclick="this.parentElement.parentElement.remove()" style="
+                position: absolute !important;
+                top: 1rem !important;
+                right: 1rem !important;
+                background: #ef4444 !important;
+                color: white !important;
+                border: none !important;
+                border-radius: 50% !important;
+                width: 32px !important;
+                height: 32px !important;
+                cursor: pointer !important;
+                font-size: 18px !important;
+                font-weight: bold !important;
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                z-index: 999999 !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-            `;
-            
-            newModal.innerHTML = `
-                <div style="
-                    background: white !important;
-                    border: 3px solid red !important;
-                    border-radius: 10px !important;
-                    padding: 30px !important;
-                    max-width: 500px !important;
-                    max-height: 80vh !important;
-                    overflow-y: auto !important;
-                    position: relative !important;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
-                ">
-                    <button onclick="this.parentElement.parentElement.remove()" style="
-                        position: absolute !important;
-                        top: 10px !important;
-                        right: 10px !important;
-                        background: red !important;
+            ">&times;</button>
+            <h3 style="
+                color: #1f2937 !important; 
+                margin-bottom: 1rem !important; 
+                font-size: 1.5rem !important;
+                font-weight: 600 !important;
+                margin-right: 2rem !important;
+            ">${title}</h3>
+            <p style="
+                color: #6b7280 !important; 
+                margin-bottom: 1.5rem !important; 
+                line-height: 1.6 !important;
+            ">${description}</p>
+            <div style="
+                display: flex !important; 
+                flex-wrap: wrap !important; 
+                gap: 0.5rem !important;
+            ">
+                ${features.map(feature => `
+                    <span style="
+                        background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
                         color: white !important;
-                        border: none !important;
-                        border-radius: 50% !important;
-                        width: 30px !important;
-                        height: 30px !important;
-                        cursor: pointer !important;
-                        font-size: 18px !important;
-                        font-weight: bold !important;
-                    ">&times;</button>
-                    <h3 style="color: #333 !important; margin-bottom: 15px !important; font-size: 24px !important;">${serviceTitle}</h3>
-                    <p style="color: #666 !important; margin-bottom: 20px !important; line-height: 1.6 !important;">${serviceDescription}</p>
-                    <div style="display: flex !important; flex-wrap: wrap !important; gap: 8px !important;">
-                        ${serviceFeatures.map(feature => `
-                            <span style="
-                                background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
-                                color: white !important;
-                                padding: 5px 12px !important;
-                                border-radius: 20px !important;
-                                font-size: 12px !important;
-                                font-weight: 500 !important;
-                            ">${feature.trim()}</span>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(newModal);
-            console.log('New modal created and added to DOM');
-            
-            // Close on background click
-            newModal.addEventListener('click', (e) => {
-                if (e.target === newModal) {
-                    newModal.remove();
-                }
-            });
-            
-            // Close on escape key
-            const escapeHandler = (e) => {
-                if (e.key === 'Escape') {
-                    newModal.remove();
-                    document.removeEventListener('keydown', escapeHandler);
-                }
-            };
-            document.addEventListener('keydown', escapeHandler);
-        });
-    });
+                        padding: 0.5rem 1rem !important;
+                        border-radius: 20px !important;
+                        font-size: 0.875rem !important;
+                        font-weight: 500 !important;
+                    ">${feature}</span>
+                `).join('')}
+            </div>
+        </div>
+    `;
     
-    // Close modal functions
-    function closeModal() {
-        console.log('Closing modal...');
-        modal.style.display = 'none';
-        modal.style.opacity = '0';
-        modal.style.visibility = 'hidden';
-        modal.classList.remove('active');
-    }
+    document.body.appendChild(modal);
     
-    // Close on close button click
-    closeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        closeModal();
-    });
-    
-    // Close on modal background click
+    // Close on background click
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
-            closeModal();
+            modal.remove();
         }
     });
     
     // Close on escape key
-    document.addEventListener('keydown', (e) => {
+    const escapeHandler = (e) => {
         if (e.key === 'Escape') {
-            closeModal();
+            modal.remove();
+            document.removeEventListener('keydown', escapeHandler);
         }
-    });
+    };
+    document.addEventListener('keydown', escapeHandler);
 }
 
 // ===== ANIMATIONS =====

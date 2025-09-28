@@ -236,61 +236,54 @@
                 <p class="section-subtitle">Professional freelance development services to bring your ideas to life</p>
             </div>
             
-            <div class="services-container" id="services-grid">
-                <!-- Services will be dynamically loaded here -->
-                
+            <div class="services-grid">
                 <!-- Service 1: Machine Learning Solutions -->
-                <div class="service-hexagon animate-on-scroll featured" data-service="1" data-description="Custom ML models and AI solutions tailored to your business needs. From data preprocessing to model deployment." data-features="Custom ML Models, Data Preprocessing, Model Training, Deployment, Monitoring">
-                    <div class="hexagon-inner">
-                        <div class="service-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <h3>Machine Learning Solutions</h3>
-                        <div class="featured-badge">⭐</div>
+                <div class="service-card" onclick="showServiceModal('Machine Learning Solutions', 'Custom ML models and AI solutions tailored to your business needs. From data preprocessing to model deployment.', ['Custom ML Models', 'Data Preprocessing', 'Model Training', 'Deployment', 'Monitoring'])">
+                    <div class="service-icon">
+                        <i class="fas fa-brain"></i>
                     </div>
+                    <h3>Machine Learning Solutions</h3>
+                    <p>Custom ML models and AI solutions tailored to your business needs.</p>
+                    <div class="featured-badge">⭐ Featured</div>
                 </div>
 
                 <!-- Service 2: Web Development -->
-                <div class="service-hexagon animate-on-scroll featured" data-service="2" data-description="Full-stack web applications with modern technologies. Responsive, fast, and user-friendly interfaces." data-features="Frontend Development, Backend Development, Database Design, API Integration, Performance Optimization">
-                    <div class="hexagon-inner">
+                <div class="service-card" onclick="showServiceModal('Web Development', 'Full-stack web applications with modern technologies. Responsive, fast, and user-friendly interfaces.', ['Frontend Development', 'Backend Development', 'Database Design', 'API Integration', 'Performance Optimization'])">
                     <div class="service-icon">
                         <i class="fas fa-code"></i>
                     </div>
                     <h3>Web Development</h3>
-                        <div class="featured-badge">⭐</div>
-                    </div>
+                    <p>Full-stack web applications with modern technologies.</p>
+                    <div class="featured-badge">⭐ Featured</div>
                 </div>
-                
-                <!-- Service 3: Data Science Consulting -->
-                <div class="service-hexagon animate-on-scroll" data-service="3" data-description="Transform your data into actionable insights. Statistical analysis, visualization, and business intelligence." data-features="Data Analysis, Statistical Modeling, Data Visualization, Business Intelligence, Predictive Analytics">
-                    <div class="hexagon-inner">
+
+                <!-- Service 3: Data Science -->
+                <div class="service-card" onclick="showServiceModal('Data Science Consulting', 'Transform your data into actionable insights. Statistical analysis, visualization, and business intelligence.', ['Data Analysis', 'Statistical Modeling', 'Data Visualization', 'Business Intelligence', 'Predictive Analytics'])">
                     <div class="service-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3>Data Science</h3>
+                        <i class="fas fa-chart-line"></i>
                     </div>
+                    <h3>Data Science</h3>
+                    <p>Transform your data into actionable insights.</p>
                 </div>
-                
-                <!-- Service 4: AI Chatbot Development -->
-                <div class="service-hexagon animate-on-scroll featured" data-service="4" data-description="Intelligent conversational AI solutions for customer service, support, and engagement. Powered by advanced NLP and machine learning." data-features="NLP Processing, Intent Recognition, Response Generation, Multi-language Support, Integration">
-                    <div class="hexagon-inner">
+
+                <!-- Service 4: AI Chatbots -->
+                <div class="service-card" onclick="showServiceModal('AI Chatbot Development', 'Intelligent conversational AI solutions for customer service, support, and engagement. Powered by advanced NLP and machine learning.', ['NLP Processing', 'Intent Recognition', 'Response Generation', 'Multi-language Support', 'Integration'])">
                     <div class="service-icon">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <h3>AI Chatbots</h3>
-                        <div class="featured-badge">⭐</div>
+                        <i class="fas fa-robot"></i>
                     </div>
+                    <h3>AI Chatbots</h3>
+                    <p>Intelligent conversational AI solutions for customer service.</p>
+                    <div class="featured-badge">⭐ Featured</div>
                 </div>
-                
-                <!-- Service 5: Computer Vision Solutions -->
-                <div class="service-hexagon animate-on-scroll featured" data-service="5" data-description="Advanced image and video processing using deep learning. Object detection, recognition, and analysis systems." data-features="Object Detection, Image Classification, Face Recognition, Video Analysis, Real-time Processing">
-                    <div class="hexagon-inner">
+
+                <!-- Service 5: Computer Vision -->
+                <div class="service-card" onclick="showServiceModal('Computer Vision Solutions', 'Advanced image and video processing using deep learning. Object detection, recognition, and analysis systems.', ['Object Detection', 'Image Classification', 'Face Recognition', 'Video Analysis', 'Real-time Processing'])">
                     <div class="service-icon">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                        <h3>Computer Vision</h3>
-                        <div class="featured-badge">⭐</div>
+                        <i class="fas fa-eye"></i>
                     </div>
+                    <h3>Computer Vision</h3>
+                    <p>Advanced image and video processing using deep learning.</p>
+                    <div class="featured-badge">⭐ Featured</div>
                 </div>
             </div>
             

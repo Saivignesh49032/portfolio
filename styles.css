@@ -2130,15 +2130,22 @@ body {
   border: 2px solid var(--primary-color);
   min-width: 400px;
   max-width: 500px;
-  z-index: 15;
+  z-index: 9999;
   opacity: 0;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
 }
 
 .service-hexagon.active .service-details {
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
   animation: modalAppear 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: auto;
+}
+
+/* Ensure only one service detail is visible at a time */
+.service-hexagon:not(.active) .service-details {
+  display: none;
 }
 
 @keyframes modalAppear {
@@ -2232,7 +2239,7 @@ body {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.3);
-  z-index: 5;
+  z-index: 9998;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
@@ -2809,8 +2816,9 @@ body.menu-open {
         max-height: 80vh;
         padding: var(--spacing-6);
         overflow-y: auto;
-        z-index: 10000;
+        z-index: 9999;
         border-radius: 12px;
+        pointer-events: none;
     }
     
     .service-details h3 {
@@ -2824,7 +2832,7 @@ body.menu-open {
     }
     
     .service-overlay {
-        z-index: 9999;
+        z-index: 9998;
     }
 }
 

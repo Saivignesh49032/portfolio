@@ -18,15 +18,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve static files
 app.use(express.static('.', {
-    setHeaders: (res, path) => {
-        if (path.endsWith('.js')) {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.js')) {
             res.setHeader('Content-Type', 'application/javascript');
-        } else if (path.endsWith('.css')) {
+        } else if (filePath.endsWith('.css')) {
             res.setHeader('Content-Type', 'text/css');
-        } else if (path.endsWith('.jpg') || path.endsWith('.jpeg')) {
+        } else if (filePath.endsWith('.jpg') || filePath.endsWith('.jpeg')) {
             res.setHeader('Content-Type', 'image/jpeg');
-        } else if (path.endsWith('.png')) {
+        } else if (filePath.endsWith('.png')) {
             res.setHeader('Content-Type', 'image/png');
+        } else if (filePath.endsWith('.html')) {
+            res.setHeader('Content-Type', 'text/html');
         }
     }
 }));
@@ -202,6 +204,27 @@ app.get('/', (req, res) => {
 // Serve admin page
 app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+// Explicit routes for static files
+app.get('/styles.css', (req, res) => {
+    res.sendFile(path.join(__dirname, 'styles.css'));
+});
+
+app.get('/script.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'script.js'));
+});
+
+app.get('/admin-api.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin-api.js'));
+});
+
+app.get('/admin-new.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin-new.js'));
+});
+
+app.get('/data.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'data.js'));
 });
 
 // Error handling middleware

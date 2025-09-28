@@ -859,9 +859,6 @@ function setupServiceInteractions() {
             e.stopPropagation();
             console.log('Service hexagon clicked!');
             
-            // Simple test - just show alert first
-            alert('Service clicked! Modal should appear now.');
-            
             // Get service data from the hexagon
             const serviceTitle = hexagon.querySelector('h3').textContent;
             const serviceDescription = hexagon.getAttribute('data-description') || 'Service description not available.';
@@ -880,24 +877,42 @@ function setupServiceInteractions() {
                 </div>
             `;
             
-            // Show modal
+            // Show modal - force it to be visible
             console.log('Showing modal...');
             modal.style.display = 'flex';
+            modal.style.opacity = '1';
+            modal.style.visibility = 'visible';
+            modal.style.zIndex = '100000';
             modal.classList.add('active');
+            
+            // Make sure modal content is visible
+            const modalContentEl = modal.querySelector('.service-modal-content');
+            if (modalContentEl) {
+                modalContentEl.style.display = 'block';
+                modalContentEl.style.background = '#ffffff';
+                modalContentEl.style.border = '3px solid red';
+                modalContentEl.style.padding = '20px';
+            }
+            
             console.log('Modal classes:', modal.className);
-            console.log('Modal element:', modal);
             console.log('Modal display style:', window.getComputedStyle(modal).display);
-            console.log('Modal visibility:', window.getComputedStyle(modal).visibility);
         });
     });
     
     // Close modal functions
     function closeModal() {
+        console.log('Closing modal...');
+        modal.style.display = 'none';
+        modal.style.opacity = '0';
+        modal.style.visibility = 'hidden';
         modal.classList.remove('active');
     }
     
     // Close on close button click
-    closeBtn.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeModal();
+    });
     
     // Close on modal background click
     modal.addEventListener('click', (e) => {

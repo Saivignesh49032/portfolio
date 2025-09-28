@@ -812,7 +812,9 @@ function renderServicesSection() {
 
 // ===== SERVICE INTERACTIONS =====
 function setupServiceInteractions() {
+    console.log('Setting up service interactions...');
     const hexagons = document.querySelectorAll('.service-hexagon');
+    console.log('Found hexagons:', hexagons.length);
     
     // Create modal if it doesn't exist
     let modal = document.querySelector('.service-modal');

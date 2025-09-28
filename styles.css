@@ -2138,6 +2138,7 @@ body {
 .service-modal.active {
   opacity: 1;
   visibility: visible;
+  display: flex;
 }
 
 .service-modal-content {

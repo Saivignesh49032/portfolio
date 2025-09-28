@@ -20,6 +20,54 @@
             line-height: 1.6;
         }
 
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .login-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
         .admin-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -286,8 +334,24 @@
     </style>
 </head>
 <body>
+    <!-- Login Form -->
+    <div id="login-container" class="login-container">
+        <div class="login-form">
+            <h2><i class="fas fa-lock"></i> Admin Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="admin-pin">Enter Admin PIN:</label>
+                    <input type="password" id="admin-pin" placeholder="Enter PIN" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- Admin Panel -->
-    <div id="admin-panel" class="admin-container">
+    <div id="admin-panel" class="admin-container" style="display: none;">
         <div class="admin-header-with-logout">
             <div class="admin-header-content">
                 <a href="index.html" class="back-btn">

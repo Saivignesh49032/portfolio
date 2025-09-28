@@ -26,12 +26,24 @@ function checkAuthentication() {
     if (isAuthenticated) {
         showAdminPanel();
     } else {
-        // Redirect to main page if not authenticated
-        window.location.href = 'index.html';
+        showLoginForm();
     }
 }
 
-async function showAdminPanel() {
+function showLoginForm() {
+    document.getElementById('login-container').style.display = 'flex';
+    document.getElementById('admin-panel').style.display = 'none';
+}
+
+function showAdminPanel() {
+    document.getElementById('login-container').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    
+    // Initialize AdminAPI and load data
+    initializeAdminPanel();
+}
+
+async function initializeAdminPanel() {
     try {
         console.log('Testing API connection...');
         console.log('AdminAPI available:', !!window.adminAPI);
@@ -51,6 +63,22 @@ async function showAdminPanel() {
         console.error('Failed to connect to API:', error);
         console.error('Error details:', error.message);
         showError(`Failed to connect to server: ${error.message}. Please check if the server is running.`);
+    }
+}
+
+
+function handleLogin(e) {
+    e.preventDefault();
+    
+    const pin = document.getElementById('admin-pin').value;
+    const correctPin = '260104'; // Admin PIN
+    
+    if (pin === correctPin) {
+        sessionStorage.setItem('adminAuthenticated', 'true');
+        showAdminPanel();
+    } else {
+        alert('Invalid PIN. Please try again.');
+        document.getElementById('admin-pin').value = '';
     }
 }
 
@@ -370,6 +398,9 @@ async function handlePersonalSubmit(event) {
 
 // ===== EVENT LISTENERS =====
 function setupEventListeners() {
+    // Login form
+    document.getElementById('login-form').addEventListener('submit', handleLogin);
+    
     // Form submissions
     document.getElementById('skill-form').addEventListener('submit', handleSkillSubmit);
     document.getElementById('project-form').addEventListener('submit', handleProjectSubmit);
@@ -449,3 +480,4 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+

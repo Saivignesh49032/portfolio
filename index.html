@@ -14,6 +14,24 @@
 
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress" id="scroll-progress"></div>
+    
+    <!-- Custom Interactive Cursor -->
+    <div class="custom-cursor" id="custom-cursor">
+        <div class="cursor-dot"></div>
+        <div class="cursor-outline"></div>
+    </div>
+    
+    <!-- Interactive Background Elements -->
+    <div class="interactive-bg">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+        <div class="mouse-trail" id="mouse-trail"></div>
+    </div>
 
     <!-- Navigation -->
     <nav class="navbar">
@@ -48,27 +66,53 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1 class="hero-title">Hi, I'm <span class="highlight">Sai Vignesh S P</span></h1>
-                    <h2 class="hero-subtitle">AI/ML Engineer & Software Developer</h2>
-                    <p class="hero-description">
+                    <h1 class="hero-title interactive-text" data-text="Hi, I'm Sai Vignesh S P">
+                        Hi, I'm <span class="highlight interactive-highlight">Sai Vignesh S P</span>
+                    </h1>
+                    <h2 class="hero-subtitle interactive-subtitle">AI/ML Engineer & Software Developer</h2>
+                    <p class="hero-description interactive-description">
                         Passionate about transforming innovative ideas into real-world tech solutions. 
                         Specializing in Artificial Intelligence, Machine Learning, and Full-Stack Development.
                     </p>
                     <div class="hero-buttons">
-                        <a href="#projects" class="btn btn-primary">View My Work</a>
-                        <a href="https://github.com/Saivignesh49032/portfolio/raw/main/Sai_Vignesh_Resume%20%283%29.pdf" target="_blank" class="btn btn-secondary">
-                            <i class="fas fa-file-pdf"></i> View Resume
+                        <a href="#projects" class="btn btn-primary interactive-btn" data-magnetic>
+                            <span class="btn-text">View My Work</span>
+                            <div class="btn-ripple"></div>
                         </a>
-                        <a href="#contact" class="btn btn-outline">Get In Touch</a>
+                        <a href="https://github.com/Saivignesh49032/portfolio/raw/main/Sai_Vignesh_Resume%20%283%29.pdf" target="_blank" class="btn btn-secondary interactive-btn" data-magnetic>
+                            <i class="fas fa-file-pdf"></i>
+                            <span class="btn-text">View Resume</span>
+                            <div class="btn-ripple"></div>
+                        </a>
+                        <a href="#contact" class="btn btn-outline interactive-btn" data-magnetic>
+                            <span class="btn-text">Get In Touch</span>
+                            <div class="btn-ripple"></div>
+                        </a>
                     </div>
                 </div>
                 <div class="hero-image">
-                    <div class="image-container">
+                    <div class="image-container interactive-card" data-tilt>
                         <img src="profilepic.jpg" 
                              alt="Sai Vignesh S P - AI/ML Engineer" 
                              class="profile-image"
                              onerror="this.src='https://via.placeholder.com/400x500/3b82f6/ffffff?text=Sai+Vignesh'">
                         <div class="image-glow"></div>
+                        <div class="image-overlay">
+                            <div class="social-links">
+                                <a href="https://github.com/Saivignesh49032" target="_blank" class="social-link interactive-social" data-magnetic>
+                                    <i class="fab fa-github"></i>
+                                    <span class="social-tooltip">GitHub</span>
+                                </a>
+                                <a href="https://linkedin.com/in/sai-vignesh-49032" target="_blank" class="social-link interactive-social" data-magnetic>
+                                    <i class="fab fa-linkedin"></i>
+                                    <span class="social-tooltip">LinkedIn</span>
+                                </a>
+                                <a href="mailto:saivignesh49032@gmail.com" class="social-link interactive-social" data-magnetic>
+                                    <i class="fas fa-envelope"></i>
+                                    <span class="social-tooltip">Email</span>
+                                </a>
+                            </div>
+                        </div>
                         <div class="image-border"></div>
                         <!-- Floating particles -->
                         <div class="particle particle-1"></div>
@@ -150,7 +194,7 @@
                 <h2 class="section-title">Skills & Technologies</h2>
                 <p class="section-subtitle">What I work with</p>
             </div>
-            <div class="skills-grid animate-scale" id="skills-grid">
+            <div class="skills-grid animate-scale interactive-grid" id="skills-grid">
                 <!-- Skills will be dynamically loaded here -->
             </div>
         </div>
@@ -174,7 +218,7 @@
             </div>
             
             <!-- Projects Showcase -->
-            <div class="projects-showcase">
+            <div class="projects-showcase interactive-showcase">
                 <!-- Featured Project Spotlight -->
                 <div class="spotlight-section animate-scale">
                     <h3 class="spotlight-title">✨ Project Spotlight</h3>
@@ -237,7 +281,7 @@
             </div>
             
             <!-- Interactive Services Timeline -->
-            <div class="services-timeline">
+            <div class="services-timeline interactive-timeline">
                 <!-- Service 1: Machine Learning -->
                 <div class="timeline-item" data-service="ml">
                     <div class="timeline-marker">

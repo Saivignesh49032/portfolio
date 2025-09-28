@@ -67,6 +67,7 @@ function initializePortfolio() {
     initializeMobileNavigation();
     initializePinAuth();
     initializeTimelineAnimations();
+    initializeAllInteractiveFeatures();
     
     // Try to load data from backend
     loadPortfolioData().then((data) => {
@@ -832,6 +833,324 @@ function initializeTimelineAnimations() {
     timelineItems.forEach(item => {
         observer.observe(item);
     });
+}
+
+// ===== INTERACTIVE FEATURES =====
+
+// Custom Cursor
+function initializeCustomCursor() {
+    const cursor = document.getElementById('custom-cursor');
+    const cursorDot = cursor.querySelector('.cursor-dot');
+    const cursorOutline = cursor.querySelector('.cursor-outline');
+    
+    let mouseX = 0;
+    let mouseY = 0;
+    let outlineX = 0;
+    let outlineY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+    });
+    
+    function animateOutline() {
+        outlineX += (mouseX - outlineX) * 0.1;
+        outlineY += (mouseY - outlineY) * 0.1;
+        
+        cursorOutline.style.left = outlineX + 'px';
+        cursorOutline.style.top = outlineY + 'px';
+        
+        requestAnimationFrame(animateOutline);
+    }
+    animateOutline();
+    
+    // Hover effects
+    const hoverElements = document.querySelectorAll('a, button, [data-magnetic], .interactive-card');
+    hoverElements.forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+}
+
+// Mouse Trail Effect
+function initializeMouseTrail() {
+    const trail = document.getElementById('mouse-trail');
+    let trailElements = [];
+    const maxTrailLength = 20;
+    
+    document.addEventListener('mousemove', (e) => {
+        const trailElement = document.createElement('div');
+        trailElement.className = 'trail-dot';
+        trailElement.style.cssText = `
+            position: absolute;
+            left: ${e.clientX}px;
+            top: ${e.clientY}px;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        `;
+        
+        trail.appendChild(trailElement);
+        trailElements.push(trailElement);
+        
+        if (trailElements.length > maxTrailLength) {
+            const oldElement = trailElements.shift();
+            oldElement.style.opacity = '0';
+            setTimeout(() => oldElement.remove(), 300);
+        }
+        
+        // Fade out trail elements
+        trailElements.forEach((element, index) => {
+            setTimeout(() => {
+                element.style.opacity = '0';
+                element.style.transform = 'scale(0)';
+            }, index * 50);
+        });
+    });
+}
+
+// Magnetic Effect
+function initializeMagneticEffect() {
+    const magneticElements = document.querySelectorAll('[data-magnetic]');
+    
+    magneticElements.forEach(element => {
+        element.addEventListener('mousemove', (e) => {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            const distance = Math.sqrt(x * x + y * y);
+            const maxDistance = 50;
+            
+            if (distance < maxDistance) {
+                const strength = (maxDistance - distance) / maxDistance;
+                const moveX = x * strength * 0.3;
+                const moveY = y * strength * 0.3;
+                
+                element.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            } else {
+                element.style.transform = 'translate(0, 0)';
+            }
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            element.style.transform = 'translate(0, 0)';
+        });
+    });
+}
+
+// 3D Tilt Effect
+function initializeTiltEffect() {
+    const tiltElements = document.querySelectorAll('[data-tilt]');
+    
+    tiltElements.forEach(element => {
+        element.addEventListener('mousemove', (e) => {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+            
+            element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            element.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+        });
+    });
+}
+
+// Interactive Text Effects
+function initializeTextEffects() {
+    const interactiveTexts = document.querySelectorAll('.interactive-text');
+    
+    interactiveTexts.forEach(text => {
+        text.addEventListener('mouseenter', () => {
+            text.style.textShadow = '0 0 20px rgba(59, 130, 246, 0.5)';
+        });
+        
+        text.addEventListener('mouseleave', () => {
+            text.style.textShadow = 'none';
+        });
+    });
+}
+
+// Button Ripple Effect
+function initializeRippleEffect() {
+    const buttons = document.querySelectorAll('.interactive-btn');
+    
+    buttons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const ripple = button.querySelector('.btn-ripple');
+            if (ripple) {
+                ripple.style.width = '300px';
+                ripple.style.height = '300px';
+                
+                setTimeout(() => {
+                    ripple.style.width = '0';
+                    ripple.style.height = '0';
+                }, 600);
+            }
+        });
+    });
+}
+
+// Floating Shapes Animation
+function initializeFloatingShapes() {
+    const shapes = document.querySelectorAll('.shape');
+    
+    shapes.forEach((shape, index) => {
+        // Random movement
+        setInterval(() => {
+            const randomX = Math.random() * window.innerWidth;
+            const randomY = Math.random() * window.innerHeight;
+            
+            shape.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${Math.random() * 360}deg)`;
+        }, 5000 + (index * 1000));
+    });
+}
+
+// Scroll-triggered Animations
+function initializeScrollAnimations() {
+    const animatedElements = document.querySelectorAll('.animate-on-scroll');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    animatedElements.forEach(element => {
+        observer.observe(element);
+    });
+}
+
+// Interactive Grid Hover Effects
+function initializeGridInteractions() {
+    const gridElements = document.querySelectorAll('.interactive-grid .skill-card, .interactive-grid .project-card');
+    
+    gridElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            element.style.transform = 'translateY(-8px) scale(1.05)';
+            element.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.15)';
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            element.style.transform = 'translateY(0) scale(1)';
+            element.style.boxShadow = 'none';
+        });
+    });
+}
+
+// Timeline Interactive Effects
+function initializeTimelineInteractions() {
+    const timelineItems = document.querySelectorAll('.interactive-timeline .timeline-item');
+    const featureItems = document.querySelectorAll('.interactive-timeline .feature-item');
+    
+    timelineItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            item.style.transform = 'translateX(10px)';
+        });
+        
+        item.addEventListener('mouseleave', () => {
+            item.style.transform = 'translateX(0)';
+        });
+    });
+    
+    featureItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            item.style.transform = 'translateY(-3px) scale(1.02)';
+            item.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.1)';
+        });
+        
+        item.addEventListener('mouseleave', () => {
+            item.style.transform = 'translateY(0) scale(1)';
+            item.style.boxShadow = 'none';
+        });
+    });
+}
+
+// Parallax Effect
+function initializeParallaxEffect() {
+    const parallaxElements = document.querySelectorAll('.interactive-card, .interactive-text');
+    
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        
+        parallaxElements.forEach((element, index) => {
+            const speed = 0.5 + (index * 0.1);
+            const yPos = -(scrolled * speed);
+            element.style.transform = `translateY(${yPos}px)`;
+        });
+    });
+}
+
+// Sound Effects (Optional)
+function initializeSoundEffects() {
+    const interactiveElements = document.querySelectorAll('.interactive-btn, .interactive-card, .interactive-social');
+    
+    // Create audio context for subtle sound effects
+    let audioContext;
+    
+    function createSound(frequency, duration) {
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = frequency;
+        oscillator.type = 'sine';
+        
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + duration);
+    }
+    
+    interactiveElements.forEach(element => {
+        element.addEventListener('click', () => {
+            createSound(800, 0.1);
+        });
+    });
+}
+
+// Initialize all interactive features
+function initializeAllInteractiveFeatures() {
+    initializeCustomCursor();
+    initializeMouseTrail();
+    initializeMagneticEffect();
+    initializeTiltEffect();
+    initializeTextEffects();
+    initializeRippleEffect();
+    initializeFloatingShapes();
+    initializeScrollAnimations();
+    initializeGridInteractions();
+    initializeTimelineInteractions();
+    initializeParallaxEffect();
+    // initializeSoundEffects(); // Uncomment for sound effects
 }
 
 // ===== ANIMATIONS =====

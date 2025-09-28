@@ -2787,12 +2787,6 @@ body.menu-open {
         height: 120px;
     }
     
-    .service-details {
-        min-width: 95vw;
-        max-width: 95vw;
-        max-height: 85vh;
-        padding: var(--spacing-4);
-    }
 }
 
 /* Mobile Contact Section */
@@ -3298,15 +3292,6 @@ body.menu-open {
     font-size: var(--font-size-xs);
   }
   
-  .service-details {
-    min-width: 300px;
-    max-width: 350px;
-    padding: var(--spacing-6);
-  }
-  
-  .service-details h3 {
-    font-size: var(--font-size-xl);
-  }
   
   .feature-tag {
     font-size: var(--font-size-xs);
@@ -3325,11 +3310,6 @@ body.menu-open {
     height: 120px;
   }
   
-  .service-details {
-    min-width: 280px;
-    max-width: 320px;
-    padding: var(--spacing-4);
-  }
 }
 
 @keyframes servicesBackgroundShift {

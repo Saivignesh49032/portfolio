@@ -330,6 +330,9 @@
                 <h1><i class="fas fa-cog"></i> Portfolio Admin Panel</h1>
                 <p>Manage your portfolio content easily</p>
                 <div class="status" id="connection-status">Checking connection...</div>
+                <button class="btn btn-danger" onclick="logout()" style="margin-top: 15px;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
             </div>
 
             <!-- Skills Section -->
@@ -535,6 +538,48 @@
             showLoginForm();
         }
 
+        // API Helper Functions using XMLHttpRequest
+        function makeRequest(method, url, data = null) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open(method, url, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        console.log(`${method} ${url} - Status: ${xhr.status}`);
+                        console.log('Response:', xhr.responseText);
+                        
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            try {
+                                const response = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+                                resolve(response);
+                            } catch (e) {
+                                resolve(xhr.responseText);
+                            }
+                        } else {
+                            try {
+                                const error = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+                                reject(new Error(error.error || `HTTP ${xhr.status}: ${xhr.responseText}`));
+                            } catch (e) {
+                                reject(new Error(`HTTP ${xhr.status}: ${xhr.responseText}`));
+                            }
+                        }
+                    }
+                };
+                
+                xhr.onerror = function() {
+                    reject(new Error('Network error occurred'));
+                };
+                
+                if (data) {
+                    xhr.send(JSON.stringify(data));
+                } else {
+                    xhr.send();
+                }
+            });
+        }
+
         // Data Loading
         async function loadAllData() {
             try {
@@ -543,18 +588,9 @@
                 
                 // Load all data in parallel
                 const [skillsData, projectsData, personalData] = await Promise.all([
-                    fetch('/api/skills').then(r => {
-                        console.log('Skills response:', r.status, r.ok);
-                        return r.json();
-                    }),
-                    fetch('/api/projects').then(r => {
-                        console.log('Projects response:', r.status, r.ok);
-                        return r.json();
-                    }),
-                    fetch('/api/personal-info').then(r => {
-                        console.log('Personal info response:', r.status, r.ok);
-                        return r.json();
-                    })
+                    makeRequest('GET', '/api/skills'),
+                    makeRequest('GET', '/api/projects'),
+                    makeRequest('GET', '/api/personal-info')
                 ]);
 
                 console.log('Loaded data:', { skillsData, projectsData, personalData });
@@ -601,33 +637,25 @@
                 description: document.getElementById('skill-description').value,
                 percentage: parseInt(document.getElementById('skill-percentage').value),
                 category: document.getElementById('skill-category').value,
-                icon: 'fas fa-code' // Default icon
+                icon: 'fas fa-code'
             };
 
             try {
+                console.log('Saving skill:', skillData);
                 let response;
+                
                 if (currentEditingId) {
-                    response = await fetch(`/api/skills/${currentEditingId}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(skillData)
-                    });
+                    response = await makeRequest('PUT', `/api/skills/${currentEditingId}`, skillData);
                 } else {
-                    response = await fetch('/api/skills', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(skillData)
-                    });
+                    response = await makeRequest('POST', '/api/skills', skillData);
                 }
 
-                if (response.ok) {
-                    showNotification('Skill saved successfully!', 'success');
-                    hideSkillForm();
-                    loadAllData();
-                } else {
-                    throw new Error('Failed to save skill');
-                }
+                console.log('Skill saved successfully:', response);
+                showNotification('Skill saved successfully!', 'success');
+                hideSkillForm();
+                loadAllData();
             } catch (error) {
+                console.error('Error saving skill:', error);
                 showNotification('Error saving skill: ' + error.message, 'error');
             }
         }
@@ -674,23 +702,10 @@
 
             try {
                 console.log('Deleting skill with ID:', id);
-                const url = `/api/skills/${id}`;
-                console.log('Delete URL:', url);
-                
-                const response = await fetch(url, { method: 'DELETE' });
-                console.log('Delete response status:', response.status);
-                console.log('Delete response ok:', response.ok);
-                
-                const responseText = await response.text();
-                console.log('Delete response text:', responseText);
-                
-                if (response.ok) {
-                    showNotification('Skill deleted successfully!', 'success');
-                    loadAllData();
-                } else {
-                    const errorData = JSON.parse(responseText);
-                    throw new Error(errorData.error || `HTTP ${response.status}: ${responseText}`);
-                }
+                const response = await makeRequest('DELETE', `/api/skills/${id}`);
+                console.log('Skill deleted successfully:', response);
+                showNotification('Skill deleted successfully!', 'success');
+                loadAllData();
             } catch (error) {
                 console.error('Delete skill error:', error);
                 showNotification('Error deleting skill: ' + error.message, 'error');
@@ -723,29 +738,21 @@
             };
 
             try {
+                console.log('Saving project:', projectData);
                 let response;
+                
                 if (currentEditingId) {
-                    response = await fetch(`/api/projects/${currentEditingId}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(projectData)
-                    });
+                    response = await makeRequest('PUT', `/api/projects/${currentEditingId}`, projectData);
                 } else {
-                    response = await fetch('/api/projects', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(projectData)
-                    });
+                    response = await makeRequest('POST', '/api/projects', projectData);
                 }
 
-                if (response.ok) {
-                    showNotification('Project saved successfully!', 'success');
-                    hideProjectForm();
-                    loadAllData();
-                } else {
-                    throw new Error('Failed to save project');
-                }
+                console.log('Project saved successfully:', response);
+                showNotification('Project saved successfully!', 'success');
+                hideProjectForm();
+                loadAllData();
             } catch (error) {
+                console.error('Error saving project:', error);
                 showNotification('Error saving project: ' + error.message, 'error');
             }
         }
@@ -800,23 +807,10 @@
 
             try {
                 console.log('Deleting project with ID:', id);
-                const url = `/api/projects/${id}`;
-                console.log('Delete URL:', url);
-                
-                const response = await fetch(url, { method: 'DELETE' });
-                console.log('Delete response status:', response.status);
-                console.log('Delete response ok:', response.ok);
-                
-                const responseText = await response.text();
-                console.log('Delete response text:', responseText);
-                
-                if (response.ok) {
-                    showNotification('Project deleted successfully!', 'success');
-                    loadAllData();
-                } else {
-                    const errorData = JSON.parse(responseText);
-                    throw new Error(errorData.error || `HTTP ${response.status}: ${responseText}`);
-                }
+                const response = await makeRequest('DELETE', `/api/projects/${id}`);
+                console.log('Project deleted successfully:', response);
+                showNotification('Project deleted successfully!', 'success');
+                loadAllData();
             } catch (error) {
                 console.error('Delete project error:', error);
                 showNotification('Error deleting project: ' + error.message, 'error');
@@ -840,19 +834,13 @@
             };
 
             try {
-                const response = await fetch('/api/personal-info', {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(personalData)
-                });
-
-                if (response.ok) {
-                    showNotification('Personal information updated successfully!', 'success');
-                    loadAllData();
-                } else {
-                    throw new Error('Failed to update personal information');
-                }
+                console.log('Updating personal info:', personalData);
+                const response = await makeRequest('PUT', '/api/personal-info', personalData);
+                console.log('Personal info updated successfully:', response);
+                showNotification('Personal information updated successfully!', 'success');
+                loadAllData();
             } catch (error) {
+                console.error('Error updating personal info:', error);
                 showNotification('Error updating personal info: ' + error.message, 'error');
             }
         }
@@ -884,18 +872,6 @@
                 setTimeout(() => document.body.removeChild(notification), 300);
             }, 3000);
         }
-
-        // Add logout functionality to header
-        document.addEventListener('DOMContentLoaded', function() {
-            const header = document.querySelector('.header');
-            if (header) {
-                const logoutBtn = document.createElement('button');
-                logoutBtn.className = 'btn btn-danger';
-                logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
-                logoutBtn.onclick = logout;
-                header.appendChild(logoutBtn);
-            }
-        });
     </script>
 </body>
 </html>

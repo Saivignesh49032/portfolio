@@ -65,7 +65,6 @@ function initializePortfolio() {
     initializeBackToTop();
     initializeCopyEmail();
     initializeMobileNavigation();
-    initializePinAuth();
     initializeTimelineAnimations();
     initializeAllInteractiveFeatures();
     
@@ -104,7 +103,6 @@ function initializePortfolio() {
         console.log('Portfolio initialized with static data!');
     });
     
-    // Set up periodic refresh to check for admin changes
     setInterval(async () => {
         try {
             const response = await fetch('/api/portfolio');
@@ -508,7 +506,7 @@ function renderSkillsSection() {
     console.log('Skills data:', skills);
     
     if (skills.length === 0) {
-        skillsGrid.innerHTML = '<p class="no-content">No skills available. Add some skills in the admin panel!</p>';
+        skillsGrid.innerHTML = '<p class="no-content">No skills available.</p>';
         return;
     }
     
@@ -564,8 +562,8 @@ function renderProjectsSection() {
     console.log('Projects data:', projects);
     
     if (projects.length === 0) {
-        spotlightContainer.innerHTML = '<p class="no-content">No projects available. Add some projects in the admin panel!</p>';
-        projectsContainer.innerHTML = '<p class="no-content">No projects available. Add some projects in the admin panel!</p>';
+        spotlightContainer.innerHTML = '<p class="no-content">No projects available.</p>';
+        projectsContainer.innerHTML = '<p class="no-content">No projects available.</p>';
         return;
     }
     
@@ -781,7 +779,7 @@ function renderServicesSection() {
     console.log('Number of services:', services.length);
     
     if (services.length === 0) {
-        servicesGrid.innerHTML = '<p class="no-content">No services available. Add some services in the admin panel!</p>';
+        servicesGrid.innerHTML = '<p class="no-content">No services available.</p>';
         // Show refresh button
         const refreshBtn = document.getElementById('refresh-services-btn');
         if (refreshBtn) {
@@ -1498,127 +1496,6 @@ window.addEventListener('unhandledrejection', function(e) {
 });
 
 
-// ===== PIN AUTHENTICATION SYSTEM =====
-const ADMIN_PIN = '260104';
-
-// Initialize PIN authentication
-function initializePinAuth() {
-    const adminLink = document.getElementById('admin-link');
-    const pinModal = document.getElementById('pin-modal');
-    const pinForm = document.getElementById('pin-form');
-    const pinInput = document.getElementById('pin-input');
-    const pinError = document.getElementById('pin-error');
-    const pinModalClose = document.getElementById('pin-modal-close');
-
-    // Show PIN modal when admin link is clicked
-    if (adminLink) {
-        adminLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            showPinModal();
-        });
-    }
-
-    // Handle PIN form submission
-    if (pinForm) {
-        pinForm.addEventListener('submit', handlePinSubmit);
-    }
-
-    // Close modal when close button is clicked
-    if (pinModalClose) {
-        pinModalClose.addEventListener('click', hidePinModal);
-    }
-
-    // Close modal when clicking outside
-    if (pinModal) {
-        pinModal.addEventListener('click', function(e) {
-            if (e.target === pinModal) {
-                hidePinModal();
-            }
-        });
-    }
-
-    // Close modal with Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && !pinModal.classList.contains('hidden')) {
-            hidePinModal();
-        }
-    });
-}
-
-function showPinModal() {
-    const pinModal = document.getElementById('pin-modal');
-    const pinInput = document.getElementById('pin-input');
-    const pinError = document.getElementById('pin-error');
-    
-    if (pinModal) {
-        pinModal.classList.remove('hidden');
-        // Hide any previous error
-        if (pinError) {
-            pinError.classList.add('hidden');
-            pinError.style.display = 'none';
-        }
-        // Focus on PIN input
-        setTimeout(() => {
-            if (pinInput) {
-                pinInput.focus();
-            }
-        }, 100);
-    }
-}
-
-function hidePinModal() {
-    const pinModal = document.getElementById('pin-modal');
-    const pinInput = document.getElementById('pin-input');
-    const pinError = document.getElementById('pin-error');
-    
-    if (pinModal) {
-        pinModal.classList.add('hidden');
-        // Clear input and error
-        if (pinInput) {
-            pinInput.value = '';
-        }
-        if (pinError) {
-            pinError.classList.add('hidden');
-            pinError.style.display = 'none';
-        }
-    }
-}
-
-function handlePinSubmit(e) {
-    e.preventDefault();
-    
-    const pinInput = document.getElementById('pin-input');
-    const pinError = document.getElementById('pin-error');
-    const enteredPin = pinInput.value;
-    
-    // Hide previous error
-    if (pinError) {
-        pinError.classList.add('hidden');
-        pinError.style.display = 'none';
-    }
-    
-    if (enteredPin === ADMIN_PIN) {
-        // Correct PIN - set authentication and redirect to admin
-        sessionStorage.setItem('adminAuthenticated', 'true');
-        window.location.href = 'admin.html';
-    } else {
-        // Incorrect PIN - show error
-        if (pinError) {
-            pinError.classList.remove('hidden');
-            pinError.style.display = 'block';
-        }
-        if (pinInput) {
-            pinInput.value = '';
-            pinInput.focus();
-            
-            // Add shake animation
-            pinInput.style.animation = 'shake 0.5s ease-in-out';
-            setTimeout(() => {
-                pinInput.style.animation = '';
-            }, 500);
-        }
-    }
-}
 
 // ===== SCROLL PROGRESS BAR =====
 function initializeScrollProgress() {
@@ -1847,7 +1724,6 @@ function initializeAutoRefresh() {
 
 // Initialize PIN authentication when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    initializePinAuth();
 });
 
 // ===== INTERACTIVE FEATURES =====

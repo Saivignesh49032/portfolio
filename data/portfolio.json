@@ -33,22 +33,6 @@
   },
   "skills": [
     {
-      "id": 1,
-      "name": "Python",
-      "description": "Data analysis, machine learning, and automation",
-      "percentage": 85,
-      "icon": "fab fa-python",
-      "category": "Programming"
-    },
-    {
-      "id": 2,
-      "name": "JavaScript",
-      "description": "Frontend and backend development with modern frameworks",
-      "percentage": 80,
-      "icon": "fab fa-js-square",
-      "category": "Programming"
-    },
-    {
       "id": 3,
       "name": "Machine Learning",
       "description": "Building and deploying ML models for real-world applications",
@@ -81,12 +65,18 @@
       "category": "Data"
     },
     {
-      "icon": "fas fa-test",
-      "description": "This is a test skill to verify the system works",
-      "name": "Test New Skill",
-      "percentage": 90,
-      "category": "Testing",
-      "id": 1758680239232
+      "id": 1759080876266,
+      "name": "Test Skill",
+      "description": "Test Description",
+      "percentage": 50,
+      "category": "Programming"
+    },
+    {
+      "id": 1759081215139,
+      "name": "Test Skill 2",
+      "description": "Test Description 2",
+      "percentage": 75,
+      "category": "Programming"
     }
   ],
   "projects": [

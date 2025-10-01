@@ -1,23 +1,22 @@
 {
   "name": "portfolio-website",
   "version": "1.0.0",
-  "description": "Personal portfolio website with admin panel",
-  "main": "server-simple.js",
+  "description": "Personal portfolio website - Static version for GitHub Pages",
+  "main": "index.html",
   "scripts": {
-    "start": "node server-simple.js",
-    "dev": "nodemon server-simple.js",
+    "start": "npx http-server . -p 3000",
+    "dev": "npx http-server . -p 3000 -o",
     "build": "echo 'No build step required for static files'",
-    "vercel-build": "echo 'Vercel build completed'"
+    "deploy": "gh-pages -d ."
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "body-parser": "^1.20.2"
+    "http-server": "^14.1.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "gh-pages": "^6.1.0"
   },
-  "keywords": ["portfolio", "website", "admin", "backend"],
+  "keywords": ["portfolio", "website", "static", "github-pages"],
   "author": "Sai Vignesh S P",
-  "license": "MIT"
+  "license": "MIT",
+  "homepage": "https://saivignesh49032.github.io/portfolio"
 }

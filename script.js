@@ -14,8 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Projects count:', window.portfolioData.projects?.length || 0);
     }
     
-    // Initialize loading screen first
-    initializeLoadingScreen();
     
     // Add touch-friendly interactions for mobile
     addTouchInteractions();
@@ -567,7 +565,7 @@ async function renderTechyProjectsSection() {
     }
     
     // Clear existing content
-    projectsGrid.innerHTML = '';
+        projectsGrid.innerHTML = '';
     
     try {
         // Fetch GitHub repositories
@@ -578,14 +576,14 @@ async function renderTechyProjectsSection() {
         
         if (repos.length === 0) {
             projectsGrid.innerHTML = '<div class="techy-no-content">No repositories found. Check your GitHub username.</div>';
-            return;
-        }
-        
+        return;
+    }
+    
         // Render GitHub repositories as techy project cards
         repos.forEach((repo, index) => {
             const projectCard = document.createElement('div');
             projectCard.className = 'techy-project-card';
-            projectCard.style.animationDelay = `${index * 0.1}s`;
+        projectCard.style.animationDelay = `${index * 0.1}s`;
             
             // Determine category based on language and name
             let category = 'web';
@@ -614,7 +612,7 @@ async function renderTechyProjectsSection() {
                 <div class="techy-project-header">
                     <div class="techy-project-title">${repo.name}</div>
                     <div class="techy-project-category">${category.toUpperCase()}</div>
-                </div>
+                    </div>
                 <div class="techy-project-content">
                     <div class="techy-project-description">
                         ${repo.description || 'No description available. Check the repository for more details.'}
@@ -631,7 +629,7 @@ async function renderTechyProjectsSection() {
                         <a href="${repo.html_url}" class="techy-github-btn" target="_blank" title="GitHub Repository">
                             <i class="fab fa-github"></i>
                         </a>
-                    </div>
+                </div>
                 </div>
             `;
             
@@ -2019,34 +2017,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeAllInteractiveFeatures();
 });
 
-// ===== LOADING SCREEN =====
-function initializeLoadingScreen() {
-    const loadingScreen = document.getElementById('loading-screen');
-    const loadingProgress = document.getElementById('loading-progress');
-    const loadingPercentage = document.getElementById('loading-percentage');
-    
-    if (!loadingScreen) return;
-    
-    let progress = 0;
-    const loadingInterval = setInterval(() => {
-        progress += Math.random() * 15;
-        if (progress > 100) progress = 100;
-        
-        loadingProgress.style.width = progress + '%';
-        loadingPercentage.textContent = Math.round(progress) + '%';
-        
-        if (progress >= 100) {
-            clearInterval(loadingInterval);
-            setTimeout(() => {
-                loadingScreen.classList.add('hidden');
-                // Initialize other features after loading
-                initializeParticleBackground();
-                initializeCustomCursor();
-                initializeScrollAnimations();
-            }, 500);
-        }
-    }, 100);
-}
 
 // ===== PARTICLE BACKGROUND =====
 function initializeParticleBackground() {

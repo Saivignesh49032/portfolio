@@ -2234,5 +2234,331 @@ function initializeEnhancedFeatures() {
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         initializeEnhancedFeatures();
+        initializeSearchFunctionality();
+        initializeCalendlyIntegration();
+        initializeThirdPartyAPIs();
     }, 1000);
+});
+
+// ===== SEARCH FUNCTIONALITY =====
+function initializeSearchFunctionality() {
+    const searchToggle = document.getElementById('search-toggle');
+    const searchModal = document.getElementById('search-modal');
+    const searchClose = document.getElementById('search-close');
+    const searchInput = document.getElementById('search-input');
+    const searchSuggestions = document.getElementById('search-suggestions');
+    const searchResults = document.getElementById('search-results');
+    
+    if (!searchToggle || !searchModal) return;
+    
+    // Toggle search modal
+    searchToggle.addEventListener('click', () => {
+        searchModal.classList.remove('hidden');
+        searchInput.focus();
+    });
+    
+    searchClose.addEventListener('click', () => {
+        searchModal.classList.add('hidden');
+        searchInput.value = '';
+        searchSuggestions.style.display = 'none';
+        searchResults.innerHTML = '';
+    });
+    
+    // Close on overlay click
+    searchModal.addEventListener('click', (e) => {
+        if (e.target === searchModal || e.target.classList.contains('search-modal-overlay')) {
+            searchModal.classList.add('hidden');
+        }
+    });
+    
+    // Search functionality
+    let searchTimeout;
+    searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        const query = e.target.value.toLowerCase().trim();
+        
+        if (query.length < 2) {
+            searchSuggestions.style.display = 'none';
+            searchResults.innerHTML = '';
+            return;
+        }
+        
+        searchTimeout = setTimeout(() => {
+            performSearch(query);
+        }, 300);
+    });
+    
+    // Keyboard navigation
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            searchModal.classList.add('hidden');
+        }
+    });
+}
+
+function performSearch(query) {
+    const skills = window.portfolioData?.skills || [];
+    const projects = window.portfolioData?.projects || [];
+    
+    const skillsResults = skills.filter(skill => 
+        skill.name.toLowerCase().includes(query) ||
+        skill.description.toLowerCase().includes(query) ||
+        skill.category.toLowerCase().includes(query)
+    );
+    
+    const projectsResults = projects.filter(project => 
+        project.title.toLowerCase().includes(query) ||
+        project.description.toLowerCase().includes(query) ||
+        project.technologies.some(tech => tech.toLowerCase().includes(query))
+    );
+    
+    displaySearchResults(skillsResults, projectsResults);
+}
+
+function displaySearchResults(skills, projects) {
+    const skillsResults = document.getElementById('skills-results');
+    const projectsResults = document.getElementById('projects-results');
+    
+    // Display skills
+    if (skills.length > 0) {
+        skillsResults.innerHTML = skills.map(skill => `
+            <div class="search-item" onclick="scrollToSection('skills')">
+                <h5>${skill.name}</h5>
+                <p>${skill.description}</p>
+            </div>
+        `).join('');
+    } else {
+        skillsResults.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">No skills found</p>';
+    }
+    
+    // Display projects
+    if (projects.length > 0) {
+        projectsResults.innerHTML = projects.map(project => `
+            <div class="search-item" onclick="scrollToSection('projects')">
+                <h5>${project.title}</h5>
+                <p>${project.description.substring(0, 100)}...</p>
+            </div>
+        `).join('');
+    } else {
+        projectsResults.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">No projects found</p>';
+    }
+}
+
+function scrollToSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('search-modal').classList.add('hidden');
+    }
+}
+
+// ===== CALENDLY INTEGRATION =====
+function initializeCalendlyIntegration() {
+    const bookMeetingBtn = document.getElementById('book-meeting');
+    
+    if (!bookMeetingBtn) return;
+    
+    bookMeetingBtn.addEventListener('click', () => {
+        // Use config for Calendly URL
+        const calendlyUrl = `https://calendly.com/${CONFIG.CALENDLY_USERNAME}/${CONFIG.CALENDLY_EVENT_TYPE}`;
+        openCalendlyPopup(calendlyUrl);
+    });
+}
+
+function openCalendlyPopup(url) {
+    // Create popup
+    const popup = document.createElement('div');
+    popup.className = 'calendly-popup active';
+    popup.innerHTML = `
+        <div class="calendly-popup-content">
+            <button class="calendly-close" onclick="closeCalendlyPopup()">
+                <i class="fas fa-times"></i>
+            </button>
+            <iframe src="${url}" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+    `;
+    
+    document.body.appendChild(popup);
+    
+    // Close on escape key
+    const handleEscape = (e) => {
+        if (e.key === 'Escape') {
+            closeCalendlyPopup();
+            document.removeEventListener('keydown', handleEscape);
+        }
+    };
+    document.addEventListener('keydown', handleEscape);
+}
+
+function closeCalendlyPopup() {
+    const popup = document.querySelector('.calendly-popup');
+    if (popup) {
+        popup.remove();
+    }
+}
+
+// ===== THIRD-PARTY APIs =====
+function initializeThirdPartyAPIs() {
+    loadWeatherData();
+    loadTechNews();
+    loadGitHubStats();
+}
+
+async function loadWeatherData() {
+    const weatherContainer = document.getElementById('weather-data');
+    if (!weatherContainer) return;
+    
+    try {
+        // Using OpenWeatherMap API
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${CONFIG.WEATHER_CITY}&appid=${CONFIG.WEATHER_API_KEY}&units=metric`);
+        const data = await response.json();
+        
+        weatherContainer.innerHTML = `
+            <div class="weather-info">
+                <div class="weather-temp">${Math.round(data.main.temp)}°C</div>
+                <div class="weather-desc">${data.weather[0].description}</div>
+                <div class="weather-details">
+                    <div class="weather-detail">
+                        <span>Feels like</span>
+                        <strong>${Math.round(data.main.feels_like)}°C</strong>
+                    </div>
+                    <div class="weather-detail">
+                        <span>Humidity</span>
+                        <strong>${data.main.humidity}%</strong>
+                    </div>
+                    <div class="weather-detail">
+                        <span>Wind</span>
+                        <strong>${data.wind.speed} m/s</strong>
+                    </div>
+                    <div class="weather-detail">
+                        <span>Pressure</span>
+                        <strong>${data.main.pressure} hPa</strong>
+                    </div>
+                </div>
+            </div>
+        `;
+    } catch (error) {
+        weatherContainer.innerHTML = `
+            <div style="text-align: center; color: var(--text-secondary);">
+                <i class="fas fa-cloud-rain" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                <p>Weather data unavailable</p>
+            </div>
+        `;
+    }
+}
+
+async function loadTechNews() {
+    const newsContainer = document.getElementById('news-data');
+    if (!newsContainer) return;
+    
+    try {
+        // Using NewsAPI
+        const response = await fetch(`https://newsapi.org/v2/everything?q=technology&apiKey=${CONFIG.NEWS_API_KEY}&pageSize=5`);
+        const data = await response.json();
+        
+        if (data.articles && data.articles.length > 0) {
+            newsContainer.innerHTML = data.articles.map(article => `
+                <div class="news-item">
+                    <div class="news-title">${article.title}</div>
+                    <div class="news-source">${article.source.name}</div>
+                </div>
+            `).join('');
+        } else {
+            throw new Error('No articles found');
+        }
+    } catch (error) {
+        newsContainer.innerHTML = `
+            <div style="text-align: center; color: var(--text-secondary);">
+                <i class="fas fa-newspaper" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                <p>News unavailable</p>
+            </div>
+        `;
+    }
+}
+
+async function loadGitHubStats() {
+    const statsContainer = document.getElementById('github-stats');
+    if (!statsContainer) return;
+    
+    try {
+        // Using GitHub API
+        const response = await fetch(`https://api.github.com/users/${CONFIG.GITHUB_USERNAME}`);
+        const data = await response.json();
+        
+        statsContainer.innerHTML = `
+            <div class="stat-item">
+                <div class="stat-number">${data.public_repos}</div>
+                <div class="stat-label">Repositories</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">${data.followers}</div>
+                <div class="stat-label">Followers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">${data.following}</div>
+                <div class="stat-label">Following</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">${new Date().getFullYear() - new Date(data.created_at).getFullYear()}</div>
+                <div class="stat-label">Years on GitHub</div>
+            </div>
+        `;
+    } catch (error) {
+        statsContainer.innerHTML = `
+            <div style="text-align: center; color: var(--text-secondary);">
+                <i class="fas fa-github" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                <p>GitHub stats unavailable</p>
+            </div>
+        `;
+    }
+}
+
+// ===== GOOGLE ANALYTICS =====
+function initializeGoogleAnalytics() {
+    // Track page views
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'page_view', {
+            page_title: document.title,
+            page_location: window.location.href
+        });
+    }
+    
+    // Track button clicks
+    document.addEventListener('click', (e) => {
+        if (e.target.matches('.btn, .nav-link, .social-link')) {
+            const element = e.target.closest('.btn, .nav-link, .social-link');
+            const text = element.textContent.trim();
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'click', {
+                    event_category: 'engagement',
+                    event_label: text,
+                    value: 1
+                });
+            }
+        }
+    });
+    
+    // Track scroll depth
+    let maxScroll = 0;
+    window.addEventListener('scroll', () => {
+        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        
+        if (scrollPercent > maxScroll && scrollPercent % 25 === 0) {
+            maxScroll = scrollPercent;
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'scroll', {
+                    event_category: 'engagement',
+                    event_label: `${scrollPercent}%`,
+                    value: scrollPercent
+                });
+            }
+        }
+    });
+}
+
+// Initialize Google Analytics
+document.addEventListener('DOMContentLoaded', function() {
+    initializeGoogleAnalytics();
 });

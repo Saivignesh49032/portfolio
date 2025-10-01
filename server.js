@@ -230,7 +230,12 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log(`Database initialized at: ${db.dataFile}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+        console.log(`Database initialized at: ${db.dataFile}`);
+    });
+}
+
+// Export for Vercel
+module.exports = app;

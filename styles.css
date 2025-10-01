@@ -6494,21 +6494,21 @@ body.menu-open {
 }
 
 .stat-label {
-    color: #00ff41;
-    font-weight: bold;
+    color: var(--primary-color);
+    font-weight: var(--font-semibold);
     text-transform: uppercase;
     letter-spacing: 0.1em;
 }
 
 .stat-value {
-    color: #00ff41;
-    font-weight: bold;
+    color: var(--primary-color);
+    font-weight: var(--font-semibold);
     font-size: 1.1rem;
 }
 
 .stat-value.online {
-    color: #00ff41;
-    text-shadow: 0 0 10px #00ff41;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px var(--primary-color);
     animation: pulse 2s infinite;
 }
 
@@ -6596,14 +6596,15 @@ body.menu-open {
 .techy-no-content {
     grid-column: 1 / -1;
     text-align: center;
-    color: #00ff41;
-    font-family: 'Courier New', monospace;
+    color: var(--primary-color);
+    font-family: var(--font-family);
     font-size: 1.2rem;
     padding: 3rem;
-    border: 2px solid #00ff41;
-    background: rgba(0, 255, 65, 0.1);
+    border: 2px solid var(--primary-color);
+    background: rgba(37, 99, 235, 0.1);
     text-transform: uppercase;
     letter-spacing: 0.1em;
+    border-radius: var(--radius-2xl);
 }
 
 /* Project Filter Tabs */

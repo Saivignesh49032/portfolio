@@ -7,6 +7,13 @@ let isDarkMode = false;
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Portfolio initializing...');
     
+    // Test if data is loaded
+    console.log('Portfolio data loaded:', !!window.portfolioData);
+    if (window.portfolioData) {
+        console.log('Skills count:', window.portfolioData.skills?.length || 0);
+        console.log('Projects count:', window.portfolioData.projects?.length || 0);
+    }
+    
     // Initialize loading screen first
     initializeLoadingScreen();
     
@@ -383,6 +390,14 @@ function renderPortfolioContent() {
     
     // Render services section
     renderServicesSection();
+    
+    // Fallback: ensure sections are rendered after a delay
+    setTimeout(() => {
+        console.log('Fallback: Re-rendering sections...');
+        renderSkillsSection();
+        renderTechyProjectsSection();
+        renderServicesSection();
+    }, 2000);
     
     console.log('Portfolio content rendered successfully!');
 }

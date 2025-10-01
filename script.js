@@ -7,6 +7,9 @@ let isDarkMode = false;
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Portfolio initializing...');
     
+    // Initialize loading screen first
+    initializeLoadingScreen();
+    
     // Add touch-friendly interactions for mobile
     addTouchInteractions();
     
@@ -1997,4 +2000,239 @@ function initializeAllInteractiveFeatures() {
 // Initialize interactive features when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeAllInteractiveFeatures();
+});
+
+// ===== LOADING SCREEN =====
+function initializeLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingProgress = document.getElementById('loading-progress');
+    const loadingPercentage = document.getElementById('loading-percentage');
+    
+    if (!loadingScreen) return;
+    
+    let progress = 0;
+    const loadingInterval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress > 100) progress = 100;
+        
+        loadingProgress.style.width = progress + '%';
+        loadingPercentage.textContent = Math.round(progress) + '%';
+        
+        if (progress >= 100) {
+            clearInterval(loadingInterval);
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                // Initialize other features after loading
+                initializeParticleBackground();
+                initializeCustomCursor();
+                initializeScrollAnimations();
+            }, 500);
+        }
+    }, 100);
+}
+
+// ===== PARTICLE BACKGROUND =====
+function initializeParticleBackground() {
+    const particlesContainer = document.getElementById('particles-container');
+    if (!particlesContainer) return;
+    
+    // Create particles dynamically
+    for (let i = 0; i < 50; i++) {
+        createParticle(particlesContainer);
+    }
+    
+    // Add more particles on mouse move
+    document.addEventListener('mousemove', () => {
+        if (Math.random() < 0.1) {
+            createParticle(particlesContainer);
+        }
+    });
+}
+
+function createParticle(container) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    
+    // Random position
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.top = Math.random() * 100 + '%';
+    
+    // Random size
+    const size = Math.random() * 4 + 2;
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    
+    // Random animation delay
+    particle.style.animationDelay = Math.random() * 6 + 's';
+    particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+    
+    container.appendChild(particle);
+    
+    // Remove particle after animation
+    setTimeout(() => {
+        if (particle.parentNode) {
+            particle.parentNode.removeChild(particle);
+        }
+    }, 10000);
+}
+
+// ===== ENHANCED CUSTOM CURSOR =====
+function initializeCustomCursor() {
+    const cursor = document.getElementById('custom-cursor');
+    if (!cursor) return;
+    
+    // Hide default cursor
+    document.body.style.cursor = 'none';
+    
+    // Track mouse movement
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+    
+    // Add hover effects
+    const hoverElements = document.querySelectorAll('a, button, .interactive-card, .btn');
+    hoverElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            cursor.classList.add('hover');
+        });
+        element.addEventListener('mouseleave', () => {
+            cursor.classList.remove('hover');
+        });
+    });
+    
+    // Click effect
+    document.addEventListener('click', () => {
+        cursor.style.transform = 'scale(0.8)';
+        setTimeout(() => {
+            cursor.style.transform = 'scale(1)';
+        }, 100);
+    });
+}
+
+// ===== SCROLL-TRIGGERED ANIMATIONS =====
+function initializeScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+            }
+        });
+    }, observerOptions);
+    
+    // Observe all animated elements
+    const animatedElements = document.querySelectorAll('.animate-on-scroll, .animate-left, .animate-right, .animate-scale, .animate-rotate');
+    animatedElements.forEach(el => {
+        observer.observe(el);
+    });
+    
+    // Add stagger effect to skill cards
+    const skillCards = document.querySelectorAll('.skill-card');
+    skillCards.forEach((card, index) => {
+        card.style.animationDelay = (index * 0.1) + 's';
+        observer.observe(card);
+    });
+    
+    // Add stagger effect to project cards
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach((card, index) => {
+        card.style.animationDelay = (index * 0.15) + 's';
+        observer.observe(card);
+    });
+}
+
+// ===== 3D CARD INTERACTIONS =====
+function initialize3DCards() {
+    const cards3D = document.querySelectorAll('.3d-card');
+    
+    cards3D.forEach(card => {
+        card.addEventListener('mouseenter', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        });
+        
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        });
+    });
+}
+
+// ===== ENHANCED INTERACTIVE FEATURES =====
+function initializeEnhancedFeatures() {
+    // Initialize 3D cards
+    initialize3DCards();
+    
+    // Add magnetic effect to buttons
+    const magneticElements = document.querySelectorAll('[data-magnetic]');
+    magneticElements.forEach(element => {
+        element.addEventListener('mousemove', (e) => {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            element.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            element.style.transform = 'translate(0px, 0px)';
+        });
+    });
+    
+    // Add ripple effect to buttons
+    const rippleElements = document.querySelectorAll('.btn');
+    rippleElements.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const ripple = document.createElement('span');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+}
+
+// Initialize enhanced features
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        initializeEnhancedFeatures();
+    }, 1000);
 });

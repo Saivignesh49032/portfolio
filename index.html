@@ -15,11 +15,30 @@
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress" id="scroll-progress"></div>
     
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="logo-circle">
+                    <span class="logo-text">SV</span>
+                </div>
+            </div>
+            <div class="loading-text">
+                <h2>Loading Portfolio</h2>
+                <div class="loading-bar">
+                    <div class="loading-progress" id="loading-progress"></div>
+                </div>
+                <p class="loading-percentage" id="loading-percentage">0%</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Custom Interactive Cursor -->
     <div class="custom-cursor" id="custom-cursor">
         <div class="cursor-dot"></div>
         <div class="cursor-outline"></div>
-        </div>
+        <div class="cursor-trail"></div>
+    </div>
     
     <!-- Interactive Background Elements -->
     <div class="interactive-bg">
@@ -90,11 +109,27 @@
                     </div>
                 </div>
                 <div class="hero-image">
-                    <div class="image-container interactive-card" data-tilt>
-                        <img src="profilepic.jpg" 
-                             alt="Sai Vignesh S P - AI/ML Engineer" 
-                             class="profile-image"
-                             onerror="this.src='https://github.com/Saivignesh49032/portfolio/raw/main/profilepic.jpg'">
+                    <div class="image-container interactive-card 3d-card" data-tilt>
+                        <div class="card-inner">
+                            <div class="card-face card-front">
+                                <img src="profilepic.jpg" 
+                                     alt="Sai Vignesh S P - AI/ML Engineer" 
+                                     class="profile-image"
+                                     onerror="this.src='https://github.com/Saivignesh49032/portfolio/raw/main/profilepic.jpg'">
+                            </div>
+                            <div class="card-face card-back">
+                                <div class="card-back-content">
+                                    <h3>AI/ML Engineer</h3>
+                                    <p>Transforming ideas into intelligent solutions</p>
+                                    <div class="tech-stack">
+                                        <span class="tech-tag">Python</span>
+                                        <span class="tech-tag">TensorFlow</span>
+                                        <span class="tech-tag">React</span>
+                                        <span class="tech-tag">Node.js</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- Social Links Below Photo -->
                     <div class="hero-social-links">
@@ -128,7 +163,7 @@
                 <p class="section-subtitle">Get to know me better</p>
             </div>
             <div class="about-content">
-                <div class="about-text animate-left">
+                <div class="about-text animate-left animate-on-scroll">
                     <h3>I'm a passionate developer</h3>
                     <p id="about-intro">
                         An innovative AI/ML and Software Engineer with a deep passion for transforming complex problems into intelligent solutions. 
@@ -149,7 +184,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="about-skills animate-right">
+                <div class="about-skills animate-right animate-on-scroll">
                     <h3>What I Do</h3>
                     <div class="skill-categories">
                         <div class="skill-category">
@@ -738,28 +773,29 @@
 
 
 
-    <!-- Animated Background Particles -->
-    <div class="particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
+    <!-- Enhanced Animated Background -->
+    <div class="animated-background">
+        <!-- Floating Particles -->
+        <div class="particles-container" id="particles-container">
+            <!-- Particles will be generated dynamically -->
+        </div>
+        
+        <!-- Geometric Shapes -->
+        <div class="geometric-shapes">
+            <div class="shape triangle"></div>
+            <div class="shape circle"></div>
+            <div class="shape square"></div>
+            <div class="shape hexagon"></div>
+            <div class="shape diamond"></div>
+            <div class="shape star"></div>
+        </div>
+        
+        <!-- Gradient Orbs -->
+        <div class="gradient-orbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
     </div>
 
     <!-- Scripts -->

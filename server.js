@@ -204,10 +204,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Serve admin page
-app.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname, 'admin.html'));
-});
 
 // Explicit routes for static files
 app.get('/styles.css', (req, res) => {
@@ -218,13 +214,6 @@ app.get('/script.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'script.js'));
 });
 
-app.get('/admin-api.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'admin-api.js'));
-});
-
-app.get('/admin-new.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'admin-new.js'));
-});
 
 app.get('/data.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'data.js'));

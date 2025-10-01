@@ -12,10 +12,6 @@
       "dest": "/server.js"
     },
     {
-      "src": "/admin-panel",
-      "dest": "/server.js"
-    },
-    {
       "src": "/(.*)",
       "dest": "/server.js"
     }

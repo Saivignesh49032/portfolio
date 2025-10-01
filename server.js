@@ -3,37 +3,16 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
-const mongoose = require('mongoose');
-require('dotenv').config();
-
-// Import MongoDB routes
-const projectRoutes = require('./routes/projectRoutes');
-const authRoutes = require('./routes/authRoutes');
-
-// Import existing database for fallback
 const Database = require('./database');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Initialize fallback database
+// Initialize database
 const db = new Database();
 
-// Enhanced CORS configuration for frontend access
-app.use(cors({
-    origin: [
-        'http://localhost:3000',
-        'http://localhost:3001', 
-        'https://your-portfolio.vercel.app',
-        'https://portfolio-saivignesh.vercel.app',
-        'https://saivignesh49032.github.io'
-    ],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
-
 // Middleware
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -54,60 +33,12 @@ app.use(express.static('.', {
     }
 }));
 
-// MongoDB Connection (optional - falls back to JSON if not available)
-const connectDB = async () => {
-    try {
-        if (process.env.DB_CONNECTION_STRING) {
-            const conn = await mongoose.connect(process.env.DB_CONNECTION_STRING, {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-            });
-            console.log(`MongoDB Connected: ${conn.connection.host}`);
-            return true;
-        } else {
-            console.log('MongoDB not configured, using JSON fallback');
-            return false;
-        }
-    } catch (error) {
-        console.error('MongoDB connection error:', error);
-        console.log('Falling back to JSON database');
-        return false;
-    }
-};
-
-// Connect to MongoDB (optional)
-let mongoConnected = false;
-connectDB().then(connected => {
-    mongoConnected = connected;
-});
+// Serve static files from public folder
+app.use(express.static('public'));
 
 // API Routes
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-    res.json({
-        status: 'OK',
-        timestamp: new Date().toISOString(),
-        database: mongoConnected ? 'MongoDB' : 'JSON',
-        environment: process.env.NODE_ENV || 'development'
-    });
-});
-
-// Simple health check for Vercel
-app.get('/health', (req, res) => {
-    res.json({ status: 'OK', message: 'Server is running' });
-});
-
-// MongoDB API Routes (if connected)
-if (process.env.DB_CONNECTION_STRING) {
-    app.use('/api/projects', projectRoutes);
-    app.use('/api/auth', authRoutes);
-} else {
-    // Add auth routes even without MongoDB for fallback
-    app.use('/api/auth', authRoutes);
-}
-
-// Fallback JSON API Routes (existing functionality)
+// Get all data
 app.get('/api/portfolio', (req, res) => {
     try {
         const data = db.loadData();
@@ -121,8 +52,8 @@ app.get('/api/portfolio', (req, res) => {
 // Skills API
 app.get('/api/skills', (req, res) => {
     try {
-        const data = db.loadData();
-        res.json(data.skills || []);
+        const skills = db.getSkills();
+        res.json(skills);
     } catch (error) {
         console.error('Error fetching skills:', error);
         res.status(500).json({ error: 'Failed to fetch skills' });
@@ -131,32 +62,26 @@ app.get('/api/skills', (req, res) => {
 
 app.post('/api/skills', (req, res) => {
     try {
-        const skill = req.body;
-        skill.id = Date.now();
-        const data = db.loadData();
-        data.skills.push(skill);
-        db.saveData(data);
-        res.json(skill);
+        const skill = db.addSkill(req.body);
+        if (skill) {
+            res.json(skill);
+        } else {
+            res.status(400).json({ error: 'Failed to add skill' });
+        }
     } catch (error) {
-        console.error('Error creating skill:', error);
-        res.status(500).json({ error: 'Failed to create skill' });
+        console.error('Error adding skill:', error);
+        res.status(500).json({ error: 'Failed to add skill' });
     }
 });
 
 app.put('/api/skills/:id', (req, res) => {
     try {
-        const id = parseInt(req.params.id);
-        const updatedSkill = req.body;
-        const data = db.loadData();
-        const skillIndex = data.skills.findIndex(skill => skill.id === id);
-        
-        if (skillIndex === -1) {
-            return res.status(404).json({ error: 'Skill not found' });
+        const skill = db.updateSkill(req.params.id, req.body);
+        if (skill) {
+            res.json(skill);
+        } else {
+            res.status(404).json({ error: 'Skill not found' });
         }
-        
-        data.skills[skillIndex] = { ...updatedSkill, id };
-        db.saveData(data);
-        res.json(data.skills[skillIndex]);
     } catch (error) {
         console.error('Error updating skill:', error);
         res.status(500).json({ error: 'Failed to update skill' });
@@ -165,17 +90,12 @@ app.put('/api/skills/:id', (req, res) => {
 
 app.delete('/api/skills/:id', (req, res) => {
     try {
-        const id = parseInt(req.params.id);
-        const data = db.loadData();
-        const skillIndex = data.skills.findIndex(skill => skill.id === id);
-        
-        if (skillIndex === -1) {
-            return res.status(404).json({ error: 'Skill not found' });
+        const success = db.deleteSkill(req.params.id);
+        if (success) {
+            res.json({ message: 'Skill deleted successfully' });
+        } else {
+            res.status(404).json({ error: 'Skill not found' });
         }
-        
-        data.skills.splice(skillIndex, 1);
-        db.saveData(data);
-        res.json({ message: 'Skill deleted successfully' });
     } catch (error) {
         console.error('Error deleting skill:', error);
         res.status(500).json({ error: 'Failed to delete skill' });
@@ -185,8 +105,8 @@ app.delete('/api/skills/:id', (req, res) => {
 // Projects API
 app.get('/api/projects', (req, res) => {
     try {
-        const data = db.loadData();
-        res.json(data.projects || []);
+        const projects = db.getProjects();
+        res.json(projects);
     } catch (error) {
         console.error('Error fetching projects:', error);
         res.status(500).json({ error: 'Failed to fetch projects' });
@@ -195,32 +115,26 @@ app.get('/api/projects', (req, res) => {
 
 app.post('/api/projects', (req, res) => {
     try {
-        const project = req.body;
-        project.id = Date.now();
-        const data = db.loadData();
-        data.projects.push(project);
-        db.saveData(data);
-        res.json(project);
+        const project = db.addProject(req.body);
+        if (project) {
+            res.json(project);
+        } else {
+            res.status(400).json({ error: 'Failed to add project' });
+        }
     } catch (error) {
-        console.error('Error creating project:', error);
-        res.status(500).json({ error: 'Failed to create project' });
+        console.error('Error adding project:', error);
+        res.status(500).json({ error: 'Failed to add project' });
     }
 });
 
 app.put('/api/projects/:id', (req, res) => {
     try {
-        const id = parseInt(req.params.id);
-        const updatedProject = req.body;
-        const data = db.loadData();
-        const projectIndex = data.projects.findIndex(project => project.id === id);
-        
-        if (projectIndex === -1) {
-            return res.status(404).json({ error: 'Project not found' });
+        const project = db.updateProject(req.params.id, req.body);
+        if (project) {
+            res.json(project);
+        } else {
+            res.status(404).json({ error: 'Project not found' });
         }
-        
-        data.projects[projectIndex] = { ...updatedProject, id };
-        db.saveData(data);
-        res.json(data.projects[projectIndex]);
     } catch (error) {
         console.error('Error updating project:', error);
         res.status(500).json({ error: 'Failed to update project' });
@@ -229,28 +143,37 @@ app.put('/api/projects/:id', (req, res) => {
 
 app.delete('/api/projects/:id', (req, res) => {
     try {
-        const id = parseInt(req.params.id);
-        const data = db.loadData();
-        const projectIndex = data.projects.findIndex(project => project.id === id);
-        
-        if (projectIndex === -1) {
-            return res.status(404).json({ error: 'Project not found' });
+        const success = db.deleteProject(req.params.id);
+        if (success) {
+            res.json({ message: 'Project deleted successfully' });
+        } else {
+            res.status(404).json({ error: 'Project not found' });
         }
-        
-        data.projects.splice(projectIndex, 1);
-        db.saveData(data);
-        res.json({ message: 'Project deleted successfully' });
     } catch (error) {
         console.error('Error deleting project:', error);
         res.status(500).json({ error: 'Failed to delete project' });
     }
 });
 
+app.patch('/api/projects/:id/toggle-featured', (req, res) => {
+    try {
+        const project = db.toggleProjectFeatured(req.params.id);
+        if (project) {
+            res.json(project);
+        } else {
+            res.status(404).json({ error: 'Project not found' });
+        }
+    } catch (error) {
+        console.error('Error toggling project featured status:', error);
+        res.status(500).json({ error: 'Failed to toggle project featured status' });
+    }
+});
+
 // Personal Info API
 app.get('/api/personal-info', (req, res) => {
     try {
-        const data = db.loadData();
-        res.json(data.personalInfo || {});
+        const personalInfo = db.getPersonalInfo();
+        res.json(personalInfo);
     } catch (error) {
         console.error('Error fetching personal info:', error);
         res.status(500).json({ error: 'Failed to fetch personal info' });
@@ -259,15 +182,21 @@ app.get('/api/personal-info', (req, res) => {
 
 app.put('/api/personal-info', (req, res) => {
     try {
-        const personalInfo = req.body;
-        const data = db.loadData();
-        data.personalInfo = { ...data.personalInfo, ...personalInfo };
-        db.saveData(data);
-        res.json(data.personalInfo);
+        const personalInfo = db.updatePersonalInfo(req.body);
+        if (personalInfo) {
+            res.json(personalInfo);
+        } else {
+            res.status(400).json({ error: 'Failed to update personal info' });
+        }
     } catch (error) {
         console.error('Error updating personal info:', error);
         res.status(500).json({ error: 'Failed to update personal info' });
     }
+});
+
+// Health check
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
 // Serve main page
@@ -275,21 +204,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Serve admin panel
-app.get('/admin-panel', (req, res) => {
-    console.log('Admin panel requested');
-    try {
-        res.sendFile(path.join(__dirname, 'admin-panel.html'));
-    } catch (error) {
-        console.error('Error serving admin panel:', error);
-        res.status(500).send('Error loading admin panel');
-    }
-});
-
-// Serve test page
-app.get('/test-admin', (req, res) => {
-    res.sendFile(path.join(__dirname, 'test-admin.html'));
-});
 
 // Explicit routes for static files
 app.get('/styles.css', (req, res) => {
@@ -299,6 +213,7 @@ app.get('/styles.css', (req, res) => {
 app.get('/script.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'script.js'));
 });
+
 
 app.get('/data.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'data.js'));
@@ -311,29 +226,14 @@ app.get('/profilepic.jpg', (req, res) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Unhandled error:', err);
-    res.status(500).json({ 
-        success: false,
-        error: 'Internal server error',
-        message: err.message 
-    });
-});
-
-// 404 handler
-app.use('*', (req, res) => {
-    res.status(404).json({
-        success: false,
-        message: 'Route not found',
-        path: req.originalUrl
-    });
+    res.status(500).json({ error: 'Internal server error' });
 });
 
 // Start server
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
-        console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-        console.log(`Database: ${mongoConnected ? 'MongoDB' : 'JSON Fallback'}`);
-        console.log(`CORS enabled for frontend access`);
+        console.log(`Database initialized at: ${db.dataFile}`);
     });
 }
 

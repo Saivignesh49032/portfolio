@@ -97,6 +97,9 @@ app.get('/api/health', (req, res) => {
 if (process.env.DB_CONNECTION_STRING) {
     app.use('/api/projects', projectRoutes);
     app.use('/api/auth', authRoutes);
+} else {
+    // Add auth routes even without MongoDB for fallback
+    app.use('/api/auth', authRoutes);
 }
 
 // Fallback JSON API Routes (existing functionality)

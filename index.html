@@ -277,50 +277,45 @@
     <section id="projects" class="projects">
         <div class="container">
             <div class="section-header animate-on-scroll">
-                <h2 class="section-title">My Creative Workspace</h2>
-                <p class="section-subtitle">Where ideas come to life through code</p>
+                <h2 class="section-title">Featured Projects</h2>
+                <p class="section-subtitle">Explore my recent work and creative solutions</p>
             </div>
             
             <!-- Project Filter Tabs -->
-            <div class="project-filters animate-scale">
-                <button class="filter-btn active" data-filter="all">All Projects</button>
-                <button class="filter-btn" data-filter="featured">⭐ Featured</button>
-                <button class="filter-btn" data-filter="ml">🤖 AI/ML</button>
-                <button class="filter-btn" data-filter="web">🌐 Web Dev</button>
-                <button class="filter-btn" data-filter="data">📊 Data Science</button>
+            <div class="project-filters animate-on-scroll">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-th"></i>
+                    <span>All Projects</span>
+                </button>
+                <button class="filter-btn" data-filter="web">
+                    <i class="fas fa-globe"></i>
+                    <span>Web Development</span>
+                </button>
+                <button class="filter-btn" data-filter="ai">
+                    <i class="fas fa-brain"></i>
+                    <span>AI/ML</span>
+                </button>
+                <button class="filter-btn" data-filter="mobile">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>Mobile Apps</span>
+                </button>
+                <button class="filter-btn" data-filter="tools">
+                    <i class="fas fa-tools"></i>
+                    <span>Tools & Utilities</span>
+                </button>
             </div>
             
-            <!-- Projects Showcase -->
-            <div class="projects-showcase interactive-showcase">
-                <!-- Featured Project Spotlight -->
-                <div class="spotlight-section animate-scale">
-                    <h3 class="spotlight-title">✨ Project Spotlight</h3>
-                    <div class="spotlight-container" id="spotlight-project">
-                        <!-- Featured project will be loaded here -->
-                    </div>
-                </div>
-                
-                <!-- Interactive Project Grid -->
-                <div class="interactive-grid animate-scale">
-                    <div class="grid-header">
-                        <h3 class="grid-title">💼 Project Collection</h3>
-                        <div class="view-toggle">
-                            <button class="view-btn active" data-view="masonry">
-                                <i class="fas fa-th"></i> Masonry
-                            </button>
-                            <button class="view-btn" data-view="timeline">
-                                <i class="fas fa-timeline"></i> Timeline
-                            </button>
-                            <button class="view-btn" data-view="cards">
-                                <i class="fas fa-layer-group"></i> Cards
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="projects-container" id="projects-container">
-                        <!-- Projects will be loaded here -->
-                    </div>
-                </div>
+            <!-- Projects Masonry Grid -->
+            <div class="projects-masonry animate-on-scroll" id="projects-masonry">
+                <!-- Projects will be loaded dynamically -->
+            </div>
+            
+            <!-- View More Button -->
+            <div class="projects-cta animate-on-scroll">
+                <button class="btn btn-outline" id="view-more-projects">
+                    <i class="fas fa-plus"></i>
+                    <span>View More Projects</span>
+                </button>
             </div>
             
             <!-- Project Stats -->

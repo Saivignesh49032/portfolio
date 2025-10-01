@@ -378,8 +378,8 @@ function renderPortfolioContent() {
     // Render skills section
     renderSkillsSection();
     
-    // Render projects section
-    renderProjectsSection();
+    // Render modern projects section
+    renderModernProjectsSection();
     
     // Render services section
     renderServicesSection();
@@ -539,25 +539,22 @@ function renderSkillsSection() {
     }, 500);
 }
 
-function renderProjectsSection() {
-    console.log('Rendering projects section...');
+function renderModernProjectsSection() {
+    console.log('Rendering modern projects section...');
     
-    const spotlightContainer = document.getElementById('spotlight-project');
-    const projectsContainer = document.getElementById('projects-container');
+    const projectsMasonry = document.getElementById('projects-masonry');
     
-    if (!spotlightContainer || !projectsContainer) {
-        console.error('Projects containers not found!');
+    if (!projectsMasonry) {
+        console.error('Projects masonry container not found!');
         return;
     }
     
     // Clear existing content
-    spotlightContainer.innerHTML = '';
-    projectsContainer.innerHTML = '';
+    projectsMasonry.innerHTML = '';
     
     // Check if data is available
     if (!window.portfolioData || !window.portfolioData.projects) {
-        spotlightContainer.innerHTML = '<p class="no-content">No projects data available. Please check the data file.</p>';
-        projectsContainer.innerHTML = '<p class="no-content">No projects data available. Please check the data file.</p>';
+        projectsMasonry.innerHTML = '<p class="no-content">No projects data available. Please check the data file.</p>';
         return;
     }
     
@@ -565,79 +562,76 @@ function renderProjectsSection() {
     console.log('Projects data:', projects);
     
     if (projects.length === 0) {
-        spotlightContainer.innerHTML = '<p class="no-content">No projects available.</p>';
-        projectsContainer.innerHTML = '<p class="no-content">No projects available.</p>';
+        projectsMasonry.innerHTML = '<p class="no-content">No projects available.</p>';
         return;
     }
     
-    // Find the first featured project for spotlight
-    const featuredProject = projects.find(project => project.featured) || projects[0];
-    
-    // Render spotlight project
-    if (featuredProject) {
-        const spotlightCard = document.createElement('div');
-        spotlightCard.className = 'spotlight-project';
-        spotlightCard.innerHTML = `
-            <div class="spotlight-header">
-                <h3 class="spotlight-title-text">
-                    ${featuredProject.title}
-                    ${featuredProject.featured ? '<span class="spotlight-badge">⭐ Featured</span>' : ''}
-                </h3>
-                <p class="spotlight-category">${featuredProject.category}</p>
-                <p class="spotlight-description">${featuredProject.description}</p>
-            </div>
-            <div class="spotlight-content">
-                <div class="spotlight-tech">
-                    ${featuredProject.technologies.map(tech => `<span class="spotlight-tech-tag">${tech}</span>`).join('')}
+    // Render all projects with modern cards
+    projects.forEach((project, index) => {
+        const projectCard = document.createElement('div');
+        projectCard.className = 'project-card';
+        projectCard.setAttribute('data-category', project.category || 'web');
+        projectCard.setAttribute('data-featured', project.featured || false);
+        projectCard.style.animationDelay = `${index * 0.1}s`;
+        
+        // Determine category for filtering
+        let category = 'web';
+        if (project.category) {
+            if (project.category.toLowerCase().includes('ai') || project.category.toLowerCase().includes('ml')) {
+                category = 'ai';
+            } else if (project.category.toLowerCase().includes('mobile')) {
+                category = 'mobile';
+            } else if (project.category.toLowerCase().includes('tool')) {
+                category = 'tools';
+            }
+        }
+        projectCard.setAttribute('data-category', category);
+        
+        projectCard.innerHTML = `
+            <div class="project-image">
+                <img src="${project.image || 'https://via.placeholder.com/400x300/667eea/ffffff?text=Project+Image'}" alt="${project.title}">
+                <div class="project-overlay">
+                    <div class="project-overlay-buttons">
+                        <a href="${project.demo || project.liveUrl || '#'}" class="project-overlay-btn" target="_blank" title="View Live Demo">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                        <a href="${project.github || project.githubUrl || '#'}" class="project-overlay-btn" target="_blank" title="View Source Code">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
                 </div>
-                <div class="spotlight-links">
-                    ${featuredProject.github ? `<a href="${featuredProject.github}" target="_blank" class="spotlight-link"><i class="fab fa-github"></i> GitHub</a>` : ''}
-                    ${featuredProject.demo ? `<a href="${featuredProject.demo}" target="_blank" class="spotlight-link secondary"><i class="fas fa-external-link-alt"></i> Demo</a>` : ''}
+            </div>
+            <div class="project-content">
+                <div class="project-category">${project.category || 'Web Development'}</div>
+                <h3 class="project-title">${project.title}</h3>
+                <p class="project-description">${project.description}</p>
+                <div class="project-tech">
+                    ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                </div>
+                <div class="project-actions">
+                    <a href="${project.demo || project.liveUrl || '#'}" class="project-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span>View Project</span>
+                    </a>
+                    <a href="${project.github || project.githubUrl || '#'}" class="project-github" target="_blank" title="GitHub Repository">
+                        <i class="fab fa-github"></i>
+                    </a>
                 </div>
             </div>
         `;
-        spotlightContainer.appendChild(spotlightCard);
-    }
-    
-    // Render all projects
-    projects.forEach((project, index) => {
-            const projectCard = document.createElement('div');
-        projectCard.className = 'project-item';
-        projectCard.style.animationDelay = `${index * 0.1}s`;
-        projectCard.setAttribute('data-category', project.category.toLowerCase().replace(/\s+/g, '-'));
-        projectCard.setAttribute('data-featured', project.featured);
-            projectCard.innerHTML = `
-            <div class="project-header">
-                <h3 class="project-title">
-                    ${project.title}
-                    ${project.featured ? '<span class="project-badge">⭐ Featured</span>' : ''}
-                </h3>
-                <p class="project-category">${project.category}</p>
-            </div>
-                <div class="project-content">
-                <p class="project-description">${project.description}</p>
-                    <div class="project-tech">
-                        ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
-                    </div>
-                <div class="project-links">
-                     ${project.github ? `<a href="${project.github}" target="_blank" class="project-link github"><i class="fab fa-github"></i> GitHub</a>` : ''}
-                    ${project.demo ? `<a href="${project.demo}" target="_blank" class="project-link secondary"><i class="fas fa-external-link-alt"></i> Demo</a>` : ''}
-                </div>
-                </div>
-            `;
-        projectsContainer.appendChild(projectCard);
+        
+        projectsMasonry.appendChild(projectCard);
     });
     
     // Initialize interactive features
     initializeProjectFilters();
-    initializeViewToggle();
-    updateProjectStats();
+    initializeProjectStats();
 }
 
-// Initialize project filtering
+// Initialize modern project filtering
 function initializeProjectFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const projectItems = document.querySelectorAll('.project-item');
+    const projectCards = document.querySelectorAll('.project-card');
     
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -647,10 +641,10 @@ function initializeProjectFilters() {
             
             const filter = button.getAttribute('data-filter');
             
-            // Filter projects
-            projectItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-                const featured = item.getAttribute('data-featured') === 'true';
+            // Filter projects with smooth animation
+            projectCards.forEach((card, index) => {
+                const category = card.getAttribute('data-category');
+                const featured = card.getAttribute('data-featured') === 'true';
                 
                 let show = false;
                 
@@ -658,24 +652,26 @@ function initializeProjectFilters() {
                     case 'all':
                         show = true;
                         break;
-                    case 'featured':
-                        show = featured;
-                        break;
-                    case 'ml':
-                        show = category.includes('machine-learning') || category.includes('ai');
-                        break;
                     case 'web':
-                        show = category.includes('web');
+                        show = category === 'web';
                         break;
-                    case 'data':
-                        show = category.includes('data');
+                    case 'ai':
+                        show = category === 'ai';
+                        break;
+                    case 'mobile':
+                        show = category === 'mobile';
+                        break;
+                    case 'tools':
+                        show = category === 'tools';
                         break;
                 }
                 
                 if (show) {
-                    item.classList.remove('hidden');
+                    card.style.display = 'block';
+                    card.style.animation = `fadeInUp 0.6s ease forwards`;
+                    card.style.animationDelay = `${index * 0.1}s`;
                 } else {
-                    item.classList.add('hidden');
+                    card.style.display = 'none';
                 }
             });
         });
@@ -702,7 +698,7 @@ function initializeViewToggle() {
 }
 
 // Update project statistics
-function updateProjectStats() {
+function initializeProjectStats() {
     const projects = window.portfolioData.projects || [];
     const featuredProjects = projects.filter(project => project.featured);
     const allTechnologies = new Set();

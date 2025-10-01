@@ -500,7 +500,9 @@ function renderSkillsSection() {
     skillsGrid.innerHTML = '';
     
     // Check if data is available
+    console.log('Portfolio data:', window.portfolioData);
     if (!window.portfolioData || !window.portfolioData.skills) {
+        console.error('No skills data available!');
         skillsGrid.innerHTML = '<p class="no-content">No skills data available. Please check the data file.</p>';
         return;
     }

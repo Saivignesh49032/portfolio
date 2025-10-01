@@ -2297,6 +2297,7 @@ function initializeSearchFunctionality() {
 }
 
 function performSearch(query) {
+    // Get data from the portfolio data
     const skills = window.portfolioData?.skills || [];
     const projects = window.portfolioData?.projects || [];
     
@@ -2309,7 +2310,7 @@ function performSearch(query) {
     const projectsResults = projects.filter(project => 
         project.title.toLowerCase().includes(query) ||
         project.description.toLowerCase().includes(query) ||
-        project.technologies.some(tech => tech.toLowerCase().includes(query))
+        (project.technologies && project.technologies.some(tech => tech.toLowerCase().includes(query)))
     );
     
     displaySearchResults(skillsResults, projectsResults);
@@ -2359,10 +2360,74 @@ function initializeCalendlyIntegration() {
     if (!bookMeetingBtn) return;
     
     bookMeetingBtn.addEventListener('click', () => {
-        // Use config for Calendly URL
-        const calendlyUrl = `https://calendly.com/${CONFIG.CALENDLY_USERNAME}/${CONFIG.CALENDLY_EVENT_TYPE}`;
-        openCalendlyPopup(calendlyUrl);
+        // Check if Calendly is configured
+        if (CONFIG.CALENDLY_USERNAME === 'your-username') {
+            // Show demo booking modal
+            showDemoBookingModal();
+        } else {
+            // Use config for Calendly URL
+            const calendlyUrl = `https://calendly.com/${CONFIG.CALENDLY_USERNAME}/${CONFIG.CALENDLY_EVENT_TYPE}`;
+            openCalendlyPopup(calendlyUrl);
+        }
     });
+}
+
+function showDemoBookingModal() {
+    const popup = document.createElement('div');
+    popup.className = 'calendly-popup active';
+    popup.innerHTML = `
+        <div class="calendly-popup-content">
+            <button class="calendly-close" onclick="closeCalendlyPopup()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div style="padding: 2rem; text-align: center;">
+                <div style="margin-bottom: 2rem;">
+                    <i class="fas fa-calendar-alt" style="font-size: 3rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
+                    <h2 style="color: var(--text-primary); margin-bottom: 1rem;">Book a Meeting</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                        Ready to discuss your project? Let's schedule a meeting!
+                    </p>
+                </div>
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem;">
+                    <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Available Time Slots</h3>
+                    <div style="display: grid; gap: 0.5rem; margin-bottom: 1.5rem;">
+                        <div style="padding: 0.75rem; background: var(--bg-primary); border-radius: 8px; border: 1px solid var(--border-color);">
+                            <strong>Monday, Jan 15</strong> - 2:00 PM - 3:00 PM
+                        </div>
+                        <div style="padding: 0.75rem; background: var(--bg-primary); border-radius: 8px; border: 1px solid var(--border-color);">
+                            <strong>Wednesday, Jan 17</strong> - 10:00 AM - 11:00 AM
+                        </div>
+                        <div style="padding: 0.75rem; background: var(--bg-primary); border-radius: 8px; border: 1px solid var(--border-color);">
+                            <strong>Friday, Jan 19</strong> - 3:00 PM - 4:00 PM
+                        </div>
+                    </div>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                        <i class="fas fa-info-circle"></i> 
+                        To enable real booking, configure your Calendly username in config.js
+                    </p>
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <button onclick="closeCalendlyPopup()" style="padding: 0.75rem 1.5rem; background: var(--accent-color); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                        Close
+                    </button>
+                    <a href="mailto:your-email@example.com" style="padding: 0.75rem 1.5rem; background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 8px; text-decoration: none; display: inline-block;">
+                        <i class="fas fa-envelope"></i> Email Me
+                    </a>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(popup);
+    
+    // Close on escape key
+    const handleEscape = (e) => {
+        if (e.key === 'Escape') {
+            closeCalendlyPopup();
+            document.removeEventListener('keydown', handleEscape);
+        }
+    };
+    document.addEventListener('keydown', handleEscape);
 }
 
 function openCalendlyPopup(url) {
@@ -2399,9 +2464,12 @@ function closeCalendlyPopup() {
 
 // ===== THIRD-PARTY APIs =====
 function initializeThirdPartyAPIs() {
-    loadWeatherData();
-    loadTechNews();
-    loadGitHubStats();
+    // Add delay to ensure DOM is ready
+    setTimeout(() => {
+        loadWeatherData();
+        loadTechNews();
+        loadGitHubStats();
+    }, 500);
 }
 
 async function loadWeatherData() {
@@ -2409,8 +2477,20 @@ async function loadWeatherData() {
     if (!weatherContainer) return;
     
     try {
+        // Check if API key is configured
+        if (CONFIG.WEATHER_API_KEY === 'your-openweather-api-key') {
+            // Use fallback data
+            showFallbackWeather(weatherContainer);
+            return;
+        }
+        
         // Using OpenWeatherMap API
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${CONFIG.WEATHER_CITY}&appid=${CONFIG.WEATHER_API_KEY}&units=metric`);
+        
+        if (!response.ok) {
+            throw new Error('API request failed');
+        }
+        
         const data = await response.json();
         
         weatherContainer.innerHTML = `
@@ -2438,13 +2518,45 @@ async function loadWeatherData() {
             </div>
         `;
     } catch (error) {
-        weatherContainer.innerHTML = `
-            <div style="text-align: center; color: var(--text-secondary);">
-                <i class="fas fa-cloud-rain" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-                <p>Weather data unavailable</p>
-            </div>
-        `;
+        console.log('Weather API error:', error);
+        showFallbackWeather(weatherContainer);
     }
+}
+
+function showFallbackWeather(container) {
+    // Generate random weather data for demo
+    const temps = [22, 25, 28, 30, 26, 24];
+    const descriptions = ['Sunny', 'Partly Cloudy', 'Cloudy', 'Light Rain', 'Clear'];
+    const temp = temps[Math.floor(Math.random() * temps.length)];
+    const desc = descriptions[Math.floor(Math.random() * descriptions.length)];
+    
+    container.innerHTML = `
+        <div class="weather-info">
+            <div class="weather-temp">${temp}°C</div>
+            <div class="weather-desc">${desc}</div>
+            <div class="weather-details">
+                <div class="weather-detail">
+                    <span>Feels like</span>
+                    <strong>${temp + 2}°C</strong>
+                </div>
+                <div class="weather-detail">
+                    <span>Humidity</span>
+                    <strong>65%</strong>
+                </div>
+                <div class="weather-detail">
+                    <span>Wind</span>
+                    <strong>12 km/h</strong>
+                </div>
+                <div class="weather-detail">
+                    <span>Pressure</span>
+                    <strong>1013 hPa</strong>
+                </div>
+            </div>
+            <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary);">
+                <i class="fas fa-info-circle"></i> Demo data - Configure API key for real data
+            </div>
+        </div>
+    `;
 }
 
 async function loadTechNews() {
@@ -2452,8 +2564,20 @@ async function loadTechNews() {
     if (!newsContainer) return;
     
     try {
+        // Check if API key is configured
+        if (CONFIG.NEWS_API_KEY === 'your-news-api-key') {
+            // Use fallback data
+            showFallbackNews(newsContainer);
+            return;
+        }
+        
         // Using NewsAPI
         const response = await fetch(`https://newsapi.org/v2/everything?q=technology&apiKey=${CONFIG.NEWS_API_KEY}&pageSize=5`);
+        
+        if (!response.ok) {
+            throw new Error('API request failed');
+        }
+        
         const data = await response.json();
         
         if (data.articles && data.articles.length > 0) {
@@ -2467,13 +2591,30 @@ async function loadTechNews() {
             throw new Error('No articles found');
         }
     } catch (error) {
-        newsContainer.innerHTML = `
-            <div style="text-align: center; color: var(--text-secondary);">
-                <i class="fas fa-newspaper" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-                <p>News unavailable</p>
-            </div>
-        `;
+        console.log('News API error:', error);
+        showFallbackNews(newsContainer);
     }
+}
+
+function showFallbackNews(container) {
+    const fallbackNews = [
+        { title: "AI Revolution: New Breakthroughs in Machine Learning", source: "TechCrunch" },
+        { title: "Web3 Development: The Future of Decentralized Applications", source: "CoinDesk" },
+        { title: "React 19: Latest Features and Performance Improvements", source: "Dev.to" },
+        { title: "Python 3.12: New Features for Data Scientists", source: "Python.org" },
+        { title: "Cybersecurity: Protecting Your Digital Assets in 2024", source: "Wired" }
+    ];
+    
+    container.innerHTML = fallbackNews.map(article => `
+        <div class="news-item">
+            <div class="news-title">${article.title}</div>
+            <div class="news-source">${article.source}</div>
+        </div>
+    `).join('') + `
+        <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary); text-align: center;">
+            <i class="fas fa-info-circle"></i> Demo data - Configure API key for real news
+        </div>
+    `;
 }
 
 async function loadGitHubStats() {
@@ -2481,8 +2622,13 @@ async function loadGitHubStats() {
     if (!statsContainer) return;
     
     try {
-        // Using GitHub API
+        // Using GitHub API (no key needed for public data)
         const response = await fetch(`https://api.github.com/users/${CONFIG.GITHUB_USERNAME}`);
+        
+        if (!response.ok) {
+            throw new Error('GitHub API request failed');
+        }
+        
         const data = await response.json();
         
         statsContainer.innerHTML = `
@@ -2504,13 +2650,33 @@ async function loadGitHubStats() {
             </div>
         `;
     } catch (error) {
-        statsContainer.innerHTML = `
-            <div style="text-align: center; color: var(--text-secondary);">
-                <i class="fas fa-github" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-                <p>GitHub stats unavailable</p>
-            </div>
-        `;
+        console.log('GitHub API error:', error);
+        showFallbackGitHubStats(statsContainer);
     }
+}
+
+function showFallbackGitHubStats(container) {
+    container.innerHTML = `
+        <div class="stat-item">
+            <div class="stat-number">25+</div>
+            <div class="stat-label">Repositories</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">150+</div>
+            <div class="stat-label">Followers</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">200+</div>
+            <div class="stat-label">Following</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">3+</div>
+            <div class="stat-label">Years on GitHub</div>
+        </div>
+        <div style="grid-column: 1 / -1; margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary); text-align: center;">
+            <i class="fas fa-info-circle"></i> Demo data - Check your GitHub username in config
+        </div>
+    `;
 }
 
 // ===== GOOGLE ANALYTICS =====
@@ -2562,3 +2728,14 @@ function initializeGoogleAnalytics() {
 document.addEventListener('DOMContentLoaded', function() {
     initializeGoogleAnalytics();
 });
+
+// ===== DEBUG FUNCTIONS =====
+function debugPortfolioData() {
+    console.log('Portfolio Data:', window.portfolioData);
+    console.log('Skills:', window.portfolioData?.skills);
+    console.log('Projects:', window.portfolioData?.projects);
+    console.log('Config:', window.CONFIG);
+}
+
+// Make debug function available globally
+window.debugPortfolioData = debugPortfolioData;

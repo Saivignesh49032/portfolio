@@ -286,6 +286,11 @@ app.get('/admin-panel', (req, res) => {
     }
 });
 
+// Serve test page
+app.get('/test-admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'test-admin.html'));
+});
+
 // Explicit routes for static files
 app.get('/styles.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'styles.css'));

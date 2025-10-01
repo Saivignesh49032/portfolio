@@ -274,48 +274,84 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="projects">
+    <section id="projects" class="projects techy-projects">
         <div class="container">
-            <div class="section-header animate-on-scroll">
-                <h2 class="section-title">Featured Projects</h2>
-                <p class="section-subtitle">Explore my recent work and creative solutions</p>
+            <!-- Techy Background Elements -->
+            <div class="techy-bg">
+                <div class="matrix-rain"></div>
+                <div class="circuit-lines"></div>
+                <div class="hologram-grid"></div>
             </div>
             
-            <!-- Project Filter Tabs -->
-            <div class="project-filters animate-on-scroll">
-                <button class="filter-btn active" data-filter="all">
-                    <i class="fas fa-th"></i>
-                    <span>All Projects</span>
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title techy-title">
+                    <span class="glitch" data-text="PROJECTS">PROJECTS</span>
+                    <div class="techy-subtitle">// DEVELOPER_WORKSPACE.exe</div>
+                </h2>
+                <p class="section-subtitle techy-subtitle-text">
+                    <span class="terminal-prompt">$</span> Exploring the digital frontier through code
+                </p>
+            </div>
+            
+            <!-- Techy Filter Tabs -->
+            <div class="project-filters techy-filters animate-on-scroll">
+                <button class="filter-btn techy-btn active" data-filter="all">
+                    <i class="fas fa-terminal"></i>
+                    <span>ALL_REPOS</span>
                 </button>
-                <button class="filter-btn" data-filter="web">
-                    <i class="fas fa-globe"></i>
-                    <span>Web Development</span>
+                <button class="filter-btn techy-btn" data-filter="web">
+                    <i class="fas fa-code"></i>
+                    <span>WEB_DEV</span>
                 </button>
-                <button class="filter-btn" data-filter="ai">
-                    <i class="fas fa-brain"></i>
+                <button class="filter-btn techy-btn" data-filter="ai">
+                    <i class="fas fa-robot"></i>
                     <span>AI/ML</span>
                 </button>
-                <button class="filter-btn" data-filter="mobile">
+                <button class="filter-btn techy-btn" data-filter="mobile">
                     <i class="fas fa-mobile-alt"></i>
-                    <span>Mobile Apps</span>
+                    <span>MOBILE</span>
                 </button>
-                <button class="filter-btn" data-filter="tools">
-                    <i class="fas fa-tools"></i>
-                    <span>Tools & Utilities</span>
+                <button class="filter-btn techy-btn" data-filter="tools">
+                    <i class="fas fa-cogs"></i>
+                    <span>TOOLS</span>
                 </button>
             </div>
             
-            <!-- Projects Masonry Grid -->
-            <div class="projects-masonry animate-on-scroll" id="projects-masonry">
+            <!-- Techy Projects Grid -->
+            <div class="projects-techy-grid animate-on-scroll" id="projects-techy-grid">
                 <!-- Projects will be loaded dynamically -->
             </div>
             
-            <!-- View More Button -->
-            <div class="projects-cta animate-on-scroll">
-                <button class="btn btn-outline" id="view-more-projects">
-                    <i class="fas fa-plus"></i>
-                    <span>View More Projects</span>
-                </button>
+            <!-- Techy Stats Panel -->
+            <div class="techy-stats-panel animate-on-scroll">
+                <div class="stats-terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-buttons">
+                            <span class="terminal-btn red"></span>
+                            <span class="terminal-btn yellow"></span>
+                            <span class="terminal-btn green"></span>
+                        </div>
+                        <div class="terminal-title">system_stats.exe</div>
+                    </div>
+                    <div class="terminal-content">
+                        <div class="stat-line">
+                            <span class="stat-label">REPOSITORIES:</span>
+                            <span class="stat-value" id="total-repos">0</span>
+                        </div>
+                        <div class="stat-line">
+                            <span class="stat-label">LANGUAGES:</span>
+                            <span class="stat-value" id="total-languages">0</span>
+                        </div>
+                        <div class="stat-line">
+                            <span class="stat-label">COMMITS:</span>
+                            <span class="stat-value" id="total-commits">0</span>
+                        </div>
+                        <div class="stat-line">
+                            <span class="stat-label">STATUS:</span>
+                            <span class="stat-value online">ONLINE</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <!-- Project Stats -->

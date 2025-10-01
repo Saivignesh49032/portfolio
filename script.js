@@ -378,8 +378,8 @@ function renderPortfolioContent() {
     // Render skills section
     renderSkillsSection();
     
-    // Render modern projects section
-    renderModernProjectsSection();
+    // Render techy projects section with GitHub repos
+    renderTechyProjectsSection();
     
     // Render services section
     renderServicesSection();
@@ -539,99 +539,102 @@ function renderSkillsSection() {
     }, 500);
 }
 
-function renderModernProjectsSection() {
-    console.log('Rendering modern projects section...');
+async function renderTechyProjectsSection() {
+    console.log('Rendering techy projects section with GitHub repos...');
     
-    const projectsMasonry = document.getElementById('projects-masonry');
+    const projectsGrid = document.getElementById('projects-techy-grid');
     
-    if (!projectsMasonry) {
-        console.error('Projects masonry container not found!');
+    if (!projectsGrid) {
+        console.error('Projects techy grid container not found!');
         return;
     }
     
     // Clear existing content
-    projectsMasonry.innerHTML = '';
+    projectsGrid.innerHTML = '';
     
-    // Check if data is available
-    if (!window.portfolioData || !window.portfolioData.projects) {
-        projectsMasonry.innerHTML = '<p class="no-content">No projects data available. Please check the data file.</p>';
-        return;
-    }
-    
-    const projects = window.portfolioData.projects;
-    console.log('Projects data:', projects);
-    
-    if (projects.length === 0) {
-        projectsMasonry.innerHTML = '<p class="no-content">No projects available.</p>';
-        return;
-    }
-    
-    // Render all projects with modern cards
-    projects.forEach((project, index) => {
-        const projectCard = document.createElement('div');
-        projectCard.className = 'project-card';
-        projectCard.setAttribute('data-category', project.category || 'web');
-        projectCard.setAttribute('data-featured', project.featured || false);
-        projectCard.style.animationDelay = `${index * 0.1}s`;
+    try {
+        // Fetch GitHub repositories
+        const response = await fetch('https://api.github.com/users/Saivignesh49032/repos?sort=updated&per_page=20');
+        const repos = await response.json();
         
-        // Determine category for filtering
-        let category = 'web';
-        if (project.category) {
-            if (project.category.toLowerCase().includes('ai') || project.category.toLowerCase().includes('ml')) {
-                category = 'ai';
-            } else if (project.category.toLowerCase().includes('mobile')) {
-                category = 'mobile';
-            } else if (project.category.toLowerCase().includes('tool')) {
-                category = 'tools';
-            }
+        console.log('GitHub repositories:', repos);
+        
+        if (repos.length === 0) {
+            projectsGrid.innerHTML = '<div class="techy-no-content">No repositories found. Check your GitHub username.</div>';
+            return;
         }
-        projectCard.setAttribute('data-category', category);
         
-        projectCard.innerHTML = `
-            <div class="project-image">
-                <img src="${project.image || 'https://via.placeholder.com/400x300/667eea/ffffff?text=Project+Image'}" alt="${project.title}">
-                <div class="project-overlay">
-                    <div class="project-overlay-buttons">
-                        <a href="${project.demo || project.liveUrl || '#'}" class="project-overlay-btn" target="_blank" title="View Live Demo">
-                            <i class="fas fa-external-link-alt"></i>
+        // Render GitHub repositories as techy project cards
+        repos.forEach((repo, index) => {
+            const projectCard = document.createElement('div');
+            projectCard.className = 'techy-project-card';
+            projectCard.style.animationDelay = `${index * 0.1}s`;
+            
+            // Determine category based on language and name
+            let category = 'web';
+            let techStack = [];
+            
+            if (repo.language) {
+                techStack.push(repo.language);
+            }
+            
+            if (repo.name.toLowerCase().includes('ai') || repo.name.toLowerCase().includes('ml')) {
+                category = 'ai';
+            } else if (repo.name.toLowerCase().includes('mobile') || repo.name.toLowerCase().includes('app')) {
+                category = 'mobile';
+            } else if (repo.name.toLowerCase().includes('tool') || repo.name.toLowerCase().includes('util')) {
+                category = 'tools';
+            } else if (repo.language === 'CSS' || repo.language === 'HTML' || repo.language === 'JavaScript') {
+                category = 'web';
+            }
+            
+            projectCard.setAttribute('data-category', category);
+            
+            // Format date
+            const updatedDate = new Date(repo.updated_at).toLocaleDateString();
+            
+            projectCard.innerHTML = `
+                <div class="techy-project-header">
+                    <div class="techy-project-title">${repo.name}</div>
+                    <div class="techy-project-category">${category.toUpperCase()}</div>
+                </div>
+                <div class="techy-project-content">
+                    <div class="techy-project-description">
+                        ${repo.description || 'No description available. Check the repository for more details.'}
+                    </div>
+                    <div class="techy-project-tech">
+                        ${techStack.map(tech => `<span class="techy-tech-tag">${tech}</span>`).join('')}
+                        <span class="techy-tech-tag">Updated: ${updatedDate}</span>
+                    </div>
+                    <div class="techy-project-actions">
+                        <a href="${repo.html_url}" class="techy-project-link" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <span>VIEW REPO</span>
                         </a>
-                        <a href="${project.github || project.githubUrl || '#'}" class="project-overlay-btn" target="_blank" title="View Source Code">
+                        <a href="${repo.html_url}" class="techy-github-btn" target="_blank" title="GitHub Repository">
                             <i class="fab fa-github"></i>
                         </a>
                     </div>
                 </div>
-            </div>
-            <div class="project-content">
-                <div class="project-category">${project.category || 'Web Development'}</div>
-                <h3 class="project-title">${project.title}</h3>
-                <p class="project-description">${project.description}</p>
-                <div class="project-tech">
-                    ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
-                </div>
-                <div class="project-actions">
-                    <a href="${project.demo || project.liveUrl || '#'}" class="project-link" target="_blank">
-                        <i class="fas fa-external-link-alt"></i>
-                        <span>View Project</span>
-                    </a>
-                    <a href="${project.github || project.githubUrl || '#'}" class="project-github" target="_blank" title="GitHub Repository">
-                        <i class="fab fa-github"></i>
-                    </a>
-                </div>
-            </div>
-        `;
+            `;
+            
+            projectsGrid.appendChild(projectCard);
+        });
         
-        projectsMasonry.appendChild(projectCard);
-    });
-    
-    // Initialize interactive features
-    initializeProjectFilters();
-    initializeProjectStats();
+        // Initialize interactive features
+        initializeTechyProjectFilters();
+        initializeTechyProjectStats(repos);
+        
+    } catch (error) {
+        console.error('Error fetching GitHub repositories:', error);
+        projectsGrid.innerHTML = '<div class="techy-no-content">Error loading repositories. Please check your internet connection.</div>';
+    }
 }
 
-// Initialize modern project filtering
-function initializeProjectFilters() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('.project-card');
+// Initialize techy project filtering
+function initializeTechyProjectFilters() {
+    const filterButtons = document.querySelectorAll('.techy-btn');
+    const projectCards = document.querySelectorAll('.techy-project-card');
     
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -644,7 +647,6 @@ function initializeProjectFilters() {
             // Filter projects with smooth animation
             projectCards.forEach((card, index) => {
                 const category = card.getAttribute('data-category');
-                const featured = card.getAttribute('data-featured') === 'true';
                 
                 let show = false;
                 
@@ -698,22 +700,24 @@ function initializeViewToggle() {
 }
 
 // Update project statistics
-function initializeProjectStats() {
-    const projects = window.portfolioData.projects || [];
-    const featuredProjects = projects.filter(project => project.featured);
-    const allTechnologies = new Set();
-    const allCategories = new Set();
+function initializeTechyProjectStats(repos) {
+    const totalRepos = repos.length;
+    const languages = [...new Set(repos.map(repo => repo.language).filter(Boolean))];
+    const totalLanguages = languages.length;
     
-    projects.forEach(project => {
-        project.technologies.forEach(tech => allTechnologies.add(tech));
-        allCategories.add(project.category);
+    // Calculate total commits (approximate)
+    const totalCommits = repos.reduce((sum, repo) => sum + (repo.size || 0), 0);
+    
+    // Update terminal stats
+    animateCounter('total-repos', totalRepos);
+    animateCounter('total-languages', totalLanguages);
+    animateCounter('total-commits', Math.floor(totalCommits / 100)); // Approximate
+    
+    console.log('Techy stats updated:', {
+        totalRepos,
+        totalLanguages,
+        totalCommits: Math.floor(totalCommits / 100)
     });
-    
-    // Animate counters
-    animateCounter('total-projects', projects.length);
-    animateCounter('featured-count', featuredProjects.length);
-    animateCounter('technologies-count', allTechnologies.size);
-    animateCounter('categories-count', allCategories.size);
 }
 
 // Animate counter numbers

@@ -2476,8 +2476,8 @@ async function loadWeatherData() {
     `;
     
     try {
-        // Use a simple, reliable weather API
-        const response = await fetch(`https://wttr.in/${CONFIG.WEATHER_CITY}?format=j1`, {
+        // Use Weatherstack API with your API key (HTTPS for production)
+        const response = await fetch(`https://api.weatherstack.com/current?access_key=${CONFIG.WEATHER_API_KEY}&query=${CONFIG.WEATHER_CITY}&units=m`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -2486,37 +2486,42 @@ async function loadWeatherData() {
         
         if (response.ok) {
             const data = await response.json();
-            const current = data.current_condition[0];
             
-            weatherContainer.innerHTML = `
-                <div class="weather-info">
-                    <div class="weather-temp">${current.temp_C}°C</div>
-                    <div class="weather-desc">${current.weatherDesc[0].value}</div>
-                    <div class="weather-details">
-                        <div class="weather-detail">
-                            <span>Feels like</span>
-                            <strong>${current.FeelsLikeC}°C</strong>
+            if (data.current) {
+                const current = data.current;
+                
+                weatherContainer.innerHTML = `
+                    <div class="weather-info">
+                        <div class="weather-temp">${current.temperature}°C</div>
+                        <div class="weather-desc">${current.weather_descriptions[0]}</div>
+                        <div class="weather-details">
+                            <div class="weather-detail">
+                                <span>Feels like</span>
+                                <strong>${current.feelslike}°C</strong>
+                            </div>
+                            <div class="weather-detail">
+                                <span>Humidity</span>
+                                <strong>${current.humidity}%</strong>
+                            </div>
+                            <div class="weather-detail">
+                                <span>Wind</span>
+                                <strong>${current.wind_speed} km/h</strong>
+                            </div>
+                            <div class="weather-detail">
+                                <span>Pressure</span>
+                                <strong>${current.pressure} hPa</strong>
+                            </div>
                         </div>
-                        <div class="weather-detail">
-                            <span>Humidity</span>
-                            <strong>${current.humidity}%</strong>
-                        </div>
-                        <div class="weather-detail">
-                            <span>Wind</span>
-                            <strong>${current.windspeedKmph} km/h</strong>
-                        </div>
-                        <div class="weather-detail">
-                            <span>Pressure</span>
-                            <strong>${current.pressure} hPa</strong>
+                        <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary); text-align: center;">
+                            <i class="fas fa-sync-alt"></i> Live data from ${CONFIG.WEATHER_CITY}
                         </div>
                     </div>
-                    <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary); text-align: center;">
-                        <i class="fas fa-sync-alt"></i> Live data from ${CONFIG.WEATHER_CITY}
-                    </div>
-                </div>
-            `;
+                `;
+            } else {
+                throw new Error('No weather data received');
+            }
         } else {
-            throw new Error('Weather API failed');
+            throw new Error(`Weather API failed: ${response.status}`);
         }
     } catch (error) {
         console.log('Weather API error:', error);
@@ -2526,39 +2531,53 @@ async function loadWeatherData() {
 }
 
 function showFallbackWeather(container) {
-    // Generate random weather data for demo
-    const temps = [22, 25, 28, 30, 26, 24];
-    const descriptions = ['Sunny', 'Partly Cloudy', 'Cloudy', 'Light Rain', 'Clear'];
-    const temp = temps[Math.floor(Math.random() * temps.length)];
-    const desc = descriptions[Math.floor(Math.random() * descriptions.length)];
+    // Check if API key is configured
+    const hasApiKey = CONFIG.WEATHER_API_KEY && CONFIG.WEATHER_API_KEY !== 'your-openweather-api-key';
     
-    container.innerHTML = `
-        <div class="weather-info">
-            <div class="weather-temp">${temp}°C</div>
-            <div class="weather-desc">${desc}</div>
-            <div class="weather-details">
-                <div class="weather-detail">
-                    <span>Feels like</span>
-                    <strong>${temp + 2}°C</strong>
+    if (hasApiKey) {
+        // Show error message if API key is configured but failed
+        container.innerHTML = `
+            <div style="text-align: center; color: var(--text-secondary);">
+                <i class="fas fa-cloud-rain" style="font-size: 2rem; margin-bottom: 1rem; color: var(--accent-color);"></i>
+                <p>Weather data unavailable</p>
+                <p style="font-size: 0.8rem; margin-top: 0.5rem;">API connection failed</p>
+            </div>
+        `;
+    } else {
+        // Generate random weather data for demo
+        const temps = [22, 25, 28, 30, 26, 24];
+        const descriptions = ['Sunny', 'Partly Cloudy', 'Cloudy', 'Light Rain', 'Clear'];
+        const temp = temps[Math.floor(Math.random() * temps.length)];
+        const desc = descriptions[Math.floor(Math.random() * descriptions.length)];
+        
+        container.innerHTML = `
+            <div class="weather-info">
+                <div class="weather-temp">${temp}°C</div>
+                <div class="weather-desc">${desc}</div>
+                <div class="weather-details">
+                    <div class="weather-detail">
+                        <span>Feels like</span>
+                        <strong>${temp + 2}°C</strong>
+                    </div>
+                    <div class="weather-detail">
+                        <span>Humidity</span>
+                        <strong>65%</strong>
+                    </div>
+                    <div class="weather-detail">
+                        <span>Wind</span>
+                        <strong>12 km/h</strong>
+                    </div>
+                    <div class="weather-detail">
+                        <span>Pressure</span>
+                        <strong>1013 hPa</strong>
+                    </div>
                 </div>
-                <div class="weather-detail">
-                    <span>Humidity</span>
-                    <strong>65%</strong>
-                </div>
-                <div class="weather-detail">
-                    <span>Wind</span>
-                    <strong>12 km/h</strong>
-                </div>
-                <div class="weather-detail">
-                    <span>Pressure</span>
-                    <strong>1013 hPa</strong>
+                <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary);">
+                    <i class="fas fa-info-circle"></i> Demo data - API key configured
                 </div>
             </div>
-            <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary);">
-                <i class="fas fa-info-circle"></i> Demo data - Configure API key for real data
-            </div>
-        </div>
-    `;
+        `;
+    }
 }
 
 async function loadTechNews() {

@@ -9,8 +9,8 @@ const CONFIG = {
     CALENDLY_USERNAME: 'your-username', // Replace with your Calendly username
     CALENDLY_EVENT_TYPE: '30min', // Replace with your event type
     
-    // Weather API (OpenWeatherMap)
-    WEATHER_API_KEY: 'your-openweather-api-key', // Get free key from openweathermap.org
+    // Weather API (Weatherstack)
+    WEATHER_API_KEY: 'a449d7a4dcb886f4a7700a13f0fa318b', // Your Weatherstack API key
     WEATHER_CITY: 'Chennai', // Your city
     
     // News API

@@ -13,7 +13,7 @@
     },
     {
       "src": "/admin-panel",
-      "dest": "/admin-panel.html"
+      "dest": "/server.js"
     },
     {
       "src": "/(.*)",

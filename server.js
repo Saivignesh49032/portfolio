@@ -93,6 +93,11 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+// Simple health check for Vercel
+app.get('/health', (req, res) => {
+    res.json({ status: 'OK', message: 'Server is running' });
+});
+
 // MongoDB API Routes (if connected)
 if (process.env.DB_CONNECTION_STRING) {
     app.use('/api/projects', projectRoutes);
@@ -272,7 +277,13 @@ app.get('/', (req, res) => {
 
 // Serve admin panel
 app.get('/admin-panel', (req, res) => {
-    res.sendFile(path.join(__dirname, 'admin-panel.html'));
+    console.log('Admin panel requested');
+    try {
+        res.sendFile(path.join(__dirname, 'admin-panel.html'));
+    } catch (error) {
+        console.error('Error serving admin panel:', error);
+        res.status(500).send('Error loading admin panel');
+    }
 });
 
 // Explicit routes for static files

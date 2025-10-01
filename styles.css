@@ -6067,11 +6067,11 @@ body.menu-open {
 /* ===== TECHY PROJECTS SECTION ===== */
 .techy-projects {
     padding: 5rem 0;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+    background: var(--bg-secondary);
     position: relative;
     overflow: hidden;
-    border-top: 2px solid #00ff41;
-    border-bottom: 2px solid #00ff41;
+    border-top: 2px solid var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
 }
 
 /* Techy Background Elements */
@@ -6091,7 +6091,7 @@ body.menu-open {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(transparent 0%, rgba(0, 255, 65, 0.1) 100%);
+    background: linear-gradient(transparent 0%, rgba(37, 99, 235, 0.1) 100%);
     animation: matrixRain 20s linear infinite;
 }
 
@@ -6102,8 +6102,8 @@ body.menu-open {
     width: 100%;
     height: 100%;
     background-image: 
-        linear-gradient(90deg, transparent 98%, rgba(0, 255, 65, 0.3) 100%),
-        linear-gradient(0deg, transparent 98%, rgba(0, 255, 65, 0.3) 100%);
+        linear-gradient(90deg, transparent 98%, rgba(37, 99, 235, 0.3) 100%),
+        linear-gradient(0deg, transparent 98%, rgba(37, 99, 235, 0.3) 100%);
     background-size: 50px 50px;
     animation: circuitPulse 4s ease-in-out infinite;
 }
@@ -6115,8 +6115,8 @@ body.menu-open {
     width: 100%;
     height: 100%;
     background: 
-        radial-gradient(circle at 25% 25%, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(0, 255, 65, 0.1) 0%, transparent 50%);
+        radial-gradient(circle at 25% 25%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(37, 99, 235, 0.1) 0%, transparent 50%);
     animation: hologramFloat 8s ease-in-out infinite;
 }
 
@@ -6133,11 +6133,11 @@ body.menu-open {
 
 .glitch {
     position: relative;
-    color: #00ff41;
+    color: var(--primary-color);
     text-shadow: 
-        0 0 10px #00ff41,
-        0 0 20px #00ff41,
-        0 0 40px #00ff41;
+        0 0 10px var(--primary-color),
+        0 0 20px var(--primary-color),
+        0 0 40px var(--primary-color);
     animation: glitch 2s infinite;
 }
 
@@ -6166,7 +6166,7 @@ body.menu-open {
 .techy-subtitle {
     font-family: 'Courier New', monospace;
     font-size: 1.2rem;
-    color: #00ff41;
+    color: var(--primary-color);
     margin-top: 0.5rem;
     opacity: 0.8;
 }
@@ -6174,12 +6174,12 @@ body.menu-open {
 .techy-subtitle-text {
     font-family: 'Courier New', monospace;
     font-size: 1.1rem;
-    color: #00ff41;
+    color: var(--primary-color);
     margin-top: 1rem;
 }
 
 .terminal-prompt {
-    color: #00ff41;
+    color: var(--primary-color);
     font-weight: bold;
     margin-right: 0.5rem;
 }
@@ -6196,12 +6196,12 @@ body.menu-open {
 }
 
 .techy-btn {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    border: 2px solid #00ff41;
-    border-radius: 0;
-    color: #00ff41;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
+    background: var(--bg-primary);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--radius-lg);
+    color: var(--primary-color);
+    font-family: var(--font-family);
+    font-weight: var(--font-semibold);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     padding: 1rem 2rem;
@@ -6209,8 +6209,8 @@ body.menu-open {
     overflow: hidden;
     transition: all 0.3s ease;
     box-shadow: 
-        0 0 20px rgba(0, 255, 65, 0.3),
-        inset 0 0 20px rgba(0, 255, 65, 0.1);
+        0 0 20px rgba(37, 99, 235, 0.3),
+        inset 0 0 20px rgba(37, 99, 235, 0.1);
 }
 
 .techy-btn::before {
@@ -6220,7 +6220,7 @@ body.menu-open {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.3), transparent);
+    background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.3), transparent);
     transition: left 0.5s;
 }
 
@@ -6229,19 +6229,19 @@ body.menu-open {
 }
 
 .techy-btn:hover {
-    background: linear-gradient(135deg, #00ff41 0%, #00cc33 100%);
-    color: #000;
+    background: var(--gradient-primary);
+    color: var(--text-inverse);
     transform: translateY(-3px);
     box-shadow: 
-        0 10px 30px rgba(0, 255, 65, 0.5),
-        0 0 40px rgba(0, 255, 65, 0.3);
+        0 10px 30px rgba(37, 99, 235, 0.5),
+        0 0 40px rgba(37, 99, 235, 0.3);
 }
 
 .techy-btn.active {
-    background: linear-gradient(135deg, #00ff41 0%, #00cc33 100%);
-    color: #000;
+    background: var(--gradient-primary);
+    color: var(--text-inverse);
     box-shadow: 
-        0 0 30px rgba(0, 255, 65, 0.6),
+        0 0 30px rgba(37, 99, 235, 0.6),
         inset 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -6257,15 +6257,15 @@ body.menu-open {
 
 /* Techy Project Cards */
 .techy-project-card {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    border: 2px solid #00ff41;
-    border-radius: 0;
+    background: var(--bg-primary);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--radius-2xl);
     overflow: hidden;
     position: relative;
     transition: all 0.4s ease;
     box-shadow: 
-        0 0 20px rgba(0, 255, 65, 0.3),
-        inset 0 0 20px rgba(0, 255, 65, 0.1);
+        0 0 20px rgba(37, 99, 235, 0.3),
+        inset 0 0 20px rgba(37, 99, 235, 0.1);
 }
 
 .techy-project-card::before {
@@ -6275,7 +6275,7 @@ body.menu-open {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 65, 0.1) 50%, transparent 70%);
+    background: linear-gradient(45deg, transparent 30%, rgba(37, 99, 235, 0.1) 50%, transparent 70%);
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: 1;
@@ -6288,31 +6288,31 @@ body.menu-open {
 .techy-project-card:hover {
     transform: translateY(-10px) scale(1.02);
     box-shadow: 
-        0 20px 40px rgba(0, 255, 65, 0.4),
-        0 0 60px rgba(0, 255, 65, 0.2);
-    border-color: #00ff41;
+        0 20px 40px rgba(37, 99, 235, 0.4),
+        0 0 60px rgba(37, 99, 235, 0.2);
+    border-color: var(--primary-color);
 }
 
 /* Project Header */
 .techy-project-header {
-    background: linear-gradient(135deg, #00ff41 0%, #00cc33 100%);
-    color: #000;
+    background: var(--gradient-primary);
+    color: var(--text-inverse);
     padding: 1.5rem;
     position: relative;
     z-index: 2;
 }
 
 .techy-project-title {
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-family);
     font-size: 1.5rem;
-    font-weight: bold;
+    font-weight: var(--font-bold);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin-bottom: 0.5rem;
 }
 
 .techy-project-category {
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-family);
     font-size: 0.9rem;
     opacity: 0.8;
     text-transform: uppercase;
@@ -6327,8 +6327,8 @@ body.menu-open {
 }
 
 .techy-project-description {
-    color: #00ff41;
-    font-family: 'Courier New', monospace;
+    color: var(--text-secondary);
+    font-family: var(--font-family);
     line-height: 1.6;
     margin-bottom: 1.5rem;
     font-size: 0.95rem;
@@ -6342,20 +6342,21 @@ body.menu-open {
 }
 
 .techy-tech-tag {
-    background: rgba(0, 255, 65, 0.1);
-    border: 1px solid #00ff41;
-    color: #00ff41;
+    background: rgba(37, 99, 235, 0.1);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
     padding: 0.5rem 1rem;
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-family);
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     transition: all 0.3s ease;
+    border-radius: var(--radius-lg);
 }
 
 .techy-tech-tag:hover {
-    background: #00ff41;
-    color: #000;
+    background: var(--primary-color);
+    color: var(--text-inverse);
     transform: scale(1.05);
 }
 
@@ -6368,19 +6369,20 @@ body.menu-open {
 
 .techy-project-link {
     flex: 1;
-    background: linear-gradient(135deg, #00ff41 0%, #00cc33 100%);
-    color: #000;
+    background: var(--gradient-primary);
+    color: var(--text-inverse);
     text-decoration: none;
     padding: 1rem 2rem;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
+    font-family: var(--font-family);
+    font-weight: var(--font-semibold);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     text-align: center;
     transition: all 0.3s ease;
-    border: 2px solid #00ff41;
+    border: 2px solid var(--primary-color);
     position: relative;
     overflow: hidden;
+    border-radius: var(--radius-lg);
 }
 
 .techy-project-link::before {
@@ -6400,28 +6402,29 @@ body.menu-open {
 
 .techy-project-link:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 255, 65, 0.3);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
 }
 
 .techy-github-btn {
     width: 50px;
     height: 50px;
-    background: rgba(0, 255, 65, 0.1);
-    border: 2px solid #00ff41;
-    color: #00ff41;
+    background: rgba(37, 99, 235, 0.1);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
     transition: all 0.3s ease;
     font-size: 1.2rem;
+    border-radius: var(--radius-lg);
 }
 
 .techy-github-btn:hover {
-    background: #00ff41;
-    color: #000;
+    background: var(--primary-color);
+    color: var(--text-inverse);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 255, 65, 0.3);
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
 }
 
 /* Techy Stats Panel */
@@ -6432,22 +6435,22 @@ body.menu-open {
 }
 
 .stats-terminal {
-    background: #000;
-    border: 2px solid #00ff41;
-    border-radius: 0;
+    background: var(--bg-primary);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--radius-2xl);
     overflow: hidden;
     box-shadow: 
-        0 0 30px rgba(0, 255, 65, 0.3),
-        inset 0 0 20px rgba(0, 255, 65, 0.1);
+        0 0 30px rgba(37, 99, 235, 0.3),
+        inset 0 0 20px rgba(37, 99, 235, 0.1);
 }
 
 .terminal-header {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: var(--bg-secondary);
     padding: 1rem;
     display: flex;
     align-items: center;
     gap: 1rem;
-    border-bottom: 2px solid #00ff41;
+    border-bottom: 2px solid var(--primary-color);
 }
 
 .terminal-buttons {
@@ -6467,9 +6470,9 @@ body.menu-open {
 .terminal-btn.green { background: #27ca3f; }
 
 .terminal-title {
-    color: #00ff41;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
+    color: var(--primary-color);
+    font-family: var(--font-family);
+    font-weight: var(--font-semibold);
     font-size: 0.9rem;
 }
 

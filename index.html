@@ -9,6 +9,7 @@
     
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -34,42 +35,8 @@
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress" id="scroll-progress"></div>
     
-    <!-- Search Modal -->
-    <div id="search-modal" class="search-modal hidden">
-        <div class="search-modal-overlay"></div>
-        <div class="search-modal-content">
-            <div class="search-header">
-                <h3><i class="fas fa-search"></i> Search Portfolio</h3>
-                <button id="search-close" class="search-close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="search-input-container">
-                <input type="text" id="search-input" placeholder="Search skills, projects, or technologies..." autocomplete="off">
-                <div class="search-suggestions" id="search-suggestions"></div>
-            </div>
-            <div class="search-results" id="search-results">
-                <div class="search-categories">
-                    <div class="search-category" data-category="skills">
-                        <h4><i class="fas fa-code"></i> Skills</h4>
-                        <div class="search-items" id="skills-results"></div>
-                    </div>
-                    <div class="search-category" data-category="projects">
-                        <h4><i class="fas fa-project-diagram"></i> Projects</h4>
-                        <div class="search-items" id="projects-results"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
-    <!-- Custom Interactive Cursor -->
-    <div class="custom-cursor" id="custom-cursor">
-        <div class="cursor-dot"></div>
-        <div class="cursor-outline"></div>
-        <div class="cursor-trail"></div>
-    </div>
     
     <!-- Interactive Background Elements -->
     <div class="interactive-bg">
@@ -98,10 +65,6 @@
                 <a href="#contact" class="nav-link">Contact</a>
             </div>
             <div class="nav-actions">
-                <!-- Search Button -->
-                <button id="search-toggle" class="search-toggle" title="Search Portfolio">
-                    <i class="fas fa-search"></i>
-                </button>
                 <button id="theme-toggle" class="theme-toggle" title="Toggle Dark Mode">
                     <i class="fas fa-moon"></i>
                 </button>
@@ -168,14 +131,14 @@
                     </div>
                     <!-- Social Links Below Photo -->
                     <div class="hero-social-links">
-                        <a href="https://github.com/Saivignesh49032" target="_blank" class="social-link interactive-social" data-magnetic>
-                            <span class="social-label">GitHub</span>
+                        <a href="https://github.com/Saivignesh49032" target="_blank" class="social-link interactive-social" data-magnetic title="GitHub">
+                            <i class="fab fa-github"></i>
                         </a>
-                        <a href="https://linkedin.com/in/sai-vignesh-49032" target="_blank" class="social-link interactive-social" data-magnetic>
-                            <span class="social-label">LinkedIn</span>
+                        <a href="https://linkedin.com/in/sai-vignesh-49032" target="_blank" class="social-link interactive-social" data-magnetic title="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
                         </a>
-                        <a href="mailto:saivignesh49032@gmail.com" class="social-link interactive-social" data-magnetic>
-                            <span class="social-label">Email</span>
+                        <a href="mailto:saivignesh49032@gmail.com" class="social-link interactive-social" data-magnetic title="Email">
+                            <i class="fas fa-envelope"></i>
                         </a>
                     </div>
                 </div>
@@ -337,26 +300,7 @@
                 </div>
             </div>
             
-            <!-- Project Stats -->
-            <div class="project-stats animate-scale">
-                <div class="stat-item">
-                    <div class="stat-number" id="total-projects">0</div>
-                    <div class="stat-label">Total Projects</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="featured-count">0</div>
-                    <div class="stat-label">Featured</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="technologies-count">0</div>
-                    <div class="stat-label">Technologies</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="categories-count">0</div>
-                    <div class="stat-label">Categories</div>
-                </div>
-            </div>
-        </div>
+            
     </section>
 
     <!-- Services Section -->
@@ -869,7 +813,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="config.js"></script>
     <script src="data.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="script.js"></script>
     <script src="web3-email.js"></script>
+    
 </body>
 </html>

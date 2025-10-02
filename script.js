@@ -853,43 +853,6 @@ function initializeTimelineAnimations() {
 
 // ===== INTERACTIVE FEATURES =====
 
-// Custom Cursor
-function initializeCustomCursor() {
-    const cursor = document.getElementById('custom-cursor');
-    const cursorDot = cursor.querySelector('.cursor-dot');
-    const cursorOutline = cursor.querySelector('.cursor-outline');
-    
-    let mouseX = 0;
-    let mouseY = 0;
-    let outlineX = 0;
-    let outlineY = 0;
-    
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        
-        cursorDot.style.left = mouseX + 'px';
-        cursorDot.style.top = mouseY + 'px';
-    });
-    
-    function animateOutline() {
-        outlineX += (mouseX - outlineX) * 0.1;
-        outlineY += (mouseY - outlineY) * 0.1;
-        
-        cursorOutline.style.left = outlineX + 'px';
-        cursorOutline.style.top = outlineY + 'px';
-        
-        requestAnimationFrame(animateOutline);
-    }
-    animateOutline();
-    
-    // Hover effects
-    const hoverElements = document.querySelectorAll('a, button, [data-magnetic], .interactive-card');
-    hoverElements.forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-    });
-}
 
 // Mouse Trail Effect
 function initializeMouseTrail() {
@@ -1155,7 +1118,6 @@ function initializeSoundEffects() {
 
 // Initialize all interactive features
 function initializeAllInteractiveFeatures() {
-    initializeCustomCursor();
     initializeMouseTrail();
     initializeMagneticEffect();
     initializeTiltEffect();
@@ -1746,48 +1708,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ===== INTERACTIVE FEATURES =====
 
-// Custom Cursor
-function initializeCustomCursor() {
-    const cursor = document.getElementById('custom-cursor');
-    const cursorDot = cursor?.querySelector('.cursor-dot');
-    const cursorOutline = cursor?.querySelector('.cursor-outline');
-    
-    if (!cursor || !cursorDot || !cursorOutline) return;
-    
-    let mouseX = 0, mouseY = 0;
-    let cursorX = 0, cursorY = 0;
-    
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
-    
-    function animateCursor() {
-        cursorX += (mouseX - cursorX) * 0.1;
-        cursorY += (mouseY - cursorY) * 0.1;
-        
-        cursor.style.left = cursorX + 'px';
-        cursor.style.top = cursorY + 'px';
-        
-        requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-    
-    // Cursor interactions
-    const interactiveElements = document.querySelectorAll('a, button, .interactive-card, .interactive-btn, .interactive-text');
-    
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
-            cursorDot.style.transform = 'translate(-50%, -50%) scale(0.5)';
-        });
-        
-        el.addEventListener('mouseleave', () => {
-            cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
-            cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
-        });
-    });
-}
 
 // Mouse Trail
 function initializeMouseTrail() {
@@ -1996,7 +1916,6 @@ function initializeAllInteractiveFeatures() {
     
     // Only initialize on desktop
     if (window.innerWidth > 768) {
-        initializeCustomCursor();
         initializeMouseTrail();
         initializeMagneticEffect();
         initializeTiltEffect();
@@ -2063,39 +1982,6 @@ function createParticle(container) {
     }, 10000);
 }
 
-// ===== ENHANCED CUSTOM CURSOR =====
-function initializeCustomCursor() {
-    const cursor = document.getElementById('custom-cursor');
-    if (!cursor) return;
-    
-    // Hide default cursor
-    document.body.style.cursor = 'none';
-    
-    // Track mouse movement
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-    });
-    
-    // Add hover effects
-    const hoverElements = document.querySelectorAll('a, button, .interactive-card, .btn');
-    hoverElements.forEach(element => {
-        element.addEventListener('mouseenter', () => {
-            cursor.classList.add('hover');
-        });
-        element.addEventListener('mouseleave', () => {
-            cursor.classList.remove('hover');
-        });
-    });
-    
-    // Click effect
-    document.addEventListener('click', () => {
-        cursor.style.transform = 'scale(0.8)';
-        setTimeout(() => {
-            cursor.style.transform = 'scale(1)';
-        }, 100);
-    });
-}
 
 // ===== SCROLL-TRIGGERED ANIMATIONS =====
 function initializeScrollAnimations() {
@@ -2221,124 +2107,11 @@ function initializeEnhancedFeatures() {
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         initializeEnhancedFeatures();
-        initializeSearchFunctionality();
         // Calendly integration removed
         // Live data section removed
     }, 1000);
 });
 
-// ===== SEARCH FUNCTIONALITY =====
-function initializeSearchFunctionality() {
-    const searchToggle = document.getElementById('search-toggle');
-    const searchModal = document.getElementById('search-modal');
-    const searchClose = document.getElementById('search-close');
-    const searchInput = document.getElementById('search-input');
-    const searchSuggestions = document.getElementById('search-suggestions');
-    const searchResults = document.getElementById('search-results');
-    
-    if (!searchToggle || !searchModal) return;
-    
-    // Toggle search modal
-    searchToggle.addEventListener('click', () => {
-        searchModal.classList.remove('hidden');
-        searchInput.focus();
-    });
-    
-    searchClose.addEventListener('click', () => {
-        searchModal.classList.add('hidden');
-        searchInput.value = '';
-        searchSuggestions.style.display = 'none';
-        searchResults.innerHTML = '';
-    });
-    
-    // Close on overlay click
-    searchModal.addEventListener('click', (e) => {
-        if (e.target === searchModal || e.target.classList.contains('search-modal-overlay')) {
-            searchModal.classList.add('hidden');
-        }
-    });
-    
-    // Search functionality
-    let searchTimeout;
-    searchInput.addEventListener('input', (e) => {
-        clearTimeout(searchTimeout);
-        const query = e.target.value.toLowerCase().trim();
-        
-        if (query.length < 2) {
-            searchSuggestions.style.display = 'none';
-            searchResults.innerHTML = '';
-            return;
-        }
-        
-        searchTimeout = setTimeout(() => {
-            performSearch(query);
-        }, 300);
-    });
-    
-    // Keyboard navigation
-    searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            searchModal.classList.add('hidden');
-        }
-    });
-}
-
-function performSearch(query) {
-    // Get data from the portfolio data
-    const skills = window.portfolioData?.skills || [];
-    const projects = window.portfolioData?.projects || [];
-    
-    const skillsResults = skills.filter(skill => 
-        skill.name.toLowerCase().includes(query) ||
-        skill.description.toLowerCase().includes(query) ||
-        skill.category.toLowerCase().includes(query)
-    );
-    
-    const projectsResults = projects.filter(project => 
-        project.title.toLowerCase().includes(query) ||
-        project.description.toLowerCase().includes(query) ||
-        (project.technologies && project.technologies.some(tech => tech.toLowerCase().includes(query)))
-    );
-    
-    displaySearchResults(skillsResults, projectsResults);
-}
-
-function displaySearchResults(skills, projects) {
-    const skillsResults = document.getElementById('skills-results');
-    const projectsResults = document.getElementById('projects-results');
-    
-    // Display skills
-    if (skills.length > 0) {
-        skillsResults.innerHTML = skills.map(skill => `
-            <div class="search-item" onclick="scrollToSection('skills')">
-                <h5>${skill.name}</h5>
-                <p>${skill.description}</p>
-            </div>
-        `).join('');
-    } else {
-        skillsResults.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">No skills found</p>';
-    }
-    
-    // Display projects
-    if (projects.length > 0) {
-        projectsResults.innerHTML = projects.map(project => `
-            <div class="search-item" onclick="scrollToSection('projects')">
-                <h5>${project.title}</h5>
-                <p>${project.description.substring(0, 100)}...</p>
-            </div>
-        `).join('');
-    } else {
-        projectsResults.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">No projects found</p>';
-    }
-}
-
-function scrollToSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
-        document.getElementById('search-modal').classList.add('hidden');
-    }
-}
 
 // ===== CALENDLY INTEGRATION (REMOVED) =====
 // Calendly integration has been removed as requested
@@ -2498,3 +2271,4 @@ function debugPortfolioData() {
 
 // Make debug function available globally
 window.debugPortfolioData = debugPortfolioData;
+
